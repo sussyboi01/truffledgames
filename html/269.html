@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <meta property="og:type" content="website">
+    <link rel="manifest" href="manifest.json">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Slime Rancher Decompiled v0.2.1</title>
+    <meta property="og:title" content="Slime Rancher Decompiled | Snubby">
+    <meta property="og:image" content="https://dev.snubby.top/pink.png">
+    <meta name="description"
+        content="A working game of Slime Rancher v0.2.1 on the browser! Still work in progress.. | Snubby">
+    <meta property="og:description"
+        content="A working game of Slime Rancher v0.2.1 on the browser! Still work in progress.. | Snubby">
+    <meta name="keywords"
+        content="snubby.jpg, snubby, snubs, slime rancher, slime, web, html5, rancher, chromebook, slimerancher, unity">
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
+    <script src="TemplateData/UnityProgress.javascript"></script>
+    <script src="Build/UnityLoader.js"></script>
+    <script src="mobile-controls.js"></script>
+    <script src="dev.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+        <script>
+        window.onload = function() {
+            alert("Made by Snubby. Thanks to him we have Slime Ranchers <3");
+        };
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-PXHK7Q7G3Z');
+</script>
+    <script>
+        var gameInstance = UnityLoader.instantiate("gameContainer", "Build/slimeBUILDS.json", {
+            onProgress: UnityProgress
+        });
+    </script>
+</head>
+
+<body>
+    <!--If you are cool-->
+    <div id="cool" style="display: none;">
+        <img style="position: absolute; z-index: 2; right: 0;" height="100" width="350" src="advancement.png">
+    </div>
+    <!------------------->
+    <div class="webgl-content">
+        <div class="bg">
+            <img class="bg" src="loading_bg.png"
+                style="width: 100%; height: 100%; padding: 0px; margin: 0px; border: 0px; position: absolute;">
+        </div>
+        <div id="gameContainer" style="width: 960px; height: 600px"></div>
+    </div>
+    <div class="snubs">
+        <a href="Slimerancher_OFFLINEBUILD.html" target="_blank" download>Download Offline Build!</a>
+        <br>
+        <a href="archive/">View Archive</a>
+    </div>
+    <script src="TemplateData/responsive.javascript"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"fbaa20dae499425ebc1908d1e312829f","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+<script src="checktimes.js"></script>
+<script>
+    async function RunExport() {
+        const openDB = (name) => new Promise((res, rej) => {
+            const r = indexedDB.open(name);
+            r.onsuccess = () => res(r.result);
+            r.onerror = () => rej(r.error);
+        });
+        const b64FromBytes = (u8) => {
+            let s = "";
+            for (let i = 0; i < u8.length; i++) s += String.fromCharCode(u8[i]);
+            return btoa(s);
+        };
+        const downloadJSON = (obj, filename) => {
+            const b = new Blob([JSON.stringify(obj, null, 2)], {
+                type: "application/json"
+            });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(b);
+            a.download = filename;
+            a.click();
+            setTimeout(() => URL.revokeObjectURL(a.href), 0);
+        };
+
+        try {
+            let db;
+            try {
+                db = await openDB("/idbfs");
+            } catch {
+                db = await openDB("idbfs");
+            }
+            if (!db.objectStoreNames.contains("FILE_DATA")) {
+                alert("[Snub Export] No FILE_DATA store found.");
+                return;
+            }
+
+            const entries = await new Promise((resolve, reject) => {
+                const out = {},
+                    tx = db.transaction("FILE_DATA", "readonly"),
+                    st = tx.objectStore("FILE_DATA");
+                const c = st.openCursor();
+                c.onerror = () => reject(c.error);
+                c.onsuccess = e => {
+                    const cur = e.target.result;
+                    if (!cur) {
+                        resolve(out);
+                        return;
+                    }
+                    const key = cur.key,
+                        val = cur.value || {};
+                    const rec = {};
+                    if ("timestamp" in val) rec.timestamp = val.timestamp;
+                    if ("mode" in val) rec.mode = val.mode;
+                    const u8 = val.contents instanceof Uint8Array ? val.contents :
+                        (val.contents && val.contents.buffer) ? new Uint8Array(val.contents) :
+                        new Uint8Array();
+                    rec.contents_b64 = b64FromBytes(u8);
+                    out[key] = rec;
+                    cur.continue();
+                };
+            });
+
+            const archive = {
+                db: "/idbfs",
+                store: "FILE_DATA",
+                exportedAt: new Date().toISOString(),
+                count: Object.keys(entries).length,
+                entries
+            };
+            downloadJSON(archive, "slime-rancher-saves.json");
+        } catch (e) {
+            console.error(e);
+            alert("[Snub Export] Failed: " + (e?.message || e));
+        }
+    }
+
+    async function RunImport() {
+        const openDB = (name) => new Promise((res, rej) => {
+            const r = indexedDB.open(name);
+            r.onsuccess = () => res(r.result);
+            r.onerror = () => rej(r.error);
+        });
+        const bytesFromB64 = (b64) => {
+            const bin = atob(b64);
+            const u8 = new Uint8Array(bin.length);
+            for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+            return u8;
+        };
+
+        try {
+            const pick = document.createElement("input");
+            pick.type = "file";
+            pick.accept = ".json";
+            pick.onchange = async () => {
+                const file = pick.files?.[0];
+                if (!file) return;
+                let data;
+                try {
+                    data = JSON.parse(await file.text());
+                } catch {
+                    alert("[Snub Import] Invalid JSON.");
+                    return;
+                }
+                if (!data || typeof data.entries !== "object") {
+                    alert("[Snub Import] Bad archive format.");
+                    return;
+                }
+
+                let db;
+                try {
+                    db = await openDB("/idbfs");
+                } catch {
+                    db = await openDB("idbfs");
+                }
+                if (!db.objectStoreNames.contains("FILE_DATA")) {
+                    alert("[Snub Import] No FILE_DATA store found.");
+                    return;
+                }
+
+                await new Promise((resolve, reject) => {
+                    const tx = db.transaction("FILE_DATA", "readwrite");
+                    const st = tx.objectStore("FILE_DATA");
+                    const req = st.clear();
+                    req.onsuccess = () => resolve();
+                    req.onerror = () => reject(req.error);
+                });
+
+                await new Promise((resolve, reject) => {
+                    const tx = db.transaction("FILE_DATA", "readwrite"),
+                        st = tx.objectStore("FILE_DATA");
+                    try {
+                        for (const [key, rec] of Object.entries(data.entries)) {
+                            st.put({
+                                timestamp: new Date(),
+                                mode: rec.mode ?? 0,
+                                contents: rec.contents_b64 ? bytesFromB64(rec
+                                    .contents_b64) : new Uint8Array()
+                            }, key);
+                        }
+                    } catch (err) {
+                        reject(err);
+                        return;
+                    }
+                    tx.oncomplete = () => resolve();
+                    tx.onerror = () => reject(tx.error);
+                });
+
+                location.reload();
+            };
+            pick.click();
+        } catch (e) {
+            console.error(e);
+            alert("[Snub Import] Failed: " + (e?.message || e));
+        }
+    }
+</script>
+<script>if(window!==window.top)document.querySelectorAll(".snubs").forEach(e=>e.style.display="none");</script>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C'09</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden; 
+            align-items: center;
+            height: 100vh;
+            font-family: sans-serif;
+            background: #f0f0f0;
+            color: #111;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        kbd {
+            display: block;
+            margin: 5px 0;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid #111;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-PXHK7Q7G3Z');
+</script>
+<body>
+    <h1>All Class of '09 Games</h1>
+
+    <kbd>These will probably take a very long time to load</kbd>
+    <kbd>Port my Jobi, his site is: <a href="https://jobi.one" target="_blank">jobi.one</a></kbd>
+
+    <div class="buttons">
+        <button onclick="openAB('/extra/co09loader/C09/index.html')">Class of '09</button>
+        <button onclick="openAB('/extra/co09loader/C09RU/index.html')">Class of '09 | The Re-up</button>
+        <button onclick="openAB('/extra/co09loader/C09FS/index.html')">Class of '09 | The Flip Side</button>
+    </div>
+
+    <script>
+        function openAB(url) {
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>

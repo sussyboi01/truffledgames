@@ -1,3 +1,9 @@
+<html>
+
+
+<!-- Ultimate Game Stash file--> 
+<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
+
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -5,150 +11,95 @@
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-<html lang="en">
-<base href="https://cdn.jsdelivr.net/gh/bubbls/dosbox/">
-
-<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Fallout</title>
-    <style>
-        html,
-        body {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            background: black;
-            color: #fedb1d;
-            overflow: hidden;
-        }
-        
-        #canvas {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: auto;
-            height: 100%;
-            background: black;
-            padding: 0;
-            margin: 0;
-            -webkit-transform: translate(-50%, -50%);
-            -moz-transform: translate(-50%, -50%);
-            -ms-transform: translate(-50%, -50%);
-            -o-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
-        }
-        
-        .emularity-splash-screen {
-            text-align: center;
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 50%;
-            margin: 0;
-            box-sizing: border-box;
-            color: #000;
-        }
-        
-        #loading {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            font-family: monospace;
-            font-size: 20px;
-        }
-        
-        #progress {
-            margin-top: 20px;
-            font-size: 16px;
-        }
-    </style>
+	<script src="//www.google.com/jsapi"></script>
+	<script>
+		window.parent.maeExportApis_();
+	</script>
+
+	<style>
+		body {
+			overflow: hidden;
+			background: #000000;
+			margin-top: 0;
+			margin-left: 0;
+			color: #000000;
+		}
+
+		#startButton {
+			display: block;
+			width: 160px;
+			height: 40px;
+			background-color: #4CAF50;
+			color: white;
+			text-align: center;
+			text-decoration: none;
+			font-size: 16px;
+			margin: 20px auto;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 8px;
+			cursor: pointer;
+			font-family: 'Press Start 2P', cursive;
+			box-shadow: 0px 0px 10px 2px #000000;
+		}
+	</style>
+	<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap" rel="stylesheet">
+	<style type="text/css">
+		#button {
+			display: none;
+		}
+
+		.imgb_vis {
+			animation: imgb-animation 7s linear;
+		}
+
+		@keyframes imgb-animation {
+			10% {
+				transform: translateX(0);
+			}
+
+			20% {
+				transform: translateX(100px);
+			}
+
+			90% {
+				transform: translateX(100px);
+			}
+
+			100% {
+				transform: translateX(0);
+			}
+		}
+	</style>
 </head>
 
 <body>
-    <div id="loading">
-        <div>Loading...</div>
-        <div id="progress">Merging archive parts: 0%</div>
-    </div>
-    <canvas id="canvas" style="width: 50%; height: 50%; display: none; margin: 0 auto;" onClick="window.focus();" />
-    <script type="text/javascript" src="js/es6-promise.js"></script>
-    <script type="text/javascript" src="js/browserfs.min.js"></script>
-    <script type="text/javascript" src="js/loader.js"></script>
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-
-    <script type="text/javascript">
-        const PARTS_FOLDER = 'softs/fallout/';  
-        const BASE_FILENAME = 'fallout.zip';   
-        const NUM_PARTS = 23;                   
-
-        async function loadAndMergeZipParts() {
-            const progressEl = document.getElementById('progress');
-            const loadingEl = document.getElementById('loading');
-            
-            try {
-                const chunks = [];
-                
-                for (let i = 1; i <= NUM_PARTS; i++) {
-                    progressEl.textContent = `Loading part ${i}/${NUM_PARTS}...`;
-                    
-                    const partNum = i.toString().padStart(2, '0');
-                    const partUrl = `${PARTS_FOLDER}${BASE_FILENAME}.part${partNum}`;
-                    const response = await fetch(partUrl);
-                    
-                    if (!response.ok) {
-                        throw new Error(`Failed to load ${partUrl}: ${response.status}`);
-                    }
-                    
-                    const arrayBuffer = await response.arrayBuffer();
-                    chunks.push(arrayBuffer);
-                    
-                    const progress = Math.round((i / NUM_PARTS) * 100);
-                    progressEl.textContent = `Merging archive parts: ${progress}%`;
-                }
-                
-                progressEl.textContent = 'Merging complete! Starting emulator...';
-                const mergedBlob = new Blob(chunks, { type: 'application/zip' });
-                
-                const blobUrl = URL.createObjectURL(mergedBlob);
-                
-                loadingEl.style.display = 'none';
-                document.getElementById('canvas').style.display = 'block';
-                
-                startEmulator(blobUrl);
-                
-            } catch (error) {
-                progressEl.textContent = `Error: ${error.message}`;
-                console.error('Failed to load game:', error);
+	<div style="width: 100vw; height: 100vh;max-width:100%">
+		<div id="game" style="display: none;"></div>
+		<button id="startButton">PLAY</button>
+	</div>
+	<script>
+		document.getElementById("game").style.display = "none";
+            function startGame() {
+                document.getElementById("game").style.display = "block";
+                document.getElementById("startButton").style.display = "none";
+                EJS_player = "#game";
+                EJS_core = "nes";
+                EJS_color = "#000000";
+                EJS_startOnLoaded = true;
+                EJS_pathtodata = "https://cdn.jsdelivr.net/gh/a456pur/seraph@81f551ca0aa8e3d6018d32d8ac5904ac9bc78f76/storage/emulatorjs/data";
+                EJS_gameUrl = "https://cdn.jsdelivr.net/gh/bubbls/UGS-file-encryption@07dd631136afe70d5b36871e4f387bc96fa4c261/Dr.%20Mario%20(Europe).zip";
+                loadGame(); 
             }
-        }
-
-        function startEmulator(zipUrl) {
-            var dosbox = new Emulator(document.querySelector("#canvas"),
-                null,
-                new DosBoxLoader(DosBoxLoader.emulatorJS("js/dosbox-sync.js"),
-                    DosBoxLoader.locateAdditionalEmulatorJS(locateAdditionalFiles),
-                    DosBoxLoader.nativeResolution(640, 400),
-                    DosBoxLoader.mountZip("c",
-                        DosBoxLoader.fetchFile("Software", zipUrl)),
-                    DosBoxLoader.startExe('FALLOUT/FALLOUT.EXE')));
-            dosbox.start({
-                waitAfterDownloading: false
-            });
-
-            function locateAdditionalFiles(filename) {
-                if (filename === "dosbox.html.mem") {
-                    return "js/dosbox-sync.mem";
-                }
-                return "js/" + filename;
+            document.getElementById("startButton").addEventListener("click", startGame);
+            function loadGame() {
+                var script = document.createElement("script");
+                script.src = "https://cdn.jsdelivr.net/gh/a456pur/seraph@81f551ca0aa8e3d6018d32d8ac5904ac9bc78f76/storage/emulatorjs/data/loader.js";
+                document.body.appendChild(script);
+		var script = document.createElement("script");
+                script.src = "https://cdn.jsdelivr.net/gh/a456pur/seraph@ae2fcc6d6a9cd051654fcc0519080db1f79cf2a7/storage/js/cloak.js";
+                document.body.appendChild(script);
             }
-        }
-
-        window.addEventListener('load', loadAndMergeZipParts);
-    </script>
-</body>
-
-</html>
+	</script>

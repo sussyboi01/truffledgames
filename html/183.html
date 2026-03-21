@@ -1,8 +1,48 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-PXHK7Q7G3Z');
+</script>
+  <base href="https://cdn.jsdelivr.net/gh/aukak/hlm/main@latest">
+  <meta charset="utf-8"/>
+  <title>HOTLINE MIAMI</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      background: #000;
+      overflow: hidden;
+      font-family: 'Press Start 2P', monospace;
+    }
 
-<!-- Ultimate Game Stash file--> 
-<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
+    canvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      image-rendering: pixelated;
+    }
+
+    #credits {
+      position: absolute;
+      bottom: 8px;  
+      right: 12px;
+      font-size: 24px;
+      color: #00ffe5;
+      text-shadow: 1px 1px #ff0080;
+      user-select: none;
+      z-index: 5;
+    }
+  </style>
+</head>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -10,126 +50,55 @@
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
+<script>
+  const OriginalXHR = window.XMLHttpRequest;
 
-  <head> 
-    <script>
-      window.gameconfig = {
-        name: "Mario Party (USA)",
-        url: "https://cdn.jsdelivr.net/gh/bubbls/ugss@bedc66a398d9078f30471e9255aa188f79f9d611/Mario%20Party%20(USA)/Mario%20Party%20(USA).z64",
-        core: "n64",
-        min: 1,
-        max: 2,
-      };
-    </script>
-    <script>
-      function mergeFiles(fileParts, cb) {
-        return new Promise((resolve, reject) => {
-          let buffers = [];
-          function fetchPart(index) {
-            if (index >= fileParts.length) {
-              let mergedBlob = new Blob(buffers);
-              let mergedFileUrl = URL.createObjectURL(mergedBlob);
-              resolve(mergedFileUrl);
-              return;
-            }
-            fetch(fileParts[index])
-              .then((response) => response.arrayBuffer())
-              .then((data) => {
-                buffers.push(data);
-                fetchPart(index + 1);
-              })
-              .catch(reject);
-            cb(index);
+  function InterceptedXHR() {
+    const xhr = new OriginalXHR();
+
+    let blocked = false;
+
+    const originalOpen = xhr.open;
+    xhr.open = function(method, url, async, user, password) {
+      blocked = (url.endsWith("steamon") || url.endsWith("achievements.dat") || url.endsWith("mask.tmp") || url.endsWith("surfaces") || url.endsWith("steamoff") || url.endsWith("skip") || url.endsWith("restartmusic") || url.endsWith("xbox") || url.endsWith("volume.dat") || url.endsWith("keyboard.dat") || url.endsWith("volume.dat") || url.endsWith("blood") || url.endsWith("volume.dat") || url.endsWith("alienware"));
+      return originalOpen.apply(this, arguments);
+    };
+
+    const originalSend = xhr.send;
+    xhr.send = function(body) {
+      if (blocked) {
+        // simulate async 404 response
+        setTimeout(() => {
+          this.readyState = 4;
+          this.status = 404;
+          this.statusText = "Not Found";
+          this.response = "Not Found";
+          this.responseText = "Not Found";
+
+          if (typeof this.onreadystatechange === "function") {
+            this.onreadystatechange();
           }
-          fetchPart(0);
-        });
+          if (typeof this.onload === "function") {
+            this.onload();
+          }
+        }, 0);
+        return;
       }
-      function getParts(file, start, end) {
-        let parts = [];
-        for (let i = start; i <= end; i++) {
-          let padded = String(i).padStart((end+"").length, '0');
-          parts.push(file + ".part" + padded);
-        }
-        return parts;
-      }
-getParts("asd.js", 0, 100)
-    </script>
-    <style>
-      body,
-      html {
-        margin: 0;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-        background-color: #121212;
-        color: white;
-        font-family: Arial, sans-serif;
-      }
-      #game-container {
-        text-align: center;
-        width: 100%;
-        height: 100%;
-      }
-      #loading-progress {
-        font-size: 18px;
-        margin-top: 20px;
-        padding: 10px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-        display: inline-block;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="game-container">
-      <div id="game"></div>
-      <div id="loading-progress">Loading: 0/0</div>
-      <div id="first-time">First-time loading may take longer...</div>
+      return originalSend.apply(this, arguments);
+    };
+
+    return xhr;
+  }
+
+  window.XMLHttpRequest = function () {
+    return new InterceptedXHR();
+  };
+</script>
+<body>
+  <canvas id="canvas" width="1920" height="1080"></canvas>
+    <div id="credits" data-credit="truffled-98c">
+    port by 98corbins — truffled.lol
     </div>
-    <script>
-      var parts = getParts(
-        window.gameconfig.url,
-        window.gameconfig.min,
-        window.gameconfig.max
-      );
-      var totalParts = parts.length;
-
-      function updateLoadingProgress(loaded) {
-        const progressElement = document.getElementById("loading-progress");
-        if (loaded === 0) {
-          progressElement.textContent = "Loading: 0/0";
-        } else {
-          progressElement.textContent = `Loading: ${loaded}/${totalParts}`;
-        }
-      }
-
-      Promise.all([mergeFiles(parts, updateLoadingProgress)])
-        .then(([gameUrl]) => {
-          document.getElementById("loading-progress").remove();
-          document.getElementById("first-time").remove();
-          EJS_player = "#game";
-          EJS_core = window.gameconfig.core;
-          EJS_gameName = window.gameconfig.name;
-          EJS_color = "#0064ff";
-          EJS_startOnLoaded = true;
-          EJS_pathtodata = "https://cdn.jsdelivr.net/gh/genizy/emu@master/";
-          EJS_gameUrl = gameUrl;
-          EJS_defaultOptions = {
-        vsync: "disabled"
-}
-          const script = document.createElement("script");
-          script.src =
-            "https://cdn.jsdelivr.net/gh/genizy/emu@master/loader.js";
-          document.body.appendChild(script);
-        })
-        .catch((error) => {
-          console.error(error);
-          document.getElementById("loading-progress").textContent =
-            "Error loading game.";
-        });
-    </script>
-  </body>
-</html>  
+  <script src="html5game/HotlineMiami.js"></script>
+</body>
+</html>

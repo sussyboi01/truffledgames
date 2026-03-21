@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
+    <base href="https://cdn.jsdelivr.net/gh/genizy/assets@main/basketbros-io/">
+    <meta charset="utf-8" />
+    <title>Basket Bros</title>
+    <meta name="description" content="Online multiplayer basketball! Dunk all over your bros!" />
+    <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="shortcut icon" type="image/png" href="./favicon.png" />
+    <script type="text/javascript" src="./BasketBros.js?th=448"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -8,90 +15,472 @@
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-    <base href="https://cdn.jsdelivr.net/gh/Synic-dx/blackJack@main/">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Play blackjack game online">
-    <meta name="author" content="Shinjan Garain">
-    <meta name="robots" content="index,follow">
-    <meta name="google" content="nositelinkssearchbox">
-    <meta name="googlebot" content="notranslate">
-    <meta name="revised" content="Sunday, July 18th, 2024, 12:35 pm">
-    <meta name="rating" content="safe for all">
-    <meta name="copyright" content="Copyright 2024">
-    <meta http-equiv="content-type" content="text/html">
-    <meta http-equiv="default-style" content="stylesheet">
-    <meta http-equiv="Content-language" content="en">
-    <meta http-equiv="Cache-Control" content="no-cache">
-    <meta name="format-detection" content="telephone=yes">
-    <meta name="HandheldFriendly" content="true">
-    <meta property="og:title" content="blackJack Online- by Synic" />
-    <meta property="og:description" content="blackJack game made using vanilla Javascript." />
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="en_US" />
-    <title>BlackJack Game Online</title>
-    <link href="style.css" rel="stylesheet">
-    <link rel="icon" href="logo.svg">
-</head>
-<body>
-    <header>
-        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                viewBox="0 0 24 30" xml:space="preserve">
-           <g>
-               <path class="st0" d="M4.9,13.9l0.3-0.1c0.2,0,0.4-0.2,0.5-0.3c0.1-0.2,0.2-0.4,0.1-0.6c0,0,0-0.1,0-0.1l-0.1-0.3c0,0,0,0,0,0
-                   c0.3-0.1,0.6-0.3,0.8-0.5c0.2-0.3,0.3-0.6,0.2-1c-0.1-0.4-0.3-0.7-0.6-0.9l-1.7-1C4.3,9,4.1,9.1,4,9.2l-1.3,1.5
-                   c-0.2,0.3-0.4,0.7-0.3,1.1c0.1,0.3,0.3,0.6,0.5,0.8c0.2,0.2,0.5,0.2,0.7,0.2c0.1,0,0.2,0,0.2,0c0,0,0,0,0,0l0,0.3l0,0.1
-                   c0,0.2,0.2,0.4,0.3,0.5c0.1,0.1,0.3,0.1,0.5,0.1C4.8,13.9,4.9,13.9,4.9,13.9z M3.4,12c-0.1-0.1-0.2-0.2-0.2-0.3
-                   c0-0.1,0-0.3,0.1-0.4l1-1.2l1.4,0.8C5.9,10.8,6,11,6,11.1c0,0.1,0,0.3-0.1,0.4c-0.1,0.1-0.2,0.2-0.3,0.2h0c-0.1,0-0.2,0-0.3,0
-                   l-0.5-0.2c-0.1-0.1-0.3,0-0.4,0.1l-0.4,0.3C4,12,3.9,12,3.8,12C3.7,12.1,3.5,12,3.4,12z M4.7,12.4L4.7,12.4l0.1,0L5.1,13l-0.3,0
-                   L4.7,12.4z"/>
-               <path class="st0" d="M22,6.5L10.7,3C10.4,3,10.1,3,9.9,3.1S9.5,3.5,9.4,3.7l-1,3.4L1.7,8.5C1.1,8.6,0.8,9.2,0.9,9.7l3.4,16.1
-                   c0.1,0.3,0.2,0.5,0.4,0.7c0.2,0.1,0.4,0.2,0.6,0.2c0.1,0,0.1,0,0.2,0l11.2-2.4c0,0,0,0,0.1,0c0.4,0,0.8-0.3,1-0.7l4.8-15.8
-                   C22.8,7.2,22.5,6.6,22,6.5z M5.4,25.9c-0.1,0-0.1,0-0.2,0c-0.1,0-0.1-0.1-0.1-0.2L1.7,9.6c0-0.1,0.1-0.3,0.2-0.3l6.2-1.3L4.6,19.5
-                   c-0.1,0.3-0.1,0.5,0.1,0.8c0.1,0.2,0.3,0.4,0.6,0.5l9.9,3L5.4,25.9z M17.1,23.3c0,0.1-0.2,0.2-0.3,0.2L5.5,20
-                   c-0.1,0-0.1-0.1-0.1-0.1c0-0.1,0-0.1,0-0.2l4.8-15.8c0-0.1,0.1-0.1,0.1-0.1c0.1,0,0.1,0,0.2,0l11.3,3.4c0.1,0,0.1,0.1,0.1,0.1
-                   c0,0.1,0,0.1,0,0.2L17.1,23.3z"/>
-               <path class="st0" d="M11.1,8.6c0.1,0,0.1,0,0.2-0.1l1.7-1c0.2-0.1,0.2-0.3,0.2-0.5l-0.7-1.9c0-0.1-0.1-0.2-0.2-0.2
-                   c-0.1,0-0.2,0-0.3,0L10.2,6C10,6.1,9.9,6.3,10,6.5l0.7,1.8c0,0.1,0.1,0.2,0.2,0.2C11,8.5,11.1,8.6,11.1,8.6z M11.9,5.8L12.3,7
-                   l-1,0.6l-0.4-1.1L11.9,5.8z"/>
-               <path class="st0" d="M16.4,19c-0.1,0-0.2,0-0.3,0l-1.7,1.1c-0.2,0.1-0.2,0.3-0.2,0.5l0.7,1.8c0,0.1,0.1,0.2,0.2,0.2
-                   c0,0,0.1,0,0.1,0c0.1,0,0.1,0,0.2-0.1l1.7-1c0.2-0.1,0.2-0.3,0.2-0.5l-0.7-1.9C16.6,19.2,16.5,19.1,16.4,19z M15.5,21.8L15,20.6
-                   l1-0.6l0.4,1.2L15.5,21.8z"/>
-               <path class="st0" d="M16.3,14.5L15,10.6c0-0.1-0.1-0.2-0.2-0.2c-0.1,0-0.2,0-0.3,0L11,12.6c-0.2,0.1-0.2,0.3-0.2,0.5l1.5,3.7
-                   c0,0.1,0.1,0.2,0.2,0.2c0,0,0.1,0,0.1,0c0.1,0,0.1,0,0.2-0.1l3.3-1.9C16.3,14.9,16.4,14.7,16.3,14.5z M12.9,16L11.7,13l2.7-1.7
-                   l1.1,3.1L12.9,16z"/>
-           </g>
-                <title>Black Games Logo</title>
-                <desc>A stack of cards</desc>
-            </svg>
-        
-        <h1 id="title"><span id="play">play</span><a href="blackJack.html"><span id="name">black</span><span id="plate">Jack</span></a></h1>
-            
-        <p id="rules"><a href="https://www.wikihow.com/Play-Blackjack" target="_blank" rel="noopener" lang="en">Rules</a></p>
-        <p id="bank">$<span id="balance">5000</span></p>
-    </header>
+    <script>
+      window.addEventListener(
+        "touchmove",
+        function (event) {
+          event.preventDefault();
+        },
+        { capture: false, passive: false }
+      );
+      if (typeof window.devicePixelRatio != "undefined" && window.devicePixelRatio > 2) {
+        var meta = document.getElementById("viewport");
+        meta.setAttribute("content", "width=device-width, initial-scale=" + 2 / window.devicePixelRatio + ", user-scalable=no");
+      }
+      window.addEventListener("keydown", function (e) {
+        if ((e.keyCode == 32 || e.keyCode == 38 || e.keyCode == 40) && e.target == document.body) {
+          e.preventDefault();
+        }
+      });
+    </script>
 
-    <main>
-        <section id="left">
-            <h2 id="textleft">Welcome to BlackJack</h2>
-            <h3 id="yourcard"> <span id="you">You:</span> <span id="typeU"> Type </span> of <span id="suitU"> Suit </span> and at: <span id="valueU"> Value </span></h3>
-            <h3 id="dealercard"> <span id="dealer">Dealer:</span> <span id="typeD"> Type </span> of <span id="suitD"> Suit </span> and at: <span id="valueD"> Value </span></h3>
-        </section>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: #000000;
+        color: orange;
+        height: 100%;
+        width: 100%;
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+        padding: 0;
+      }
+      .body::-webkit-scrollbar {
+        /* WebKit */
+        width: 0px;
+      }
+      #openfl-content {
+        background: #000000;
+        width: 100%;
+        height: 100%;
+      }
+      #spinner {
+        -webkit-transform-origin: 50% 50%;
+        -moz-transform-origin: 50% 50%;
+        -o-transform-origin: 50% 50%;
+        transform-origin: 50% 50%;
+        width: 82px;
+        height: 81px;
+        -webkit-animation: spin1 2s infinite linear;
+        -moz-animation: spin1 2s infinite linear;
+        -o-animation: spin1 2s infinite linear;
+        -ms-animation: spin1 2s infinite linear;
+        animation: spin1 2s infinite linear;
+      }
+    </style>
 
-        <section id="right">
-            <h2 id="textright">Choose Bet</h2>
-            <div id="buttons">
-            <button id="button1" type="button">$100</button>
-            <button id="button2" type="button">$500</button>
-            <button id="button3" type="button">$1000</button>
-            </div>
-        </section>
-    </main>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-PXHK7Q7G3Z');
+</script>
 
-    <footer>
-        <p id="footertext">&copy;2024 <cite id="creditlink"><a href="https://synic.vercel.app/" rel="noopener" target="_blank" lang="en">Synic, </a></cite><cite id="orglink"><a href="https://github.com/demerits" rel="noopener" target="_blank" lang="en">Aperture</a></cite> <small id="javascript">(Made using Javascript)</small></p>
-    </footer>
+    <script>
+      //Interstitial ad available event
+      document.addEventListener("aip_interstitialadavailable", function (e) {
+        console.log("An interstitial ad is available");
+      });
+    </script>
+    <script src="//api.adinplay.com/libs/aiptag/pub/DGZ/basketbros.io/tag.min.js"></script>
 
-    <script src="script.js"></script>
-</body>
+    <script>
+      var aiptag = aiptag || {};
+      aiptag.cmd = aiptag.cmd || [];
+      aiptag.cmd.display = aiptag.cmd.display || [];
+      aiptag.cmd.player = aiptag.cmd.player || [];
+      // Settings
+      aiptag.consented = false; // GDPR setting, please set this value to false if an EU user has declined or not yet accepted marketing cookies, for users outside the EU please use true and for users accepted the GDPR also use true
+
+      aiptag.cmd.player.push(function () {
+        adplayer = new aipPlayer({
+          AIP_ADBREAK_COMPLETE: function () {
+            console.log("Adbreak Completed");
+            Main.DoneInterstitialAd(false);
+          },
+          AD_WIDTH: 960,
+          AD_HEIGHT: 540,
+          AD_DISPLAY: "default", //default, fullscreen, center, fill
+          TRUSTED: true,
+          LOADING_TEXT: "loading advertisement",
+          PREROLL_ELEM: function () {
+            return document.getElementById("preroll");
+          },
+          AIP_COMPLETE: function (state) {
+            /*******************
+					 ***** WARNING *****
+					*******************
+					Please do not remove the PREROLL_ELEM
+					from the page, it will be hidden automaticly.
+					If you do want to remove it use the AIP_REMOVE callback.
+					*/
+            Main.DoneVideoAd();
+            window.document.getElementById("openfl-content").focus();
+            if (state == null) state = "null";
+            console.log("Video Ad Complete: " + state);
+            SendEvent("event", "donevideo-" + lastUnitPlayed + "-" + state);
+          },
+          AIP_REMOVE: function () {
+            // Here it's safe to remove the PREROLL_ELEM from the page if you want. But it's not recommend.
+          },
+        });
+      });
+
+      function ShowVideo(theUnitName = null) {
+        console.log("SHOW_VIDEO");
+        var aUnitName = "";
+        if (typeof gCrazySDK !== "undefined") {
+          gCrazySDK.addEventListener("adFinished", Main.DoneVideoAd); // reenable sound, enable ui
+          gCrazySDK.addEventListener("adError", Main.DoneVideoAd); // reenable sound, enable ui
+          gCrazySDK.requestAd();
+          console.log("CG_AD_REQUESTED");
+          SendEvent("event", "cgvideo");
+          return;
+        }
+        if (typeof adplayer === "undefined") {
+          Main.DoneVideoAd(true);
+          SendEvent("event", "video_adblocked");
+          console.log("VIDEO_ADBLOCKED");
+        } else {
+          var aStr = "preroll";
+          if (theUnitName != null) aStr = theUnitName;
+          lastUnitPlayed = aStr;
+          SendEvent("event", "startvideo-" + aStr);
+
+          aiptag.cmd.player.push(function () {
+            adplayer.startPreRoll(theUnitName);
+          });
+        }
+      }
+    </script>
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    <script>
+      window.OneSignal = window.OneSignal || [];
+      OneSignal.push(function () {
+        OneSignal.init({
+          appId: "9e216ce8-de65-411a-8cbd-50930a7bd60c",
+        });
+      });
+    </script>
+  </head>
+  <body style="overflow: hidden;">
+    <noscript>Enable JavaScript bro!</noscript>
+    <div id="loading" style="position: absolute; width: 392px; height: 31px; z-index: 15; top: 50%; left: 50%; margin: 100px 0 0 -200px; background: black;">
+      <img src="assets/loading.png" />
+    </div>
+
+    <div id="game2" style="width: 100%; height: 100%;">
+      <div id="basketbros-io_160x600" style="float: left; width: 170px; height: 600px; position: relative; top: 50%; -webkit-transform: translateY(-50%); -ms-transform: translateY(-50%); transform: translateY(-50%);">
+        <script>
+          if (typeof gCrazySDK == "undefined") {
+            aiptag.cmd.display.push(function () {
+              aipDisplayTag.display("basketbros-io_160x600");
+            });
+          }
+        </script>
+      </div>
+
+      <div id="openfl-content" style="width: calc(100% - 320px); float: left;">
+        <script type="text/javascript">
+          lime.embed("BasketBros", "openfl-content", 0, 0, { parameters: {} });
+        </script>
+      </div>
+      <div id="preroll" style="width: 960px; height: 540px; background-color: black; display: none; position: absolute; top: 50%; left: 50%; z-index: 100; transform: translate(-50%, -50%);"></div>
+
+      <div
+        id="basketbros-io_160x600_2"
+        style="float: right; width: 170px; height: 600px; justify-content: right; text-align: right; position: relative; top: 50%; -webkit-transform: translateY(-50%); -ms-transform: translateY(-50%); transform: translateY(-50%);"
+      >
+        <script>
+          if (typeof gCrazySDK == "undefined") {
+            aiptag.cmd.display.push(function () {
+              aipDisplayTag.display("basketbros-io_160x600_2");
+            });
+          }
+        </script>
+      </div>
+      <div id="basketbros-io_300x250" style="width: 300px; height: 250px; visibility: hidden; display: none; position: absolute; top: 30px; left: 30px; z-index: 100;"></div>
+      <div id="basketbros-io_300x250_2" style="width: 300px; height: 250px; visibility: hidden; display: none; position: absolute; top: 30px; left: 30px; z-index: 100;"></div>
+      <div id="basketbros-io_player_300x600" style="visibility: hidden; width: 300px; height: 600px; display: none; position: absolute; top: 30px; left: 30px; z-index: 100;"></div>
+      <div id="basketbros-io_300x600_m" style="visibility: hidden; width: 300px; height: 600px; display: none; position: absolute; top: 30px; left: 30px; z-index: 100;"></div>
+      <div id="basketbros-io_728x90" style="visibility: hidden; width: 728px; height: 90px; display: none; position: absolute; top: 30px; left: 30px; z-index: 100;"></div>
+    </div>
+    <br />
+    <div>
+      <div class="notch-top-left" style="--notch-color: var(--background-color);"></div>
+      <div class="info-box">
+        <h3>About BasketBros</h3>
+        <p>Alt link: www.lookinthe.net. Fun, fast-paced 1 on 1 basketball game with lots of action. Pick from a variety of characters and let the play begin. Go for crazy dunks, hit the stepback 3, or maybe even punch out your opponent!</p>
+        <p>The controls are very simple: Use either the arrow keys or wasd to control your baller. Jump by pressing the up arrow, and jump again to shoot. Enter/Space will attack if you are on defense.</p>
+        <p>Be sure to allow notifications so you will know when fun new basketball characters are added to the game!</p>
+      </div>
+      <div class="info-box">
+        <h3>FAQ</h3>
+        <b>Why isn't the game loading?</b>
+        <p>You should check your internet connection and make sure our site isn't blocked. Also, disable all ad blockers.</p>
+        <b>How do I play?</b>
+        <p>Just hop in and go dunk on some fools!</p>
+        <b>Which browser should I use?</b>
+        <p>You should use chrome. It is the only browser guaranteed to work. BasketBros has also been tested to work on FireFox and Safari, but not guaranteed.</p>
+      </div>
+    </div>
+    <div class="section">
+      <div style="display: flex; flex-direction: row; flex-wrap: wrap; margin: 10px; padding: 2px; justify-content: center;">
+        <div class="partner">
+          <script>
+            function getPartner(y) {
+              var referrer = document.referrer;
+              if (referrer.includes("crazygames")) {
+                return (
+                  '<center><br><div style="transform:translate(' +
+                  "-50" +
+                  "px," +
+                  y +
+                  'px); width=70%; z-index: 101; text-align:right;><font style="font-weight:normal;font-family:Arial;color:#010101;font-size:20px;"><a href="https://crazygames.com" target="_blank">Crazy Games</a></font><br></div></center>'
+                );
+              } else if (referrer.includes("iogames.space")) {
+                return (
+                  '<center><br><div style="transform:translate(' +
+                  "-50" +
+                  "px," +
+                  y +
+                  'px); width=70%; z-index: 101; text-align:right;><font style="font-weight:normal;font-family:Arial;color:#010101;font-size:20px;"><a href="https://iogames.space" target="_blank">IO Games</a></font><br></div></center>'
+                );
+              } else if (referrer.includes("poki")) {
+                return (
+                  '<center><br><div style="transform:translate(' +
+                  "-50" +
+                  "px," +
+                  y +
+                  'px); width=70%; z-index: 101; text-align:right;><font style="font-weight:normal;font-family:Arial;color:#010101;font-size:20px;">Check out our friends at <a href="https://poki.com" target="_blank">Poki</a></font><br></div></center>'
+                );
+              } else if (referrer.includes("silver")) {
+                return (
+                  '<center><br><div style="transform:translate(' +
+                  "-50" +
+                  "px," +
+                  y +
+                  'px); width=70%; z-index: 101; text-align:right;><font style="font-weight:normal;font-family:Arial;color:#010101;font-size:20px;"><a href="https://silvergames.com" target="_blank">Silver Games</a></font><br></div></center>'
+                );
+              } else {
+                return (
+                  '<center><br><div style="transform:translate(' +
+                  "-50" +
+                  "px," +
+                  y +
+                  'px); width=70%; z-index: 101; text-align:right;><font style="font-weight:normal;font-family:Arial;color:#010101;font-size:20px;"><a href="https://crazygames.com" target="_blank">Crazy Games</a></font><br></div></center>'
+                );
+              }
+              return "";
+            }
+            document.write(getPartner(0));
+          </script>
+        </div>
+        <br />
+        <br />
+        <div class="partner">&nbsp; Would you like to be a partner too? Contact: echo-the-coder@tuta.io </div>
+      </div>
+    </div>
+    <div class="section">
+      <div style="display: flex; flex-direction: row; flex-wrap: wrap; margin: 10px; padding: 2px; justify-content: center;">
+        <div class="partner">Mirrors/Proxies: <a href="/">Basket Bros Unblocked / BasketBros Unblocked</a><br /></div>
+      </div>
+    </div>
+
+    <script data-cfasync="false" src="cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script>
+      var lastRefresh = 0;
+      function ShowAd1(doRefresh) {
+        if (/Android|webOS|iPhone|iPad|iPod|Opera Mini/i.test(navigator.userAgent)) {
+          return;
+        }
+        var l = window.document.getElementById("basketbros-io_160x600");
+        if (l == null) return;
+        l.style.display = "";
+        l.style.visibility = "visible";
+
+        l = window.document.getElementById("basketbros-io_160x600");
+        if (l == null) return;
+        l.style.display = "";
+        l.style.visibility = "visible";
+
+        if (typeof gCrazySDK !== "undefined") {
+          var d = new Date();
+          var ms = d.getTime();
+          if (ms - lastRefresh > 10000) {
+            gCrazySDK.requestResponsiveBanner(["basketbros-io_160x600"]);
+            lastRefresh = ms;
+          }
+        } else if (typeof aipDisplayTag !== "undefined") {
+          aipDisplayTag.refresh("basketbros-io_160x600");
+          aipDisplayTag.refresh("basketbros-io_160x600_2");
+        }
+      }
+
+      var lastRefresh6 = 0;
+      function ShowAd6() {
+        if (/Android|webOS|iPhone|iPad|iPod|Opera Mini/i.test(navigator.userAgent)) {
+          return;
+        }
+        var l = window.document.getElementById("basketbros-io_300x250");
+        if (l == null) {
+          return;
+        }
+        l.style.display = "";
+        l.style.visibility = "visible";
+
+        if (typeof gCrazySDK !== "undefined") {
+          var d = new Date();
+          var ms = d.getTime();
+          if (ms - lastRefresh6 > 10000) {
+            //hndled by the first banner request
+            //gCrazySDK.requestBanner([{containerId: 'basketbros-io_300x250',size: '300x250',}]);
+            //gCrazySDK.requestResponsiveBanner(["basketbros-io_300x250"]);
+            lastRefresh6 = ms;
+          }
+        } else if (typeof aipDisplayTag !== "undefined") {
+          aipDisplayTag.refresh("basketbros-io_300x250");
+        }
+      }
+
+      var lastRefresh2 = 0;
+      function ShowAd2() {
+        if (/Android|webOS|iPhone|iPad|iPod|Opera Mini/i.test(navigator.userAgent)) {
+          return;
+        }
+        var l = window.document.getElementById("basketbros-io_300x250_2");
+        if (l == null) return;
+        l.style.display = "";
+        l.style.visibility = "visible";
+
+        if (typeof gCrazySDK !== "undefined") {
+          var d = new Date();
+          var ms = d.getTime();
+          if (ms - lastRefresh2 > 10000) {
+            //hndled by the first banner request
+            //gCrazySDK.requestBanner([{containerId: 'basketbros-io_300x250_2',size: '300x250',}]);
+            gCrazySDK.requestResponsiveBanner(["basketbros-io_300x250", "basketbros-io_300x250_2"]);
+
+            lastRefresh2 = ms;
+          }
+        } else if (typeof aipDisplayTag !== "undefined") {
+          aipDisplayTag.refresh("basketbros-io_300x250_2");
+        }
+      }
+      function ShowAd3() {
+        if (/Android|webOS|iPhone|iPad|iPod|Opera Mini/i.test(navigator.userAgent)) {
+          return;
+        }
+        var l = window.document.getElementById("basketbros-io_728x90");
+        if (l == null) return;
+        l.style.display = "";
+        l.style.visibility = "visible";
+        if (typeof gCrazySDK !== "undefined") {
+          gCrazySDK.requestResponsiveBanner(["basketbros-io_728x90"]);
+        } else if (typeof aipDisplayTag !== "undefined") aipDisplayTag.refresh("basketbros-io_728x90");
+      }
+      function ShowAd4() {
+        if (/Android|webOS|iPhone|iPad|iPod|Opera Mini/i.test(navigator.userAgent)) {
+          return;
+        }
+        if (window.innerWidth < 1200) return;
+        var l = window.document.getElementById("basketbros-io_player_300x600");
+        if (l == null) return;
+        l.style.display = "";
+        l.style.visibility = "visible";
+        if (typeof gCrazySDK !== "undefined") {
+          gCrazySDK.requestResponsiveBanner(["basketbros-io_player_300x600"]);
+          //gCrazySDK.requestBanner([{containerId: 'basketbros-io_player_300x600',size: '300x600',}]);
+        } else if (typeof aipDisplayTag !== "undefined") aipDisplayTag.refresh("basketbros-io_player_300x600");
+      }
+      function ShowAd7() {
+        if (/Android|webOS|iPhone|iPad|iPod|Opera Mini/i.test(navigator.userAgent)) {
+          return;
+        }
+        if (window.innerWidth < 1200) return;
+        var l = window.document.getElementById("basketbros-io_300x600_m");
+        if (l == null) return;
+        l.style.display = "";
+        l.style.visibility = "visible";
+        if (typeof gCrazySDK !== "undefined") {
+          gCrazySDK.requestResponsiveBanner(["basketbros-io_player_300x600"]);
+          //gCrazySDK.requestBanner([{containerId: 'basketbros-io_player_300x600',size: '300x600',}]);
+        } else if (typeof aipDisplayTag !== "undefined") aipDisplayTag.refresh("basketbros-io_300x600_m");
+      }
+
+      function right(str, chr) {
+        return str.slice(str.length - chr, str.length);
+      }
+      function SetCGInviteLink() {
+        if (typeof gCrazySDK !== "undefined") {
+          var meta = document.getElementById("cglink");
+          var aStr = meta.value;
+          aStr = right(aStr, 8);
+          var aCGLink = gCrazySDK.inviteLink({ roomId: aStr });
+          meta.value = aCGLink;
+          meta.select;
+          document.execCommand("Copy");
+          console.log("COPIED CG URL");
+        }
+      }
+
+      function ShowAdBreak() {
+        //check if the adslib is loaded correctly or blocked by adblockers etc.
+        if (typeof gCrazySDK !== "undefined") {
+          Main.DoneInterstitialAd(false);
+          return;
+        }
+
+        if (typeof adplayer === "undefined") {
+          Main.DoneInterstitialAd(true);
+          return;
+        }
+        aiptag.cmd.player.push(function () {
+          adplayer.startAdBreak();
+        });
+      }
+
+      document.getElementById("openfl-content").addEventListener("wheel", doScroll);
+      function doScroll(event) {
+        window.scroll(0, window.scrollY + event.deltaY);
+      }
+
+      /*		setInterval(function () { 
+			var l = window.document.getElementById('basketbros-io_160x600');
+			if(l != null && typeof l.style !== 'undefined' && l.style.visibility == 'visible') {
+				ShowAd5();
+			}
+		}, 30000);
+
+		setInterval(function () { 
+			var l = window.document.getElementById('basketbros-io_160x600_2');
+			if(l != null && typeof l.style !== 'undefined' && l.style.visibility == 'visible') {
+				ShowAd1();
+			}
+		}, 32000);*/
+
+      var sid = "vqpdso5mdr0n80kkknmkbi3ntg";
+      function updateStatus(fromEvent = false) {
+        const req = new XMLHttpRequest();
+        var aStr = "recordsession.php?s=" + sid;
+        if (fromEvent == true) aStr = aStr + "&e=1";
+        req.open("GET", aStr);
+        req.send();
+      }
+      function SendEvent(theEvent, theAction) {
+        gtag(theEvent, theAction);
+        updateStatus(true);
+        //console.log("Sending event: " + theEvent + "/" + theAction);
+      }
+      //setInterval(function() { updateStatus, 4*60*1000);
+      updateStatus(true);
+
+      //setInterval(ClearAds, 2000);
+    </script>
+  </body>
 </html>

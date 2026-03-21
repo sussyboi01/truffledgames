@@ -1,33 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8">
-  <title>BALDI</title>
-  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>OvO 2 Unblocked - ubg235 GC</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: black;
-    }
+<meta name="generator" content="Construct 3">
 
-    #unity-container {
-      width: 100%;
-      height: 100%;
-    }
+	<link rel="manifest" href="appmanifest.json">
+	<link rel="apple-touch-icon" sizes="128x128" href="icons/icon-128.png">
+	<link rel="apple-touch-icon" sizes="256x256" href="icons/icon-256.png">
+	<link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png">
+	<link rel="icon" type="image/png" href="icons/icon-512.png">
 
-    #unity-canvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-      background: black;
-    }
-  </style>
+<link rel="stylesheet" href="style.css">
+
 </head>
+<body style="overflow:hidden;">
+<div id="fb-root"></div>
+
+	<noscript>
+		<div id="notSupportedWrap">
+			<h2 id="notSupportedTitle">This content requires JavaScript</h2>
+			<p class="notSupportedMessage">JavaScript appears to be disabled. Please enable it to view this content.</p>
+			<p class="notSupportedMessage">This content was developed in Construct 3. <a href="https://www.construct.net/en">Create games online</a></p>
+		</div>
+	</noscript>
+	<script src="scripts/supportcheck.js"></script>
+	<script src="scripts/offlineclient.js"></script>
+	<script src="scripts/main.js"></script>
+	<!-- <script src="scripts/register-sw.js"></script> -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -35,24 +37,5 @@
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-<body>
-  <div id="unity-container">
-    <canvas id="unity-canvas"></canvas>
-  </div>
-
-  <script src="TemplateData/BALDI.loader.js"></script>
-  <script>
-    const canvas = document.querySelector("#unity-canvas");
-
-    createUnityInstance(canvas, {
-      dataUrl: "Build/BALDI.data",
-      frameworkUrl: "Build/BALDI.framework.js",
-      codeUrl: "Build/BALDI.wasm",
-      streamingAssetsUrl: "StreamingAssets",
-      companyName: "Unknown",
-      productName: "BALDI",
-      productVersion: "1.0"
-    });
-  </script>
 </body>
 </html>

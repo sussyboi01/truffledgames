@@ -1,132 +1,39 @@
+
+<!DOCTYPE html>
 <html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Merge Rot - Poki</title>
+	<script>
+	window.config = {
+		loader: 'unity-2020',
+		debug: false,
+		maxRatio: 24 / 9,
+		minRatio: 9 / 24,
 
-<!-- Ultimate Game Stash file--> 
-<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
+		title: 'Merge Rot',
+		thumbnail: 'https:\/\/img.poki-cdn.com\/1e98f64f8f6c0789f5df325d16574bc3.png',
+		numScreenshots:  1 ,
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-PXHK7Q7G3Z');
-</script>
-  <head>
-    <script>
-      window.gameconfig = {
-        name: "Paper Mario (USA)",
-        url: "https://cdn.jsdelivr.net/gh/bubbls/ugss@69e5df0bdfad91580779ec98ca18841e753145fd/Paper%20Mario%20(USA)%20(2)/Paper%20Mario%20(USA).z64",
-        core: "parallel_n64",
-        min: 1,
-        max: 3,
-      };
-    </script>
-    <script>
-      function mergeFiles(fileParts, cb) {
-        return new Promise((resolve, reject) => {
-          let buffers = [];
-          function fetchPart(index) {
-            if (index >= fileParts.length) {
-              let mergedBlob = new Blob(buffers);
-              let mergedFileUrl = URL.createObjectURL(mergedBlob);
-              resolve(mergedFileUrl);
-              return;
-            }
-            fetch(fileParts[index])
-              .then((response) => response.arrayBuffer())
-              .then((data) => {
-                buffers.push(data);
-                fetchPart(index + 1);
-              })
-              .catch(reject);
-            cb(index);
-          }
-          fetchPart(0);
-        });
-      }
-      function getParts(file, start, end) {
-        let parts = [];
-        for (let i = start; i <= end; i++) {
-          parts.push(file + ".part" + i);
-        }
-        return parts;
-      }
-    </script>
-    <style>
-      body,
-      html {
-        margin: 0;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-        background-color: #121212;
-        color: white;
-        font-family: Arial, sans-serif;
-      }
-      #game-container {
-        text-align: center;
-        width: 100%;
-        height: 100%;
-      }
-      #loading-progress {
-        font-size: 18px;
-        margin-top: 20px;
-        padding: 10px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-        display: inline-block;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="game-container">
-      <div id="game"></div>
-      <div id="loading-progress">Loading: 0/0</div>
-      <div id="first-time">First-time loading may take longer...</div>
-    </div>
-    <script>
-      var parts = getParts(
-        window.gameconfig.url,
-        window.gameconfig.min,
-        window.gameconfig.max
-      );
-      var totalParts = parts.length;
+		unityVersion: '6000.1.4f1',
+		unityWebglBuildUrl: '',
 
-      function updateLoadingProgress(loaded) {
-        const progressElement = document.getElementById("loading-progress");
-        if (loaded === 0) {
-          progressElement.textContent = "Loading: 0/0";
-        } else {
-          progressElement.textContent = `Loading: ${loaded}/${totalParts}`;
-        }
-      }
-
-      Promise.all([mergeFiles(parts, updateLoadingProgress)])
-        .then(([gameUrl]) => {
-          document.getElementById("loading-progress").remove();
-          document.getElementById("first-time").remove();
-          EJS_player = "#game";
-          EJS_core = window.gameconfig.core;
-          EJS_gameName = window.gameconfig.name;
-          EJS_color = "#0064ff";
-          EJS_startOnLoaded = true;
-          EJS_pathtodata = "https://cdn.jsdelivr.net/gh/genizy/emu@master/";
-          EJS_gameUrl = gameUrl;
-          EJS_defaultOptions = {
-        vsync: "disabled"
-}
-          const script = document.createElement("script");
-          script.src =
-            "https://cdn.jsdelivr.net/gh/genizy/emu@master/loader.js";
-          document.body.appendChild(script);
-        })
-        .catch((error) => {
-          console.error(error);
-          document.getElementById("loading-progress").textContent =
-            "Error loading game.";
-        });
-    </script>
-  </body>
-</html> 
+		fileSize:  38 ,
+		cachedDecompressedFileSizes: {
+			'3b7c4d6c4481aac2fe8f852864a98fb3.framework.js':  402213 ,
+			'9a402065b54c31f8f17a0f9f13d2156a.loader.js':  26454 ,
+			'9aa61ea7ce5413d2a78a7c4381c4b028.wasm':  18544223 ,
+			'b6dc380ec63bc57ba1f49fad20566606.data':  19568704 ,
+		},
+		"metadata": {"poki_template_version":1,"background_color":"#231F20","code_filename":"9aa61ea7ce5413d2a78a7c4381c4b028.wasm","company_name":"DefaultCompany","data_filename":"b6dc380ec63bc57ba1f49fad20566606.data","development_player":"false","framework_filename":"3b7c4d6c4481aac2fe8f852864a98fb3.framework.js","height":"600","loader_filename":"9a402065b54c31f8f17a0f9f13d2156a.loader.js","product_name":"Merge Rot","product_version":"1.0","splash_screen_style":"Dark","unity_version":"6000.1.4f1","use_data_caching":"true","use_threads":"false","use_wasm":"true","use_webgl_1_0":"false","use_webgl_2_0":"true","width":"960"}
+	};
+	</script>
+<!-- will be copied to the resulting head //-->
+</head>
+<body>
+	<script src="https://game-cdn.poki.com/loaders/v3/master-loader.js"></script>
+<!-- will be copied to the resulting body //-->
+<!-- will also be copied to the resulting body //-->
+</body>
+</html>

@@ -1,258 +1,147 @@
-<!doctypehtml>
-<html lang=en-us>
-    <head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | Baldi's Fun New School Plus Ultimate Edition</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+  </head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-        <meta charset=utf-8>
-        <meta content="text/html; charset=utf-8" http-equiv=Content-Type>
-        <title>Emscripten-Generated Code</title>
-        <style>
-            body {
-                font-family: arial;
-                margin: 0;
-                padding: none
-            }
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+  }
 
-            .emscripten {
-                padding-right: 0;
-                margin-left: auto;
-                margin-right: auto;
-                display: block
-            }
+  #unity-container {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
 
-            div.emscripten {
-                text-align: center
-            }
+  #unity-canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
 
-            div.emscripten_border {
-                border: 1px solid #000
-            }
+  #unity-footer {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
 
-            canvas.emscripten {
-                border: 0 none;
-                background-color: #000
-            }
+  #unity-fullscreen-button {
+    cursor: pointer;
+  }
+</style>
 
-            #emscripten_logo {
-                display: inline-block;
-                margin: 0
-            }
-
-            .spinner {
-                height: 30px;
-                width: 30px;
-                margin: 0;
-                margin-top: 20px;
-                margin-left: 20px;
-                display: inline-block;
-                vertical-align: top;
-                -webkit-animation: rotation .8s linear infinite;
-                -moz-animation: rotation .8s linear infinite;
-                -o-animation: rotation .8s linear infinite;
-                animation: rotation .8s linear infinite;
-                border-left: 5px solid #ebebeb;
-                border-right: 5px solid #ebebeb;
-                border-bottom: 5px solid #ebebeb;
-                border-top: 5px solid #787878;
-                border-radius: 100%;
-                background-color: #bdd72e
-            }
-
-            @-webkit-keyframes rotation {
-                from {
-                    -webkit-transform: rotate(0)
-                }
-
-                to {
-                    -webkit-transform: rotate(360deg)
-                }
-            }
-
-            @-moz-keyframes rotation {
-                from {
-                    -moz-transform: rotate(0)
-                }
-
-                to {
-                    -moz-transform: rotate(360deg)
-                }
-            }
-
-            @-o-keyframes rotation {
-                from {
-                    -o-transform: rotate(0)
-                }
-
-                to {
-                    -o-transform: rotate(360deg)
-                }
-            }
-
-            @keyframes rotation {
-                from {
-                    transform: rotate(0)
-                }
-
-                to {
-                    transform: rotate(360deg)
-                }
-            }
-
-            #status {
-                display: inline-block;
-                vertical-align: top;
-                margin-top: 30px;
-                margin-left: 20px;
-                font-weight: 700;
-                color: #787878
-            }
-
-            #progress {
-                top: 0px;
-                left: 0px;
-                height: 10px;
-                width: 100%;
-                overflow: hidden;
-                display: block;
-                position: absolute;
-                z-index: 2;
-            }
-
-            #canvas {
-                position: absolute;
-                top: 0px;
-                left: 0px;
-                margin: 0px;
-                width: 100%;
-                height: 100%;
-                overflow: hidden;
-                display: block;
-            }
-
-            body {
-                overflow: hidden;
-                /* Hide scrollbars */
-            }
-        </style>
-    </head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-PXHK7Q7G3Z');
-</script>
-    <body>
-        <div class=emscripten>
-            <progress hidden id=progress max=100 value=0></progress>
+  <body>
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas" width=960 height=600></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
         </div>
-        <div class=emscripten_border>
-            <canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1></canvas>
-        </div>
-        <script>
-            // Fullscreen logic: wait for user gesture if #fullscreen is present
-            document.addEventListener('DOMContentLoaded', function() {
-                if (window.location.hash.startsWith('#fullscreen')) {
-                    var canvas = document.getElementById('canvas');
-                    var enterFullscreen = function() {
-                        if (canvas.requestFullscreen) {
-                            canvas.requestFullscreen();
-                        } else if (canvas.webkitRequestFullscreen) {
-                            canvas.webkitRequestFullscreen();
-                        } else if (canvas.mozRequestFullScreen) {
-                            canvas.mozRequestFullScreen();
-                        } else if (canvas.msRequestFullscreen) {
-                            canvas.msRequestFullscreen();
-                        }
-                        // Remove listener after first click
-                        canvas.removeEventListener('click', enterFullscreen);
-                    };
-                    // Show a hint to the user (optional, can be removed)
-                    canvas.title = 'Click to enter fullscreen';
-                    canvas.style.cursor = 'pointer';
-                    canvas.addEventListener('click', enterFullscreen);
-                }
-            });
+      </div>
+      <div id="unity-warning"> </div>
+    </div>
+    <script>
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
+      var warningBanner = document.querySelector("#unity-warning");
 
-            progressElement = document.getElementById("progress"),
-            Module = {
-                preRun: [],
-                postRun: [],
-                print: function() {
-                    var e = document.getElementById("output");
-                    return e && (e.value = ""),
-                    function(t) {
-                        arguments.length > 1 && (t = Array.prototype.slice.call(arguments).join(" ")),
-                        console.log(t),
-                        e && (e.value += t + "\n",
-                        e.scrollTop = e.scrollHeight)
-                    }
-                }(),
-                printErr: function(e) {
-                    arguments.length > 1 && (e = Array.prototype.slice.call(arguments).join(" ")),
-                    console.error(e)
-                },
-                canvas: function() {
-                    var e = document.getElementById("canvas");
-                    return e.addEventListener("webglcontextlost", (function(e) {
-                        alert("WebGL context lost. You will need to reload the page."),
-                        e.preventDefault()
-                    }
-                    ), !1),
-                    e
-                }(),
-                setStatus: function(e) {
-                    if (Module.setStatus.last || (Module.setStatus.last = {
-                        time: Date.now(),
-                        text: ""
-                    }),
-                    e !== Module.setStatus.last.text) {
-                        var t = e.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/)
-                          , n = Date.now();
-                        t && n - Module.setStatus.last.time < 30 || (Module.setStatus.last.time = n,
-                        Module.setStatus.last.text = e,
-                        t ? (e = t[1],
-                        progressElement.value = 100 * parseInt(t[2]),
-                        progressElement.max = 100 * parseInt(t[4]),
-                        progressElement.hidden = !1) : (progressElement.value = null,
-                        progressElement.max = null,
-                        progressElement.hidden = !0,
-                        e))
-                    }
-                },
-                totalDependencies: 0,
-                monitorRunDependencies: function(e) {
-                    this.totalDependencies = Math.max(this.totalDependencies, e),
-                    Module.setStatus(e ? "Preparing... (" + (this.totalDependencies - e) + "/" + this.totalDependencies + ")" : fin())
-                }
-            };
-            Module.setStatus("Downloading..."),
-            window.onerror = function(e) {
-                Module.setStatus("Exception thrown, see JavaScript console"),
-                spinnerElement.style.display = "none",
-                Module.setStatus = function(e) {
-                    e && Module.printErr("[post-exception status] " + e)
-                }
-            }
-            ;
-            (function() {
-                var src = '//cdn.jsdelivr.net/npm/eruda';
-                if (!/eruda=true/.test(window.location) && localStorage.getItem('active-eruda') != 'true')
-                    return;
-                document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>');
-                document.write('<scr' + 'ipt>eruda.init();</scr' + 'ipt>');
-            }
-            )();
-            function fin() {
-                document.getElementById("progress").style.zIndex = 0;
-                return "All downloads complete."
-            }
-        </script>
-        <script async src=gemrb.js></script>
-    </body>
+      // Shows a temporary message banner/ribbon for a few seconds, or
+      // a permanent error message on top of the canvas if type=='error'.
+      // If type=='warning', a yellow highlight color is used.
+      // Modify or remove this function to customize the visually presented
+      // way that non-critical warnings and error messages are presented to the
+      // user.
+      function unityShowBanner(msg, type) {
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+        }
+        var div = document.createElement('div');
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == 'error') div.style = 'background: red; padding: 10px;';
+        else {
+          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+          setTimeout(function() {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
+        }
+        updateBannerVisibility();
+      }
+
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/BFNSPUE Alpha 6 Part 2b WebGL.loader.js";
+      var config = {
+        dataUrl: buildUrl + "/BFNSPUE Alpha 6 Part 2b WebGL.data",
+        frameworkUrl: buildUrl + "/BFNSPUE Alpha 6 Part 2b WebGL.framework.js",
+        codeUrl: buildUrl + "/BFNSPUE Alpha 6 Part 2b WebGL.wasm",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "JohnsterSpaceGames",
+        productName: "Baldi's Fun New School Plus Ultimate Edition",
+        productVersion: "0.2.5b",
+        showBanner: unityShowBanner,
+      };
+
+      // By default Unity keeps WebGL canvas render target size matched with
+      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+      // Set this to false if you want to decouple this synchronization from
+      // happening inside the engine, and you would instead like to size up
+      // the canvas DOM size and WebGL render target sizes yourself.
+      // config.matchWebGLToCanvasSize = false;
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        container.className = "unity-mobile";
+        // Avoid draining fillrate performance on mobile devices,
+        // and default/override low DPI mode on mobile browsers.
+        config.devicePixelRatio = 1;
+        unityShowBanner('WebGL builds are not supported on mobile devices.');
+      } else {
+        canvas.style.width = "960px";
+        canvas.style.height = "600px";
+      }
+      canvas.style.background = "url('" + buildUrl + "/BFNSPUE Alpha 6 Part 2b WebGL.jpg') center / cover";
+      loadingBar.style.display = "block";
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+          loadingBar.style.display = "none";
+          fullscreenButton.onclick = () => {
+            unityInstance.SetFullscreen(1);
+          };
+        }).catch((message) => {
+          alert(message);
+        });
+      };
+      document.body.appendChild(script);
+    </script>
+  </body>
 </html>
+

@@ -1,6 +1,6 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en-us">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+ 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -8,171 +8,119 @@
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
 <head>
-    <base href="https://cdn.jsdelivr.net/gh/genizy/web-port@main/amanda-the-adventurer/">
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | Amanda The Adventurer</title>
-    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <title>Unity WebGL Player | AdVenture Capitalist!</title>
     <link rel="stylesheet" href="TemplateData/style.css">
-    <style>
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            height: 100%;
-            width: 100%;
-        }
+    <script src="TemplateData/UnityProgress.js"></script>
+    <script src="/js/all.js"></script>
 
-        #unity-container {
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-        }
-    </style>
 </head>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-PXHK7Q7G3Z');
-</script>
-<body>
-    <div id="loading-text" style="color: black; font-family: cursive; font-size: 48px; text-align: center; margin-top: 20px;">LOADING...</div>
-    <div id="unity-container" class="unity-desktop" hidden>
-        <canvas id="unity-canvas" width=960 height=600></canvas>
-        <div id="unity-loading-bar">
-            <div id="unity-logo"></div>
-            <div id="unity-progress-bar-empty">
-                <div id="unity-progress-bar-full"></div>
-            </div>
-        </div>
-        <div id="unity-warning"> </div>
+ 
+<body class="template">
+    <div class="webgl-content">
+        <div id="unityContainer" style="width: 960px; height: 600px; padding: 0px; margin: 0px; border: 0px; position: relative; background: rgb(35, 31, 32);">
+          
+      <canvas  class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" id="canvas"width=335 height=667 style="width: 100%; height: 100%; background: #231F20"></canvas>
+      
+    <div id="loadingBox">
+        <div id="bgBar"></div>
+        <div id="progressBar"></div>
+        <p id="loadingInfo">Loading...</p>
     </div>
-    <script>
-
-        var container = document.querySelector("#unity-container");
-        var canvas = document.querySelector("#unity-canvas");
-        var loadingBar = document.querySelector("#unity-loading-bar");
-        var progressBarFull = document.querySelector("#unity-progress-bar-full");
-        var fullscreenButton = document.querySelector("#unity-fullscreen-button");
-        var warningBanner = document.querySelector("#unity-warning");
-        var loadingText = document.querySelector("#loading-text");
-
-        function unityShowBanner(msg, type) {}
-
-        function mergeFiles(fileParts) {
-            return Promise.all(fileParts.map(part => fetch(part).then(res => res.arrayBuffer()).then(buf => {
-                doneparts++;
-                loadingText.textContent = `LOADING... (${doneparts}/${maxparts})`;
-                return buf;
-            }))).then(buffers => {
-                const mergedBlob = new Blob(buffers);
-                return URL.createObjectURL(mergedBlob);
-            });
-        }
-        let doneparts = 0;
-        let maxparts = 0;
-
-        function getParts(file, start, end) {
-            let parts = [];
-            for (let i = start; i <= end; i++) {
-                parts.push(file + ".part" + i);
-            }
-            maxparts = maxparts + parts.length;
-            return parts;
-        }
-        const originalFetch = window.fetch;
-        window.fetch = async function (...args) {
-            const url = args[0];
-            if (typeof url === "string") {
-                if (url.includes("gn-math.github.io/Clip_Secret Tape 2.webm")) {
-                    return new Response(f2Url, {
-                        status: 200
-                    });
-                } else if (url.includes("gn-math.github.io/Clip_Secret Tape 3.webm")) {
-                    return new Response(f3Url, {
-                        status: 200
-                    });
-                } else if (url.includes("gn-math.github.io/Clip_Secret Tape 5.webm")) {
-                    return new Response(f5Url, {
-                        status: 200
-                    });
-                } else if (url.includes("gn-math.github.io/Clip_Secret Tape 6.webm")) {
-                    return new Response(f6Url, {
-                        status: 200
-                    });
+    <script type='text/javascript'>
+        // connect to canvas
+        var Module = {
+            TOTAL_MEMORY: 201326592,
+            filePackagePrefixURL: "Release/",
+            memoryInitializerPrefixURL: "Release/",
+            preRun: [],
+            postRun: [],
+            print: (function() {
+                return function(text) {
+                    console.log(text);
+                };
+            })(),
+            printErr: function(text) {
+                console.error(text);
+            },
+            canvas: document.getElementById('canvas'),
+            progress: null,
+            setStatus: function(text) {
+                if (this.progress == null) {
+                    if (typeof UnityProgress != 'function')
+                        return;
+                    this.progress = new UnityProgress(canvas);
                 }
+                if (!Module.setStatus.last) Module.setStatus.last = {
+                    time: Date.now(),
+                    text: ''
+                };
+                if (text === Module.setStatus.text) return;
+                this.progress.SetMessage(text);
+                var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
+                if (m)
+                    this.progress.SetProgress(parseInt(m[2]) / parseInt(m[4]));
+                if (text === "")
+                    this.progress.Clear()
+            },
+            totalDependencies: 0,
+            monitorRunDependencies: function(left) {
+                this.totalDependencies = Math.max(this.totalDependencies, left);
+                Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies - left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
             }
-            return originalFetch.apply(this, args);
         };
-        let f2Url = null;
-        let f6Url = null;
-        let f3Url = null;
-        let f5Url = null;
-        Promise.all([
-            mergeFiles(getParts("Build/Build.wasm", 1, 4)),
-            mergeFiles(getParts("Build/Build.data", 1, 63)),
-            // ---
-            mergeFiles(getParts("gn-math.github.io/Clip_Secret Tape 2.webm", 1, 2)),
-            mergeFiles(getParts("gn-math.github.io/Clip_Secret Tape 6.webm", 1, 2)),
-            mergeFiles(getParts("gn-math.github.io/Clip_Secret Tape 3.webm", 1, 2)),
-            mergeFiles(getParts("gn-math.github.io/Clip_Secret Tape 5.webm", 1, 3))
-        ]).then(([wasmUrl, dataUrl, f2, f6, f3, f5]) => {
-            f2Url = f2;
-            f6Url = f6;
-            f3Url = f3;
-            f5Url = f5;
-            container.hidden = false;
-            var buildUrl = "Build";
-            var loaderUrl = buildUrl + "/Build.loader.js";
-            var config = {
-                dataUrl: dataUrl,
-                frameworkUrl: buildUrl + "/Build.framework.js",
-                codeUrl: wasmUrl,
-                streamingAssetsUrl: "StreamingAssets",
-                companyName: "MangledMaw",
-                productName: "Amanda The Adventurer",
-                productVersion: "1.6.17b",
-                showBanner: unityShowBanner,
-            };
-            if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-                var meta = document.createElement('meta');
-                meta.name = 'viewport';
-                meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-                document.getElementsByTagName('head')[0].appendChild(meta);
-                container.className = "unity-mobile";
-                canvas.className = "unity-mobile";
-            } else {
-                function resizeCanvas() {
-                    canvas.width = window.innerWidth;
-                    canvas.height = window.innerHeight;
-                    canvas.style.width = window.innerWidth + "px";
-                    canvas.style.height = window.innerHeight + "px";
-                }
-                resizeCanvas();
-                window.addEventListener('resize', resizeCanvas);
-            }
-            loadingBar.style.display = "block";
-            var script = document.createElement("script");
-            script.src = loaderUrl;
-            script.onload = () => {
-                createUnityInstance(canvas, config, (progress) => {
-                    progressBarFull.style.width = 100 * progress + "%";
-                }).then((unityInstance) => {
-                    loadingBar.style.display = "none";
-                    document.querySelector("#loading-text").remove();
-                }).catch((message) => {
-                    alert(message);
-                });
-            };
+        Module.setStatus('Downloading (0.0/1)');
+    </script>
+    <script src="Release/UnityConfig.js"></script>
+    <script src="Release/fileloader.js"></script>
+    <script>
+        if (!(!Math.fround)) {
+            var script = document.createElement('script');
+            script.src = "Release/webgl.js";
             document.body.appendChild(script);
-        });
-
+        } else {
+            var codeXHR = new XMLHttpRequest();
+            codeXHR.open('GET', 'Release/webgl.js', true);
+            codeXHR.onload = function() {
+                var code = codeXHR.responseText;
+                if (!Math.fround) {
+                    try {
+                        console.log('optimizing out Math.fround calls');
+                        var m = /var ([^=]+)=global\.Math\.fround;/.exec(code);
+                        var minified = m[1];
+                        if (!minified) throw 'fail';
+                        var startAsm = code.indexOf('// EMSCRIPTEN_START_FUNCS');
+                        var endAsm = code.indexOf('// EMSCRIPTEN_END_FUNCS');
+                        var asm = code.substring(startAsm, endAsm);
+                        do {
+                            var moar = false; // we need to re-do, as x(x( will not be fixed
+                            asm = asm.replace(new RegExp('[^a-zA-Z0-9\\$\\_]' + minified + '\\(', 'g'), function(s) {
+                                moar = true;
+                                return s[0] + '('
+                            });
+                        } while (moar);
+                        code = code.substring(0, startAsm) + asm + code.substring(endAsm);
+                        code = code.replace("'use asm'", "'almost asm'");
+                    } catch (e) {
+                        console.log('failed to optimize out Math.fround calls ' + e)
+                    }
+                }
+                var blob = new Blob([code], {
+                    type: 'text/javascript'
+                });
+                codeXHR = null;
+                var src = URL.createObjectURL(blob);
+                var script = document.createElement('script');
+                script.src = URL.createObjectURL(blob);
+                script.onload = function() {
+                    URL.revokeObjectURL(script.src);
+                };
+                document.body.appendChild(script);
+            };
+            codeXHR.send(null);
+        }
     </script>
 </body>
-
+ 
 </html>

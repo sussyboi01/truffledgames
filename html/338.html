@@ -1,148 +1,235 @@
 <!DOCTYPE html>
 <html lang="en-us">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+  <head>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-<head>
-	<base href="https://cdn.jsdelivr.net/gh/genizy/web-port@master/yandere-simulator/">
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>YandereSimulator</title>
-    <script src="Build/UnityLoader.js"></script>
-    <style>
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            overflow: hidden;
-        }
 
-        #unityContainer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #000;
-        }
-
-        #unityContainer canvas {
-            width: 100% !important;
-            height: 100% !important;
-            display: block;
-        }
-
-        #loading-text {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 48px;
-            font-family: cursive;
-            text-align: center;
-        }
-    </style>
-
+	<base href="https://cdn.jsdelivr.net/gh/gn-math/assets@main/117/">
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Space Waves</title>
+    <link rel="stylesheet" href="TemplateData/style.css">
+	<link rel="manifest" href="manifest.json">
+  </head>
+  <body class="noselect">
+    <div id="unity-container">
+      <canvas id="unity-canvas"></canvas>
+    </div>
+    <div id="loading-cover" style="display:none;">
+      <div id="unity-loading-bar">
+        <div id="unity-logo"><img src="logo.png"></div>
+        </br></br></br>
+        <div id="unity-progress-bar-empty" style="display: none;">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+        <div class="spinner"></div>
+      </div>
+    </div>
+	
     <script>
-        let max = 0,
-            done = 0;
-
-        function mergeFiles(fileParts) {
-            return new Promise((resolve, reject) => {
-                const buffers = [];
-                const fetchPart = (index) => {
-                    if (index >= fileParts.length) {
-                        const blob = new Blob(buffers);
-                        resolve(URL.createObjectURL(blob));
-                        return;
-                    }
-                    fetch(fileParts[index])
-                        .then(r => r.arrayBuffer())
-                        .then(b => {
-                            buffers.push(b);
-                            done++;
-                            document.querySelector("#loading-text").textContent = `LOADING... (${done}/${max})`;
-                            fetchPart(index + 1);
-                        })
-                        .catch(reject);
-                };
-                fetchPart(0);
-            });
+	  window.addEventListener("load", function () {
+        if ("serviceWorker" in navigator) {
+          navigator.serviceWorker.register("ServiceWorker.js");
         }
+      });
+	  
+	  const container = document.querySelector("#unity-container");
+      const canvas = document.querySelector("#unity-canvas");
+      const loadingCover = document.querySelector("#loading-cover");
+      const progressBarEmpty = document.querySelector("#unity-progress-bar-empty");
+      const progressBarFull = document.querySelector("#unity-progress-bar-full");
+      const spinner = document.querySelector('.spinner');
 
-        function getParts(file, start, end) {
-            const parts = [];
-            for (let i = start; i <= end; i++) parts.push(`${file}.part${i}`);
-            max += end;
-            return parts;
-        }
-
-        Promise.all([
-            mergeFiles(getParts("Build/YandereSim.data.unityweb", 1, 5)),
-        ]).then(([dataUrl]) => {
-            const json = {
-                companyName: "YandereDev",
-                productName: "YandereSimulator",
-                dataUrl: dataUrl,
-                wasmCodeUrl: "YandereSim.wasm.code.unityweb",
-                wasmFrameworkUrl: "YandereSim.wasm.framework.unityweb",
-                TOTAL_MEMORY: 268435456,
-                graphicsAPI: ["WebGL 2.0", "WebGL 1.0"],
-                webglContextAttributes: {
-                    preserveDrawingBuffer: false
-                },
-                splashScreenStyle: "Dark",
-                backgroundColor: "#000000",
-                cacheControl: {
-                    default: "must-revalidate"
-                }
-            };
-
-            const blob = new Blob([JSON.stringify(json)], {
-                type: "application/json"
-            });
-            const blobUrl = URL.createObjectURL(blob);
-
-            const gameInstance = UnityLoader.instantiate("unityContainer", json, {
-                url: blobUrl,
-                Module: {
-                    onRuntimeInitialized: () => {
-                        const loadingText = document.querySelector("#loading-text");
-                        if (loadingText) loadingText.remove();
-                    },
-                },
-            });
-
-            const resize = () => {
-                const container = document.getElementById("unityContainer");
-                container.style.width = window.innerWidth + "px";
-                container.style.height = window.innerHeight + "px";
-            };
-            window.addEventListener("resize", resize);
-            resize();
+      const buildUrl = "Build";
+      const loaderUrl = buildUrl + "/dae5c7bd2b15915f51ae4e56b8f5367d.loader.js";
+      const config = {
+        dataUrl: buildUrl + "/568ea6b3af616bd57f419c508c933303.data.unityweb",
+        frameworkUrl: buildUrl + "/c699bc4c24abfbdb4c8b3e15b0af7d3f.framework.js.unityweb",
+        codeUrl: buildUrl + "/7fb5141de5923189bc1dc5f94eb619f2.wasm.unityweb",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "do.Games",
+        productName: "Space Waves",
+        productVersion: "1.1.2-ms",
+		matchWebGLToCanvasSize: "false"
+      };
+	  
+      loadingCover.style.display = "";
+	  
+	  var needMigrate = false;
+	  var gameInstance;
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+		  spinner.style.display = "none";
+          progressBarEmpty.style.display = "";
+          progressBarFull.style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+		  console.log("<do.G> Unity inited");
+          gameInstance = unityInstance;
+          loadingCover.style.display = "none";
+		  resizeCanvas();
+		  loadAds();
+		  
+		  if (needMigrate) {
+			needMigrate = false;
+		    gameInstance.SendMessage('MSStartSDK', 'OnMigratePlayerPrefs', window["fetchPlayerPrefs"]);
+		  }
+		  
+        }).catch((message) => {
+          alert(message);
         });
+      };
+      document.body.appendChild(script);
+	  
+	  // Focus
+  	  function setFocus() {
+  	    container.focus();
+  		window.focus();
+  		canvas.focus();
+  	  }
+
+  	  window.addEventListener("touchstart", () => {
+  	    setFocus();
+  	  });
+  	  window.addEventListener("pointerdown", () => {
+  	    setFocus();
+  	  });
+  	  window.addEventListener("resize", () => {
+  	    setFocus();
+		resizeCanvas();
+  	  });
+	  
+	  function resizeCanvas() {
+		var pixelRatio = window.devicePixelRatio || 1;
+		var width = canvas.clientWidth * pixelRatio;
+		var height = canvas.clientHeight * pixelRatio;
+			
+		if (canvas.width != width || canvas.height != height) {
+			if (height > 1080) {
+				canvas.width = Math.floor(width / height * 1080);
+				canvas.height = 1080;
+			}
+			else
+			{
+				canvas.width = width;
+				canvas.height = height;
+			}
+		}
+	  }
+	  
+	  function migratePlayerPrefs() {
+	    if (typeof gameInstance !== 'undefined') {
+		  gameInstance.SendMessage('MSStartSDK', 'OnMigratePlayerPrefs', window["fetchPlayerPrefs"]);
+		} else {
+		  needMigrate = true;
+		}
+	  }
     </script>
-</head>
-
-<body>
-    <div id="loading-text" style="
-					color: white;
-					font-size: 48px;
-					font-family: 'Comic Sans MS', cursive;
-					text-align: center;
-					margin-top: 20px;
-				">
-        LOADING...
-    </div>LOADING...</div>
-    <div id="unityContainer"></div>
-</body>
-
+	
+	<script src="https://assets.msn.com/staticsb/statics/latest/msstart-games-sdk/msstart-v1.0.0-rc.13.min.js"></script>
+	
+	<script>
+	
+	  var _interstitialAdInstance = null;
+	  var _rewardedAdInstance = null;
+	  
+	  function loadAds() {
+	    loadInterstitialAd();
+	    loadRewardedAd();
+	  }
+	  
+	  function loadInterstitialAd() {
+	    _interstitialAdInstance = null;
+		
+		$msstart.loadAdsAsync().then(adInstance => {
+		  // Use the adInstance.instanceId to make a call to showAdsAsync
+		  _interstitialAdInstance = adInstance;
+		  console.log("Interstitial ad successfully loaded!");
+	    }).catch(e => {
+		  console.error('<do.G> Error loading interstitial ad. Will retry in 20 seconds...', e);
+		  setTimeout(loadInterstitialAd, 20000);
+		});
+	  }
+	  
+	  function loadRewardedAd() {
+	    _rewardedAdInstance = null;
+		
+		$msstart.loadAdsAsync(true).then(adInstance => {
+		  // Pass in boolean true for the optional parameter isRewardedAd, to fetch Rewarded ads
+		  _rewardedAdInstance = adInstance;
+		  console.log("Rewarded ad successfully loaded!");
+	    }).catch(e => {
+		  console.error('<do.G> Error loading rewarded ad. Will retry in 20 seconds...', e);
+		  setTimeout(loadRewardedAd, 20000);
+		});
+	  }
+	  
+	  async function showInterstitialAd() {
+	    if (_interstitialAdInstance == null) {
+		  gameInstance.SendMessage('MSStartSDK', 'OnInterstitialAdShowError');
+		  return;
+		}
+		
+		let t;
+		
+		try {
+		  t = await $msstart.showAdsAsync(_interstitialAdInstance.instanceId);
+		} catch (e) {
+		  console.error('<do.G> Error show interstitial ad: ', e);
+		  gameInstance.SendMessage('MSStartSDK', 'OnInterstitialAdShowError');
+		  loadInterstitialAd();
+		}
+		
+		if (t) {
+		  try {
+		    await t.showAdsCompletedAsync;
+			gameInstance.SendMessage('MSStartSDK', 'OnInterstitialAdClose');
+			loadInterstitialAd();
+		  } catch (e) {
+            console.error('<do.G> Error interstitial showAdsCompletedAsync: ', e);
+		    gameInstance.SendMessage('MSStartSDK', 'OnInterstitialAdShowError');
+		    loadInterstitialAd();
+          }
+		}
+	  }
+	  
+	  async function showRewardedAd() {
+	    if (_rewardedAdInstance == null) {
+		  gameInstance.SendMessage('MSStartSDK', 'OnRewardedAdShowError');
+		  return;
+		}
+		
+		let t;
+		
+		try {
+		  t = await $msstart.showAdsAsync(_rewardedAdInstance.instanceId);
+		} catch (e) {
+		  console.error('<do.G> Error show rewarded ad: ', e);
+		  gameInstance.SendMessage('MSStartSDK', 'OnRewardedAdShowError');
+		  loadRewardedAd();
+		}
+		
+		if (t) {
+		  try {
+		    await t.showAdsCompletedAsync;
+			gameInstance.SendMessage('MSStartSDK', 'OnReward');
+			loadRewardedAd();
+		  } catch (e) {
+            console.error('<do.G> Error rewarded showAdsCompletedAsync: ', e);
+		    gameInstance.SendMessage('MSStartSDK', 'OnRewardedAdShowError');
+		    loadRewardedAd();
+          }
+		}
+	  }
+	  
+	</script>
+	
+  </body>
 </html>

@@ -1,51 +1,104 @@
 <!DOCTYPE html>
-<html lang="en-us">
-	<head>
-		<meta charset="utf-8" />
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Go To Bed web port</title>
-		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no" />
-		<style>
-			html, body {
-				margin: 0;
-				padding: 0;
-				overflow: hidden;
-				height: 100%;
-				width: 100%;
-			}
-			canvas {
-				display: block;
-				position: fixed;
-				top: 0;
-				left: 0;
-				width: 100vw;
-				height: 100vh;
-				background: #26251e;
-			}
-			::-webkit-scrollbar {
-				display: none;
-			}
-		</style>
-	</head>
-	<body>
-		<canvas
-			id="unity-canvas"
-			width="100vw"
-			height="100vh"
-			tabindex="-1"
-		></canvas>
+<html lang="en">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-PXHK7Q7G3Z');
+</script>
+<style type="text/css">
+  h1 {
+	  font-family: Arial, Helvetica, sans-serif;
+	  color: #F00;
+	  font-size: x-large;
+  }
+  p {
+	  font-family: Arial, Helvetica, sans-serif;
+	  color: #000;
+	  font-size: small;
+  }
+  body {
+	  background-color: #1d1d1d;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+  }
+  #bloctxt {
+	  border-left-width: 5px;
+	  border-left-style: solid;
+	  border-left-color: #F00;
+	  padding-left: 10px;
+	  position: absolute;
+	  left: 50%;
+	  width: 600px;
+	  margin-left: -260px
+  }
+</style>
+<head>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-		<script src="Build/GTBPort.loader.js"></script>
-		<script>
-			createUnityInstance(document.querySelector("#unity-canvas"), {
-				dataUrl: "Build/GTBPort.data",
-				frameworkUrl: "Build/GTBPort.framework.js",
-				codeUrl: "Build/GTBPort.wasm",
-				streamingAssetsUrl: "StreamingAssets",
-				companyName: "Joseph Mularczyk",
-				productName: "Go To Bed",
-				productVersion: "1.0",
-			});
-		</script>
-	</body>
+  <!-- Enables full-screen on iOS devices -->
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densitydpi=device-dpi" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="HandheldFriendly" content="true" />
+
+  <title>Five Nights at Freddy's 2</title>
+
+	<script>
+	   	// Detection of old browsers that do not support the canvas element
+		// Falls back to a default page
+	    if (!document.createElement("canvas").getContext)
+	    {
+			window.open("http://www.clickteam.com/html5-fallback", "_self");
+		}
+	</script>
+
+
+  	<!-- EXTRASOURCES -->
+    <!-- Loads the Javascript code...-->
+    <script src="src/Runtime.js"></script>
+
+  <script>
+
+	// Detection of when the html file is ran locally.
+	// You can remove this code for the final version
+	if (window.location.protocol == "file:")
+	{
+		document.write('<div id="bloctxt">');
+		document.write('<h1>The application cannot be run...</h1>');
+		document.write('<p>HTML browsers do not allow you to launch data files directly from the file system.<br>');
+		document.write('A drag & drop of the html file on a web-browser window will not work, on any machine.<br>');
+		document.write('Please use the Build & Run option (it opens a local web server) to run your application,<br>')
+		document.write('or upload your application folder to a remote web-server, and start it from there...</p>');
+		document.write('</div>');
+		throw new error("Cannot run application");
+	}
+  </script>
+</head>
+
+<body>
+
+<div style="display: inline-block; -webkit-user-select: none; text-align: left;">
+    <canvas id="MMFCanvas" width="1024" height="768">
+    	Your browser does not support Canvas.
+    </canvas>
+</div>
+
+<script>
+    // RUNTIMESTART
+    // This is where the HTML5 runtime is actually started
+    window.addEventListener("load", windowLoaded, false);
+    function windowLoaded()
+    {
+        // Calls the runtime
+        // First parameter : name of the canvas element
+        // Second parameter : path to the cch file. Images and sounds must lay beside this file
+        new Runtime("MMFCanvas", "resources/FiveNights2NOHACKS.cch");
+    }
+    // RUNTIMESTARTEND
+</script>
+</body>
 </html>

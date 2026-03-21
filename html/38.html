@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Google tag (gtag.js) -->
+    <head>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -9,50 +8,90 @@
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>Bloxors | 3kh0</title>
-    <link rel="shortcut icon" type="image/ico" href="favicon.ico">
-    <script>
-      window.RufflePlayer = window.RufflePlayer || {};
-      window.RufflePlayer.config = {
-        "publicPath": undefined,
-        "polyfills": true,
-        "autoplay": "auto",
-        "unmuteOverlay": "visible",
-        "backgroundColor": "black",
-        "letterbox": "fullscreen",
-        "warnOnUnsupportedContent": true,
-        "contextMenu": true,
-        "showSwfDownload": false,
-        "upgradeToHttps": window.location.protocol === "https:",
-        "maxExecutionDuration": {"secs": 15, "nanos": 0},
-        "logLevel": "error",
-        "base": null,
-        "menu": true,
-        "salign": "",
-        "scale": "showAll",
-        "quality": "high",
-      };
-    </script>
-  </head>
-  <body style="background-color:black;">
-    <center>
-      <div id="container" style="height:100%;width:100%;"></div>
-    <script>
-      window.RufflePlayer = window.RufflePlayer || {};
-      window.addEventListener("load", (event) => {
-          const ruffle = window.RufflePlayer.newest();
-          const player = ruffle.createPlayer();
-          const container = document.getElementById("container");
-          container.appendChild(player);
-          player.style.height = "600px";
-          player.style.width = "937px";
-          player.load("bloxors.swf");
-      });
-    </script>
-    <script src="ruffle/ruffle.js"></script>
-    <script src="/js/main.js"></script>
-    </center>
-  </body>
+<script src="/js/all.min.js"></script>
+
+
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+        <link rel="stylesheet" href="assets/css/app.css" type="text/css" />
+        <title>Basketball Stars</title>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    </head>
+    <body>
+        <div id="content"></div>
+        <div id="orientation"></div>
+        <div id="loader">Loading ...</div>
+        <script type="text/javascript" src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+        <script type="text/javascript" src="assets/box2dweb/nape.min.js">
+            var nape ="nape.min.js" ;
+        </script>
+        <script type="text/javascript" src="assets/box2dweb/nape-debug-draw.min.js"></script>
+        <script type="text/javascript" src="assets/box2dweb/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="assets/box2dweb/easeljs-0.8.2.combined.js"></script>
+        <script type="text/javascript" src="assets/box2dweb/bluebird.min.js"></script>
+        <script type="text/javascript">
+            var useEvents = typeof Event === "function";
+
+            var myDispatchEvent = function (name) {
+                var event;
+                if (useEvents) {
+                    event = new Event(name);
+                } else {
+                    event = document.createEvent("Event");
+                    event.initEvent(name, true, true);
+                }
+                document.getElementById("content").dispatchEvent(event);
+            };
+
+            window["GD_OPTIONS"] = {
+                gameId: "69d78d071f704fa183d75b4114ae40ec",
+                onEvent: function (event) {
+                    switch (event.name) {
+                        case "SDK_GAME_START":
+                            // advertisement done, resume game logic and unmute audio
+                            myDispatchEvent("SDK_GAME_START");
+                            break;
+                        case "SDK_GAME_PAUSE":
+                            // pause game logic / mute audio
+                            myDispatchEvent("SDK_GAME_PAUSE");
+                            // document.getElementById("content").dispatchEvent(new Event("SDK_GAME_PAUSE"));
+                            break;
+                        case "SDK_GDPR_TRACKING":
+                            // this event is triggered when your user doesn't want to be tracked
+                            console.log("SDK_GDPR_TRACKING");
+                            break;
+                        case "SDK_GDPR_TARGETING":
+                            // this event is triggered when your user doesn't want personalised targeting of ads and such
+                            console.log("SDK_GDPR_TARGETING");
+                            break;
+                        case "SDK_READY":
+                            // this event is triggered when your user doesn't want personalised targeting of ads and such
+                            console.log("SDK_READY");
+                            // gdsdk.openConsole();
+                            break;
+                    }
+                },
+            };
+            (function (d, s, id) {
+                var js,
+                    fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "assets/main.min.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            })(document, "script", "gamedistribution-jssdk");
+        </script>
+        <script type="text/javascript" src="assets/basketball_legends_2019.min.js"></script>
+    </body>
 </html>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-PXHK7Q7G3Z');
+</script>

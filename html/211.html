@@ -1,41 +1,81 @@
+<!DOCTYPE html>
 <html>
-  <head>
+<head>
+	
+	<title>Quasar PSP Loader</title>
+	<meta charset="UTF-8">
+	<style>
+		body {
+			overflow: hidden;
+			background: #000;
+			margin: 0;
+			color: #fff;
+			font-family: sans-serif;
+		}
+		#loadingText {
+			text-align: center;
+			font-size: 48px;
+			margin-top: 40vh;
+		}
+	</style>
+</head>
+<body>
+	<h1 id="loadingText">LOADING (0/13)</h1>
+	<div style="width:100vw;height:100vh;">
+		<div id="game" style="display:none;"></div>
+	</div>
+	<script>
+		function mergeFiles(fileParts) {
+			return new Promise((resolve, reject) => {
+				let buffers = [];
 
-<script src="/js/all.min.js"></script>
-<link rel="icon" type="image/png" href="/favicon.ico">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Papa's Bakeria</title>
-    <style>html{background-color:#000;}</style>
-  </head>
-  <body>
-    <div id="ruffle" width="100%" height="100%"></div>
-    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
-    <script>
-      window.RufflePlayer = window.RufflePlayer || {};
-      window.addEventListener("load", (event) => {
-        const ruffle = window.RufflePlayer.newest();
-        const player = ruffle.createPlayer();
-        const container = document.getElementById("ruffle");
-        player.id = "player";
-        player.style.width = "100%";
-        player.style.height = "100%";
-        container.appendChild(player);
-        player.load("papasbakeria.swf");
-      });
-    </script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+				function fetchPart(index) {
+					if (index >= fileParts.length) {
+						const blob = new Blob(buffers);
+						resolve(URL.createObjectURL(blob));
+						return;
+					}
+					fetch(fileParts[index])
+						.then(r => r.arrayBuffer())
+						.then(data => {
+							buffers.push(data);
+							document.getElementById("loadingText").textContent =
+								`LOADING (${index + 1}/13)`;
+							fetchPart(index + 1);
+						})
+						.catch(reject);
+				}
+				fetchPart(0);
+			});
+		}
+		function getParts(file, start, end) {
+			let parts = [];
+			for (let i = start; i <= end; i++) {
+			parts.push(file + ".part" + i);
+		}
+		return parts;
+		}
+		mergeFiles(getParts("game.zip", 1, 13)).then(gameUrl => {
+			document.getElementById("loadingText").remove();
+			const gameDiv = document.getElementById("game");
+			gameDiv.style.display = "block";
+			window.EJS_player = "#game";
+			window.EJS_core = "psp";
+			window.EJS_gameID = "quasar-psp-lbp"; 
+			window.EJS_threads = "auto"; 
+			window.EJS_gameUrl = gameUrl;
+			window.EJS_pathtodata = "/extra/data/";
+			const script = document.createElement("script");
+			script.src = "/extra/data/loader.js";
+			document.body.appendChild(script);
+		});
+	</script>
+</body>
+</html>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
-</script>
-  </body>
-</html>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-WLTG1S4STB');
 </script>

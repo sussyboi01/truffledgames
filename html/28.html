@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
   <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
@@ -8,46 +7,31 @@
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-    <meta charset="UTF-8" />
-    <title>Basket Random</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
-    <meta name="generator" content="Construct 3" />
+    <title>Baldi's Basics</title>
+    <link rel="icon" type="image/png" href="/favicon.ico" />
+    <script type="text/javascript" src="/js/all.js"></script>
 
-    <link rel="manifest" href="appmanifest.json" />
-    <link rel="icon" href="./splash.jpeg">
-    <link rel="stylesheet" href="style.css" />
-    <script src="/js/main.js"></script>
+    <link rel="stylesheet" href="TemplateData/style.css" />
+    <script src="TemplateData/UnityProgress.js"></script>
+    <script src="baldi.js"></script>
     <script>
-      window.addEventListener(
-        "keydown",
-        function (e) {
-          // space and arrow keys
-          if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-            e.preventDefault();
-          }
+      var gameInstance = UnityLoader.instantiate("gameContainer", "baldi.json", {
+        onProgress: UnityProgress,
+        Module: {
+          onRuntimeInitialized: function () {
+            UnityProgress(gameInstance, "complete");
+          },
         },
-        false
-      );
+      });
     </script>
   </head>
-  <body>
-    <script src="box2d.wasm.js"></script>
-    <noscript>
-      <div id="notSupportedWrap">
-        <h2 id="notSupportedTitle">This content requires JavaScript</h2>
-        <p class="notSupportedMessage">
-          JavaScript appears to be disabled. Please enable it to view this content.
-        </p>
-        <p class="notSupportedMessage">
-          This content was made with Construct 3 - a
-          <a href="https://www.construct.net/en">free game maker</a>.
-        </p>
+  <body style="margin: 0;">
+    <div class="webgl-content">
+      <div id="unityContainer" style="width: 960px; height: 600px; padding: 0px; margin: 0px; border: 0px; position: relative; background: rgb(35, 31, 32);">
+        <div id="gameContainer" style="width: 800px; height: 560px; margin: auto;"></div>
       </div>
-    </noscript>
-    <script src="scripts/supportcheck.js"></script>
-    <script src="scripts/offlineclient.js"></script>
-    <script src="scripts/main.js"></script>
-    <script src="scripts/register-sw.js"></script>
+      <script src="firebase-app.js"></script>
+    </div>
   </body>
 </html>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>

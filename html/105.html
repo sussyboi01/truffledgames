@@ -1,283 +1,364 @@
+<!doctype html>
 <html lang="en-us">
-  <base href="https://cdn.jsdelivr.net/gh/bubbls/escape-road@45b2d69c626dc365753f6922d2c48c4075683ef5/drive.google.com/escape%20road/">
 <head>
-<meta charset="utf-8">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Escape Road</title>
-<link rel="shortcut icon" href="icon.png">
-<link rel="stylesheet" href="TemplateData/style.css">
-<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-<script>eruda.init()</script>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>doom 3</title>
+    <style>
+        @font-face {
+            font-family: 'SteamConsole';
+            src: url('SteamConsole.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        #game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        canvas.emscripten {
+            border: 0px none;
+            background-color: black;
+            display: block;
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            z-index: 10;
+        }
+
+        #status {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #787878;
+            font-family: 'SteamConsole', monospace;
+        }
+
+        #progress {
+            margin-top: 5px;
+            width: 300px;
+            height: 20px;
+            appearance: none;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        #progress::-webkit-progress-bar {
+            background-color: #333;
+        }
+        #progress::-webkit-progress-value {
+            background-color: #bd2b0c;
+        }
+
+        .spinner {
+            height: 30px;
+            width: 30px;
+            -webkit-animation: rotation .8s linear infinite;
+            -moz-animation: rotation .8s linear infinite;
+            -o-animation: rotation .8s linear infinite;
+            animation: rotation 0.8s linear infinite;
+
+            border-left: 0px solid rgb(235, 235, 235);
+            border-right: 0px solid rgb(235, 235, 235);
+            border-bottom: 0px solid rgb(235, 235, 235);
+            border-top: 0px solid rgb(120, 120, 120);
+
+            border-radius: 100%;
+            background-color: transparent;
+        }
+
+        @-webkit-keyframes rotation { from { -webkit-transform: rotate(0deg); } to { -webkit-transform: rotate(360deg); } }
+        @-moz-keyframes rotation { from { -moz-transform: rotate(0deg); } to { -moz-transform: rotate(360deg); } }
+        @-o-keyframes rotation { from { -o-transform: rotate(0deg); } to { -o-transform: rotate(360deg); } }
+        @keyframes rotation { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        #console {
+            position: absolute;
+            width: 600px; 
+            height: 400px; 
+            background-color: #4c584a; 
+            border: 1px solid #2c322b; 
+            z-index: 20;
+            display: none;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+            font-family: 'SteamConsole', monospace;
+            font-size: 14px;
+        }
+
+        #console-header {
+            background-color: #2c322b; 
+            color: #d1d1d1;
+            padding: 5px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            cursor: move;
+            border-bottom: 1px solid #3d453b; 
+        }
+
+        #console-close {
+            color: #d1d1d1;
+            cursor: pointer;
+            font-weight: bold;
+            padding: 0 5px;
+        }
+
+        #console-output {
+            flex-grow: 1;
+            padding: 10px;
+            overflow-y: auto;
+            color: #d1d1d1;
+            white-space: pre-wrap;
+            background-color: #414c3e; 
+        }
+
+        #console-input-area {
+            display: flex;
+            padding: 5px;
+            border-top: 1px solid #636f61; 
+            background-color: #4c584a; 
+        }
+
+        #console-input {
+            flex-grow: 1;
+            background-color: #414c3e; 
+            border: 1px solid #2c322b; 
+            padding: 5px;
+            color: #d1d1d1;
+            outline: none;
+            font-family: 'SteamConsole', monospace;
+            font-size: 14px;
+        }
+
+        #console-submit {
+            background-color: #636f61; 
+            color: #2c322b; 
+            border: 1px solid #2c322b; 
+            padding: 5px 15px;
+            margin-left: 5px;
+            cursor: pointer;
+            font-family: 'SteamConsole', monospace;
+            font-size: 14px;
+        }
+        #console-submit:hover {
+            background-color: #738174; 
+        }
+    </style>
 </head>
-<style>
-  @font-face {
-  font-family: myFirstFont;
-  src: url(Chainwhacks.otf);
+<body>
+
+<div id="game-container">
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner" id='spinner'></div>
+        <div id="status">Downloading...</div>
+        <progress value="0" max="100" id="progress" hidden="true"></progress>
+    </div>
+
+    <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+    <div id="console">
+        <div id="console-header">
+            <span>Console</span>
+            <span id="console-close">X</span>
+        </div>
+        <div id="console-output">
+            doom 3 consle baby<br>
+            <span id="console-log"></span>
+        </div>
+        <div id="console-input-area">
+            <input type="text" id="console-input" placeholder="Type command...">
+            <button id="console-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<script type='text/javascript'>
+  var statusElement = document.getElementById('status');
+  var progressElement = document.getElementById('progress');
+  var spinnerElement = document.getElementById('spinner');
+  var consoleElement = document.getElementById('console');
+  var consoleInput = document.getElementById('console-input');
+  var consoleLog = document.getElementById('console-log');
+  var consoleSubmit = document.getElementById('console-submit');
+  var consoleClose = document.getElementById('console-close');
+
+  function toggleConsole() {
+    var isVisible = consoleElement.style.display === 'flex';
+    if (isVisible) {
+        consoleElement.style.display = 'none';
+        Module.canvas.focus();
+    } else {
+        consoleElement.style.display = 'flex';
+        consoleInput.focus();
+    }
   }
-  #logo-canvas, body
-  {
-    font-family: myFirstFont;
+
+  function handleConsoleInput() {
+    var command = consoleInput.value.trim();
+    if (command) {
+        var logEntry = document.createElement('div');
+        logEntry.innerHTML = ']' + command;
+        consoleLog.appendChild(logEntry);
+        consoleInput.value = '';
+        consoleLog.parentElement.scrollTop = consoleLog.parentElement.scrollHeight;
+    }
   }
-</style>
-<body class="dark">
-<div id="unity-container" class="unity-desktop"><p style="opacity: 0;position: absolute;">_</p>
-<canvas id="unity-canvas"></canvas>
-</div>
-<div id="loading-cover" style="display:none;background: black;">
-<div id="unity-loading-bar">
-<canvas id="logo-canvas" style="position: absolute; background-color: black;">
-<img src="loading.png" id="ld_bg">
-<img src="car-icon.png" id="ld_car">
-</canvas>
-</div>
-</div>
-<!-- /0a502697b99e36d322eeb8daf23bc8b8.data.unityweb",
-      frameworkUrl: buildUrl + "/f9b96a5188376a54aba0e08c0ed35ba8.js.unityweb",
-      codeUrl: buildUrl + "/7b28c6f059eabf99b5ee87d37b2df90c.wasm.unityweb",
-      streamingAssetsUrl: " -->
-<img id="azlogo" class="az" src="az_logo.png">
-<script type="57480f3f31f76c75506c83a0-text/javascript">
-    const container = document.querySelector("#unity-container");
-    const canvas = document.querySelector("#unity-canvas");
-    const loadingCover = document.querySelector("#loading-cover");
-    const fullscreenButton = document.querySelector("#unity-fullscreen-button");
 
-
-
-    const buildUrl = "TemplateData";
-    const loaderUrl = buildUrl + "/loader.js";
-    const config = {
-      dataUrl: buildUrl + "/data.unityweb",
-      frameworkUrl: buildUrl + "/framework.js.unityweb",
-      codeUrl: buildUrl + "/wasm.unityweb",
-      streamingAssetsUrl: "StreamingAssets",
-      companyName: "1games.io",
-      productName: "Escape Road",
-      productVersion: "2.0",
-    };
-
-    
-    
-    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-      container.className = "unity-mobile";
-      config.devicePixelRatio = 1;
+  document.addEventListener('keydown', function(event) {
+    if (event.key === '`' || event.key === '~') {
+      event.preventDefault();
+      toggleConsole();
+    } else if (event.key === 'Enter' && consoleElement.style.display === 'flex') {
+      event.preventDefault();
+      handleConsoleInput();
     }
-    
-    function delay(ms) {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve();
-        }, ms);
-      });
-    }
-    async function load() {
+  });
 
-      var az_logo = document.getElementById('azlogo');
-      az_logo.style.opacity = 0;
-      logo_loaded = true;
-     /* var t = new Date().getTime();
-      while (az_logo.style.opacity < 1) {
-        var delta = new Date().getTime() - t;
-        az_logo.style.opacity = delta / 1000;
-        await delay(20);
+  consoleSubmit.addEventListener('click', handleConsoleInput);
+  consoleClose.addEventListener('click', toggleConsole);
+
+  var isDragging = false;
+  var currentX;
+  var currentY;
+  var initialX;
+  var initialY;
+  var xOffset = 0;
+  var yOffset = 0;
+
+  function dragStart(e) {
+    initialX = e.clientX - xOffset;
+    initialY = e.clientY - yOffset;
+    isDragging = true;
+  }
+
+  function dragEnd(e) {
+    initialX = currentX;
+    initialY = currentY;
+    isDragging = false;
+  }
+
+  function drag(e) {
+    if (isDragging) {
+      e.preventDefault();
+      currentX = e.clientX - initialX;
+      currentY = e.clientY - initialY;
+
+      xOffset = currentX;
+      yOffset = currentY;
+
+      consoleElement.style.transform = 'translate(' + currentX + 'px, ' + currentY + 'px)';
+    }
+  }
+
+  document.getElementById('console-header').addEventListener('mousedown', dragStart);
+  document.addEventListener('mouseup', dragEnd);
+  document.addEventListener('mousemove', drag);
+
+
+  var Module = {
+    preRun: [],
+    postRun: [],
+    print: (function () {
+      return function (text) {
+        if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+        
+        var logEntry = document.createElement('div');
+        logEntry.innerHTML = text;
+        consoleLog.appendChild(logEntry);
+        
+        console.log(text);
+        consoleLog.parentElement.scrollTop = consoleLog.parentElement.scrollHeight;
+      };
+    })(),
+    printErr: function (text) {
+      if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+      console.error(text);
+    },
+    canvas: (function () {
+      var canvas = document.getElementById('canvas');
+
+      canvas.addEventListener("webglcontextlost", function (e) {
+        console.error('WebGL context lost. You will need to reload the page.');
+        e.preventDefault();
+      }, false);
+
+      return canvas;
+    })(),
+    hideStatus: function() {
+      document.getElementById('loading-overlay').style.display = "none";
+    },
+    showStatus: function() {
+      document.getElementById('loading-overlay').style.display = "flex";
+    },
+    setStatus: function (text) {
+      if (!Module.setStatus.last) Module.setStatus.last = {time: Date.now(), text: ''};
+      if (text === Module.setStatus.last.text) return;
+      var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
+      var now = Date.now();
+      if (m && now - Module.setStatus.last.time < 30) return;
+      Module.setStatus.last.time = now;
+      Module.setStatus.last.text = text;
+      if (m) {
+        text = m[1];
+        progressElement.value = parseInt(m[2]) * 100;
+        progressElement.max = parseInt(m[4]) * 100;
+        progressElement.hidden = false;
+        spinnerElement.hidden = false;
+      } else {
+        progressElement.value = null;
+        progressElement.max = null;
+        progressElement.hidden = true;
+        if (!text) spinnerElement.style.display = 'none';
       }
-      await delay(1000);*/
-      az_logo.style.display = 'none';
-      logo_loaded = false;
-      
-      createUnityInstance(canvas, config, (progress) => {
-        logo_loading_percent = progress;
-        drawCanvas(progress);
-      }).then((unityInstance) => {
-        window.unityInstance = unityInstance;
-        setTimeout(() => {
-          loadingCover.style.display = "none";
-          logo_loaded = true;
-          window.focus();
-        }, 2000);
-      }).catch((message) => {
-        alert(message);
-      });
-    }
-
-    loadingCover.style.display = "";
-
-    var script = document.createElement("script");
-    script.src = loaderUrl;
-    script.onload = () => {
-      load();
-    };
-
-    // setTimeout(() => {
-    //     var progress = 0.5;
-    //     logo_loading_percent = progress;
-    //     drawCanvas(progress);
-    //   }, 1000);
-
-    // var progress = 0;
-    // setInterval(() => {
-    //   logo_loading_percent = progress;
-    //   drawCanvas(progress);
-    //   progress += 0.01;
-    // }, 30);
-
-
-    var logo_loaded = false;
-    var logo_loading_percent = 0;
-
-    window.onresize = () => {
-      // console.log('onresize');
-      drawCanvas(logo_loading_percent);
-    }
-    window.onload = () => {
-      // console.log('onload');
-      drawCanvas(logo_loading_percent);
-    }
-
-    var logo_canvas = document.getElementById("logo-canvas");
-    function drawCanvas(_percent = 0) {
-      if (logo_loaded) {
-        return;
-      }
-      resizeLogoCanvas();
-      var ctx = logo_canvas.getContext("2d");
-      var ld_bg = document.getElementById("ld_bg");
-      var ld_car = document.getElementById("ld_car");
-
-      var _sw = logo_canvas.width / 1920;
-      var _sh = logo_canvas.height / 1080;
-
-      if (_percent > 1) {
-        _percent = 1;
-      }
-
-      //bgbar
-      var bgbar_H = 86;
-      var bgbar_W = 1383;
-      //fillbar
-      var fillbar_H = 55;
-      var fillbar_W = 1345;
-      //Mask
-      var maskbar_H = 55;
-      var maskbar_W = 1350;
-      //bg_bar_mask
-      var bgbar_mask_H = 86;
-      var bgbar_mask_W = 1383;
-
-      var posshowbar_Y = 200;   //position loadingbar 
-
-      var posbgbar_X = (1920 - bgbar_W) / 2; // center
-      var posbgbar_Y = posshowbar_Y;
-
-      var posfillbar_X = (1920 - fillbar_W) / 2;
-      var posfillbar_Y = posshowbar_Y - 15;
-
-      var posmaskbar_X = (1920 - maskbar_W) / 2;
-      var posmaskbar_Y = posshowbar_Y - 15;
-
-      var _fl = 0;
-      var _fl1 = posmaskbar_X + _percent * maskbar_W;
-
-      var _fw = maskbar_W - _percent * maskbar_W;
-
-      // console.log(`${logo_canvas.width} ${logo_canvas.height}`);
-      //background
-      ctx.drawImage(ld_bg, 0, 0, logo_canvas.width, logo_canvas.height);
-
-      //loading background
-      ctx.fillStyle = "#977e21";
-      var _lw = 700;
-      var _lh = 50;
-      ctx.fillRect((1920 - _lw) * 0.5 * _sw, (1080 - 150) * _sh, _lw * _sw, _lh * _sh);
-
-      //loading progress
-      ctx.fillStyle = "#fad234";
-      var _pad = 5;
-      var _pw = (_lw - _pad * 2);
-      var _ph = _lh - _pad * 2;
-      var _px = (1920 - _pw) * 0.5;
-      ctx.fillRect(_px * _sw, (1080 - 150 + _pad) * _sh, _pw * _percent * _sw, _ph * _sh);
-
-      //car
-      var _car_x = _px + _pw * _percent - 100;
-      if (_car_x < _px) {
-        _car_x = _px;
-      }
-     // ctx.drawImage(ld_car,  _car_x * _sw, (1080 - 190) * _sh, 100 * _sw, 42 * _sh);
-
-
-      ctx.font = "18px myFirstFont";
-      const match = /(?<value>\d+\.?\d*)/;
-      const setFontSize = (size) => ctx.font = ctx.font.replace(match, size);
-      setFontSize(35 * _sh);
-      ctx.textAlign = "center";
-      ctx.fillStyle = "#fff";
-      ctx.shadowColor = "black";
-      ctx.shadowOffsetY = 2;
-      var new_per = parseInt(_percent * 100);
-      ctx.fillText("" + new_per + "%", logo_canvas.width / 2, logo_canvas.height / 2 + _sh * 425);
-    }
-    function resizeLogoCanvas() {
-      var _w = window.innerWidth;
-      var _h = window.innerHeight;
-      var _nw = _h * 16 / 9;
-      // console.log(`${_w} ${_h} ${_nw}`);
-      if (_nw <= _w) {
-        logo_canvas.width = _nw;
-        logo_canvas.height = _h;
+      statusElement.innerHTML = text;
+    },
+    totalDependencies: 0,
+    monitorRunDependencies: function (left) {
+      this.totalDependencies = Math.max(this.totalDependencies, left);
+      Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies - left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
+      if (!left) {
+        Module.hideStatus();
       }
       else {
-        logo_canvas.width = _w;
-        logo_canvas.height = _w * 9 / 16;
+        Module.showStatus();
       }
-
     }
-
-
-    document.body.appendChild(script);
-  </script>
-<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js" type="57480f3f31f76c75506c83a0-text/javascript"></script>
-<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js" type="57480f3f31f76c75506c83a0-text/javascript"></script>
-<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js" type="57480f3f31f76c75506c83a0-text/javascript"></script>
-<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-analytics-compat.js" type="57480f3f31f76c75506c83a0-text/javascript"></script>
-<script type="57480f3f31f76c75506c83a0-module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-analytics.js";
-  import { getAuth  } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-  apiKey: "AIzaSyC2RwMfh0GMuQMtQdijjUo-MEffB4N9xVY",
-  authDomain: "escape-road-gm1.firebaseapp.com",
-  projectId: "escape-road-gm1",
-  storageBucket: "escape-road-gm1.appspot.com",
-  messagingSenderId: "713881704715",
-  appId: "1:713881704715:web:615cc93a73d9814b24ea0e",
-  measurementId: "G-E8C3TNJE0S"
-};
-window.dataLayer = window.dataLayer || [];
-window.gtag = function(){dataLayer.push(arguments);}
-
-window.gtag("config", firebaseConfig.measurementId, {
-    cookie_domain: location.hostname,
-    cookie_flags: "SameSite=None;Secure",
-});
-  // Initialize Firebase
-
-  const app = firebase.initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+  };
+  Module.setStatus('Downloading...');
+  window.onerror = function (event) {
+    Module.setStatus('Exception thrown, see JavaScript console');
+    spinnerElement.style.display = 'none';
+    Module.setStatus = function (text) {
+      if (text) Module.printErr('[post-exception status] ' + text);
+    };
+  };
 </script>
-<script src="rocket-loader.min.js" data-cf-settings="57480f3f31f76c75506c83a0-|49" defer></script></body>
+<script async type="text/javascript" src="d3wasm.js"></script>
+</body>
 </html>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-PXHK7Q7G3Z');
-</script>

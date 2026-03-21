@@ -1,3 +1,27 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <base href="https://cdn.jsdelivr.net/gh/web-ports/fnae@c9c8b513a27155bf37c4ab3dee74e99b12b895ba/">
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity Web Player | Five Night's at BIG E</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+  </head>
+  <body>
+  <div id="loading-text"
+    style="color: white; font-size: 48px; font-family: cursive; text-align: center; margin-top: 20px;"> LOADING...
+  </div>
+    <div id="unity-container">
+      <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+    </div>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -5,176 +29,127 @@
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-<!DOCTYPE html>
-<html lang="en-us">
 
-<head>
-    <base href="https://cdn.jsdelivr.net/gh/genizy/web-port@main/getting-over-it/">
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | Getting Over It</title>
-    <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css">
-    <style>
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            border: 0;
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            background: #231F20;
-        }
-
-        #unity-canvas {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-    </style>
-</head>
-
-<body>
-    <div id="loading-text" style="color: white; font-size: 48px; font-family: cursive; text-align: center; margin-top: 20px;"> LOADING... </div>
-    <div id="unity-container" class="unity-desktop">
-        <canvas id="unity-canvas" tabindex="-1"></canvas>
-        <div id="unity-loading-bar">
-            <div id="unity-logo"></div>
-            <div id="unity-progress-bar-empty">
-                <div id="unity-progress-bar-full"></div>
-            </div>
-        </div>
-    </div>
     <script>
-        const loadingText = document.querySelector("#loading-text");
-        let totalBytes = 0;
-        let loadedBytes = 0;
+var loadingText = document.querySelector("#loading-text");
+    let totalBytes = 0;
+    let loadedBytes = 0;
 
-        function formatSize(bytes) {
-            if (bytes > 1024 * 1024 * 1024) {
-                return (bytes / (1024 * 1024 * 1024)).toFixed(2) + " GB";
-            } else if (bytes > 1024 * 1024) {
-                return (bytes / (1024 * 1024)).toFixed(2) + " MB";
-            } else if (bytes > 1024) {
-                return (bytes / 1024).toFixed(2) + " KB";
-            } else {
-                return bytes + " B";
-            }
-        }
+    async function fetchWithProgress(url) {
+      const response = await fetch(url);
+      const reader = response.body.getReader();
+      let chunks = [];
+      let received = 0;
+      while (true) {
+        const {
+          done,
+          value
+        } = await reader.read();
+        if (done) break;
+        received += value.length;
+        loadedBytes += value.length;
+        chunks.push(value);
+        let mbDone = (loadedBytes / (1024 * 1024)).toFixed(2);
+        let mbTotal = '155.84';
+        loadingText.textContent = `LOADING... ${mbDone} MB / ${mbTotal} MB`;
+      }
+      let fullBuffer = new Uint8Array(received);
+      let offset = 0;
+      for (let chunk of chunks) {
+        fullBuffer.set(chunk, offset);
+        offset += chunk.length;
+      }
+      return fullBuffer.buffer;
+    }
 
-        async function fetchWithProgress(url) {
-            const response = await fetch(url);
-            const reader = response.body.getReader();
-            let chunks = [];
-            let received = 0;
-            while (true) {
-                const {
-                    done,
-                    value
-                } = await reader.read();
-                if (done) break;
-                received += value.length;
-                loadedBytes += value.length;
-                chunks.push(value);
-                const doneText = formatSize(loadedBytes);
-                const totalText = formatSize(totalBytes);
-                const percent = totalBytes > 0 ? ((loadedBytes / totalBytes) * 100).toFixed(1) : "?";
-                loadingText.textContent = `LOADING... ${doneText} / ${totalText} (${percent}%)`;
-            }
-            let fullBuffer = new Uint8Array(received);
-            let offset = 0;
-            for (let chunk of chunks) {
-                fullBuffer.set(chunk, offset);
-                offset += chunk.length;
-            }
-            return fullBuffer.buffer;
-        }
-        async function mergeFiles(parts) {
-            const buffers = await Promise.all(parts.map(fetchWithProgress));
-            return URL.createObjectURL(new Blob(buffers));
-        }
+    async function mergeFiles(fileParts, cacheKey) {
+      const buffers = await Promise.all(
+        fileParts.map(part => fetchWithProgress(part))
+      );
+      const mergedBlob = new Blob(buffers);
+      return URL.createObjectURL(mergedBlob);
+    }
 
-        function getParts(file, count) {
-            let parts = [];
-            for (let i = 1; i <= count; i++) {
-                parts.push(file + ".part" + i);
-            }
-            return parts;
-        }
-        (async () => {
-            const dataParts = getParts("Build/GettingOverIt.data", 32);
-            const wasmParts = getParts("Build/GettingOverIt.wasm", 2);
-            const allParts = [...dataParts, ...wasmParts];
-            totalBytes = 691732588;
-            const [dataUrl, wasmUrl] = await Promise.all([
-                mergeFiles(dataParts),
-                mergeFiles(wasmParts)
-            ]);
-            var container = document.querySelector("#unity-container");
-            var canvas = document.querySelector("#unity-canvas");
-            var loadingBar = document.querySelector("#unity-loading-bar");
-            var progressBarFull = document.querySelector("#unity-progress-bar-full");
-            var warningBanner = document.querySelector("#unity-warning");
+    function getParts(file, start, end) {
+      let parts = [];
+      for (let i = start; i <= end; i++) {
+        parts.push(file + ".part" + i);
+      }
+      return parts;
+    }
+    (async () => {
+      const [dataUrl, wasmUrl, webm] = await Promise.all([
+        mergeFiles(getParts("Build/fnae.data", 1, 3), "fnae.data"),
+        mergeFiles(getParts("Build/fnae.wasm", 1, 3), "fnae.wasm"),
+        mergeFiles(getParts("StreamingAssets/202512191935.webm", 1, 3), "202512191935.webm"),
+      ]);
 
-            function unityShowBanner(msg, type) {
+window.randomwebm = webm;
+const realSrc = Object.getOwnPropertyDescriptor(
+  HTMLMediaElement.prototype,
+  "src"
+);
 
-            }
+Object.defineProperty(HTMLMediaElement.prototype, "src", {
+  set(value) {
+    if (typeof value === "string" && value.includes("202512191935.mp4") || value.includes("202512191935.webm")) {
+      value = window.randomwebm;
+    }
+    return realSrc.set.call(this, value);
+  },
+  get() {
+    return realSrc.get.call(this);
+  }
+});
 
-            var buildUrl = "Build";
-            var loaderUrl = buildUrl + "/GettingOverIt.loader.js";
-            var config = {
-                dataUrl: dataUrl,
-                frameworkUrl: buildUrl + "/GettingOverIt.framework.js",
-                codeUrl: wasmUrl,
-                streamingAssetsUrl: "StreamingAssets",
-                companyName: "Bennett Foddy",
-                productName: "Getting Over It",
-                productVersion: "1.7",
-                showBanner: unityShowBanner,
-            };
 
-            if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var warningBanner = document.querySelector("#unity-warning");
 
-                var meta = document.createElement('meta');
-                meta.name = 'viewport';
-                meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-                document.getElementsByTagName('head')[0].appendChild(meta);
-                container.className = "unity-mobile";
-                canvas.className = "unity-mobile";
+      function unityShowBanner(msg, type) {
 
-            } else {
-                const canvas = document.querySelector("canvas");
+      }
 
-                function resizeCanvas() {
-                    canvas.width = window.innerWidth;
-                    canvas.height = window.innerHeight;
-                    canvas.style.width = window.innerWidth + "px";
-                    canvas.style.height = window.innerHeight + "px";
-                }
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/fnae.loader.js";
+      var config = {
+        arguments: [],
+        dataUrl: dataUrl,
+        frameworkUrl: buildUrl + "/fnae.framework.js",
+        codeUrl: wasmUrl,
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "fnae",
+        productVersion: "1.0",
+        showBanner: unityShowBanner,
+      };
 
-                window.addEventListener("resize", resizeCanvas);
-                resizeCanvas();
-            }
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+      }
 
-            loadingBar.style.display = "block";
 
-            var script = document.createElement("script");
-            script.src = loaderUrl;
-            script.onload = () => {
-                createUnityInstance(canvas, config, (progress) => {
-                    progressBarFull.style.width = 100 * progress + "%";
-                }).then((unityInstance) => {
-                    loadingBar.style.display = "none";
-                    loadingText.remove();
-                }).catch((message) => {
-                    alert(message);
-                });
-            };
+      loadingBar.style.display = "block";
 
-            document.body.appendChild(script);
-        })();
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+          loadingBar.style.display = "none";
+          loadingText.remove();
+        }).catch((message) => {
+        });
+      };
+      document.body.appendChild(script);
+    })();
     </script>
-</body>
-
+  </body>
 </html>

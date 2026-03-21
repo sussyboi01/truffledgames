@@ -1,60 +1,98 @@
-<html>
-   <head>
-      <meta charset="utf-8">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <style></style>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/n-101-1/1@main/style.css">
-      <script src="https://cdn.jsdelivr.net/gh/n-101-1/1@main/UnityProgress.js"></script>
-      <script src="https://cdn.jsdelivr.net/gh/n-101-1/1@main/2.7.js"></script>
-      <script type="text/javascript">
-        var gameInstance;
-        window.onload = function() {
-            gameInstance = UnityLoader.instantiate("gameContainer", "https://cdn.jsdelivr.net/gh/n-101-1/1@main/2.7.json", {
-                onProgress: UnityProgress,
-                Module: {
-                    onRuntimeInitialized: function() {
-                        UnityProgress(gameInstance, "complete");
-                    },
-                },
-            });
-        };
-      </script> 
-   </head>
-   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-   <body>
-      <div class="webgl-content">
-         <div id="gameContainer" style="width: 100%; height: 100%; margin: auto;"></div>
-      </div>
-      <script src="https://cdn.jsdelivr.net/gh/n-101-1/1@main/1firebase-app.js"></script>
-      <script src="https://cdn.jsdelivr.net/gh/n-101-1/1@main/1firebase-auth.js"></script>
-      <script src="https://cdn.jsdelivr.net/gh/n-101-1/1@main/1firebase-firestore.js"></script>
-      <script src="https://cdn.jsdelivr.net/gh/n-101-1/1@main/1firebase.js"></script>
-      <script src="https://cdn.jsdelivr.net/gh/n-101-1/1@main/1login.js?v=2"></script>
-      <script src="https://cdn.jsdelivr.net/gh/n-101-1/1@main/1firestore.js"></script>
-      <script> 
-        initializeFireBase();
+    <title>10 Minutes Till Dawn</title>
+    <script src="/js/all.min.js"></script>
+    <link rel="icon" type="image/png" href="/favicon.ico">
 
-        function showAds() {
-            console.log("show ads");
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="Build/UnityLoader.js"></script>
+    <script>
+      var gameInstance = UnityLoader.instantiate("gameContainer", "Build/10MinutesTillDawnWebGL.json");
+      var scaleToFit;
+      try {
+        scaleToFit = !!JSON.parse("");
+      } catch (e) {
+        scaleToFit = true;
+      }
+
+      function onResize() {
+        var canvas = gameInstance.Module.canvas;
+        var container = gameInstance.container;
+        var w;
+        var h;
+
+        if (scaleToFit) {
+          w = window.innerWidth;
+          h = window.innerHeight;
+
+          var r = 675 / 1200;
+
+          if (w * r > window.innerHeight) {
+            w = Math.min(w, Math.ceil(h / r));
+          }
+          h = Math.floor(w * r);
+        } else {
+          w = 1200;
+          h = 675;
         }
 
-        function requestNewAd() {
-            unityAdFinishedCallback();
-        }
+        container.style.width = canvas.style.width = w + "px";
+        container.style.height = canvas.style.height = h + "px";
+        container.style.top = Math.floor((window.innerHeight - h) / 2) + "px";
+        container.style.left = Math.floor((window.innerWidth - w) / 2) + "px";
+      }
+      window.addEventListener("resize", onResize);
+    </script>
+    <style>
+      html,
+      body {
+        background: #000;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        padding: 0;
+        margin: 0;
+      }
 
-        function unityAdFinishedCallback() {
-            try {
-                if (gameInstance) gameInstance.SendMessage("AdsManager", "OnWebCallback");
-            } catch (error) {
-                console.log(error);
-            }
-        }
-      </script> 
-   </body>
+      div#gameContainer {
+        background: transparent !important;
+        position: absolute;
+      }
+
+      div#gameContainer canvas {
+        position: absolute;
+      }
+
+      div#gameContainer[data-pixelated="true"] canvas {
+        image-rendering: optimizeSpeed;
+        image-rendering: -webkit-crisp-edges;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: -o-crisp-edges;
+        image-rendering: crisp-edges;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: optimize-contrast;
+        image-rendering: pixelated;
+        -ms-interpolation-mode: nearest-neighbor;
+      }
+    </style>
+  </head>
+
+  <body onload="onResize();">
+    <div id="gameContainer" data-pixelated="true"></div>
+  </body>
 </html>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WLTG1S4STB');
+</script>

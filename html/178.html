@@ -1,64 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-	
-	<meta charset="utf-8">
-	
-	<title>Level Devil Unblocked - ClassRoom6x</title>
-	<meta name="website" content="classroom6x.gitlab.io" />
-	<meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	
-	
-	<link rel="shortcut icon" type="image/png" href="./favicon.png">
-
-	
-	<script src="patch/poki-sdk.js"></script>
-	
-	<script src="./Level Devil.js"></script>
-
-	<script>
-		window.addEventListener ("touchmove", function (event) { event.preventDefault (); }, { capture: false, passive: false });
-		if (typeof window.devicePixelRatio != 'undefined' && window.devicePixelRatio > 2) {
-			var meta = document.getElementById ("viewport");
-			meta.setAttribute ('content', 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no');
-		}
-	</script>
-	  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<html lang="en-us">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-	
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>GunSpin Unblocked - ClassRoom6x</title>
+	<link rel="shortcut icon" href="TemplateData/favicon.ico">
+	<link rel="stylesheet" href="TemplateData/style.css">
+	<script src="TemplateData/UnityProgress.js"></script>
+	<script src="Build/UnityLoader.js"></script>
+	<script type="text/javascript" src="/cloak.js"></script>
+<meta name="website" content="classroom6x.gitlab.io" />
+	<script>
+		//var unityInstance = UnityLoader.instantiate("unityContainer", "Build/GunSpin WebGL FinalVersion.json", {onProgress: UnityProgress});
+	  window.gameInstance = UnityLoader.instantiate("unityContainer", "Build/GunSpin WebGL FinalVersion.json");
+	</script>
 	<style>
-		html,body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
-		#openfl-content { background: #000000; width: 100%; height: 100%; }
-		#progress { position: relative; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50%; }
+		* {
+			margin: 0;
+			padding: 0;
+		}
 
+		body {
+			background: black;
+		}
+
+		div#unityContainer {
+			margin: auto !important;
+			position: absolute !important;
+			left: 50%;
+			top: 50%;
+			-webkit-transform: translate(-50%, -50%);
+			transform: translate(-50%, -50%);
+			width: 720px;
+			height: 480px;
+			width: 150vh !important;
+			height: 100vh !important;
+		}
+
+		.footer {
+			display: none
+		}
 	</style>
-	
 </head>
 
 <body style="overflow:hidden;">
-	
-	<noscript>This webpage makes extensive use of JavaScript. Please enable JavaScript in your web browser to view this page.</noscript>
-	
-	<div id="openfl-content"></div>
-	
-	<script>
-		lime.embed ("Level Devil", "openfl-content", 854, 480, { parameters: {} });
-	</script>
-	
-<!-- <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v84a3a4012de94ce1a686ba8c167c359c1696973893317" integrity="sha512-euoFGowhlaLqXsPWQ48qSkBSCFs3DPRyiwVu3FjR96cMPx+Fr+gpWRhIafcHwqwCqWS42RZhIudOvEI+Ckf6MA==" data-cf-beacon='{"rayId":"835b62defe0a5164","version":"2023.10.0","token":"08a46637120a404a963395dd86986b4f"}' crossorigin="anonymous"></script>
-
- -->
+	<div class="webgl-content">
+		<div id="unityContainer"></div>
+		<div class="footer">
+			<div class="webgl-logo"></div>
+			<div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
+			<div class="title">GunSpin</div>
+		</div>
+	</div>
 </body>
+
 </html>
-<script>
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-WLTG1S4STB');
-</script>

@@ -1,54 +1,88 @@
-<!DOCTYPE html>
-<html lang="en">
-   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="icon" type="image/png" href="/png/logo.svg"/>
-      <title>Truffled - 404</title>
-      <meta name="title" content="Truffled - Interactive Learning Resources">
-      <meta name="description" content="Truffled is an educational platform offering interactive activities, brain-training challenges, and creative learning tools for students.">
-      <meta property="og:type" content="website">
-      <meta property="og:url" content="https://truffled.lol/">
-      <meta property="og:title" content="Truffled - Interactive Learning Resources">
-      <meta property="og:description" content="Explore engaging educational content, problem-solving challenges, and interactive tools designed to support learning.">
-      <meta property="og:image" content="https://truffled.lol/png/logo.png">
-      <meta name="twitter:card" content="summary_large_image">
-      <meta name="twitter:url" content="https://truffled.lol/">
-      <meta name="twitter:title" content="Truffled - Interactive Learning Resources">
-      <meta name="twitter:description" content="A safe and clean educational site offering interactive activities and learning-focused tools.">
-      <meta name="twitter:image" content="https://truffled.lol/png/logo.png">
-      <link rel="canonical" href="https://truffled.lol/">
-      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-      <link rel="stylesheet" href="/css/404.css">
-   
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-PXHK7Q7G3Z');
-</script>
 
-</head>
-   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-   <body>
-      <div class="content">
-         <h1>Page Not Found</h1>
-         <p>you may be seeing this if you went on a broken game or searched the proxy the first time, search again but join discord and request a bug if you find a broken game!</p>
-         <div class="button-container">
-            <button onclick="history.back()">Go Back</button>
-         </div>
-      </div>
-      </div>
-      <script async src="https://www.googletagmanager.com/gtag/js?id=WLTG1S4STB"></script>
-      <script async src="https://www.googletagmanager.com/gtag/js?id=WLTG1S4STB"></script>
-      <script src="/js/panic.js"></script>
-      <script src="/js/right.js"></script>
-   </body>
+<meta charset="utf-8">
+<title>Unity WebGL Player | Granny</title>
+<style>
+body { background: #111; color: #fff; font-family: sans-serif; margin: 0; overflow: hidden; }
+#unity-container { width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; }
+#unity-canvas { width: 100%; height: 100%; background: #000; }
+#loading-ui { position: absolute; text-align: center; width: 300px; }
+#bar-container { width: 100%; height: 6px; background: #333; margin-top: 10px; border-radius: 3px; }
+#bar-fill { width: 0%; height: 100%; background: #eee; border-radius: 3px; transition: width 0.1s; }
+#status-text { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+#unity-warning { position: absolute; top: 10px; background: red; padding: 5px; display: none; }
+</style>
+</head>
+<body>
+<div id="unity-container">
+<canvas id="unity-canvas" tabindex="-1"></canvas>
+<div id="loading-ui">
+<div id="status-text">port by bog, truffled.lol</div>
+<div id="bar-container"><div id="bar-fill"></div></div>
+</div>
+<div id="unity-warning"></div>
+</div>
+<script>
+const canvas = document.querySelector("#unity-canvas");
+const statusText = document.querySelector("#status-text");
+const barFill = document.querySelector("#bar-fill");
+const loadingUI = document.querySelector("#loading-ui");
+const warning = document.querySelector("#unity-warning");
+async function getCombinedBlob(path, count, label) {
+    const parts = [];
+    for (let i = 1; i <= count; i++) {
+        const num = i.toString().padStart(2, '0');
+        const url = `${path}.part${num}`;
+        statusText.textContent = `${label} ${Math.round((i/count)*100)}%`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`Missing ${url}`);
+        parts.push(await res.arrayBuffer());
+        barFill.style.width = `${(i/count)*100}%`;
+    }
+    return URL.createObjectURL(new Blob(parts));
+}
+const buildUrl = "Build";
+const config = {
+    dataUrl: "",
+    frameworkUrl: buildUrl + "/GrannyBog.framework.js",
+    codeUrl: "",
+    streamingAssetsUrl: "StreamingAssets",
+    companyName: "Truffled",
+    productName: "Granny",
+    productVersion: "1.0",
+};
+async function start() {
+    try {
+        config.dataUrl = await getCombinedBlob(buildUrl + "/GrannyBog.data", 23, "data");
+        config.codeUrl = await getCombinedBlob(buildUrl + "/GrannyBog.wasm", 2, "wasm");
+        
+        statusText.textContent = "loading";
+        const script = document.createElement("script");
+        script.src = buildUrl + "/GrannyBog.loader.js";
+        script.onload = () => {
+            createUnityInstance(canvas, config, (progress) => {
+                barFill.style.width = (100 * progress) + "%";
+                statusText.textContent = "port by bog, truffled.lol";
+            }).then(() => {
+                loadingUI.style.display = "none";
+            }).catch(err => alert(err));
+        };
+        document.body.appendChild(script);
+    } catch (e) {
+        warning.textContent = e.message;
+        warning.style.display = "block";
+    }
+}
+start();
+</script>
+</body>
 </html>

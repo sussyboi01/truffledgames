@@ -1,135 +1,107 @@
 <!DOCTYPE html>
-<html lang="en-us">
-  <head>
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<html lang="en">
+<head>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-	<base href="https://cdn.jsdelivr.net/gh/genizy/web-port@main/jelly-drift/">
     <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | Jelly Drift</title>
-
-    <script src="Build/UnityLoader.js"></script>
-      		<style>
-			* {
-				margin: 0;
-				padding: 0;
-				border: 0;
-				overflow: hidden;
-			}
-
-			body {
-				background: #000;
-				position: fixed;
-				width: 100%;
-				height: 100%;
-			}
-
-			#unityContainer {
-				position: absolute;
-				width: 100%;
-				height: 100%;
-			}
-		</style>
-<script>
-			let max = 0;
-			let done = 0;
-			function mergeFiles(fileParts) {
-				return new Promise((resolve, reject) => {
-					let buffers = [];
-
-					function fetchPart(index) {
-						if (index >= fileParts.length) {
-							let mergedBlob = new Blob(buffers);
-							let mergedFileUrl = URL.createObjectURL(mergedBlob);
-							resolve(mergedFileUrl);
-							return;
-						}
-						fetch(fileParts[index])
-							.then((response) => response.arrayBuffer())
-							.then((data) => {
-								buffers.push(data);
-								done = done+1;
-								document.querySelector("#loading-text").textContent = `LOADING... (${done}/${max})`;
-								fetchPart(index + 1);
-							})
-							.catch(reject);
-					}
-					fetchPart(0);
-				});
-			}
-
-			function getParts(file, start, end) {
-				let parts = [];
-				for (let i = start; i <= end; i++) {
-					parts.push(file + ".part" + i);
-				}
-				max = max+end;
-				return parts;
-			}
-
-			function resizeUnityContainer() {
-				var container = document.getElementById("unityContainer");
-				container.style.width = window.innerWidth + "px";
-				container.style.height = window.innerHeight + "px";
-			}
-			Promise.all([
-				mergeFiles(getParts("Build/jellydrift.data.unityweb", 1, 3)),
-        mergeFiles(getParts("Build/jellydrift.wasm.code.unityweb", 1, 2)),
-			]).then(([dataUrl, wasmurl]) => {
-				window.dataUrll = dataUrl;
-        window.wasmurll = wasmurl;
-				var json = {
-"companyName": "Dani",
-"productName": "Jelly Drift",
-"productVersion": "0.4",
-"dataUrl": dataUrl,
-"wasmCodeUrl": wasmurl,
-"wasmFrameworkUrl": "jellydrift.wasm.framework.js",
-"graphicsAPI": ["WebGL 2.0"],
-"webglContextAttributes": {"preserveDrawingBuffer": false},
-"splashScreenStyle": "Dark",
-"backgroundColor": "#231F20",
-"developmentBuild": false,
-"multithreading": false,
-"unityVersion": "2019.4.19f1"
-};
-				let blob = new Blob([JSON.stringify(json)], {
-					type: "application/json",
-				});
-				let blobUrl = URL.createObjectURL(blob);
-				window.addEventListener("resize", resizeUnityContainer);
-				UnityLoader.instantiate("unityContainer", json, {
-					url: blobUrl,
-					Module: {
-						onRuntimeInitialized: function () {
-							resizeUnityContainer();
-							document.querySelector("#loading-text").remove();
-						},
-					},
-				});
-			});
-		</script>
-  </head>
-  <body>
-    <div class="webgl-content">
-      			<div
-				id="loading-text"
-				style="
-					color: white;
-					font-size: 48px;
-					font-family: cursive;
-					text-align: center;
-					margin-top: 20px;
-				"
-			>
-				LOADING...
-			</div>
-      <div id="unityContainer" style="width: 960px; height: 600px"></div>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gtag</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            overflow: hidden;
+            background: #000;
+        }
+        #unity-container {
+            width: 100vw;
+            height: 100vh;
+        }
+        #unity-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        #unity-loading-bar {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        #unity-logo {
+            width: 154px;
+            height: 130px;
+            background: url('TemplateData/unity-logo-dark.png') no-repeat center;
+            background-size: contain;
+            margin: 0 auto 20px;
+        }
+        #unity-progress-bar-empty {
+            width: 200px;
+            height: 18px;
+            background: #202020;
+            border-radius: 3px;
+            margin: 0 auto;
+        }
+        #unity-progress-bar-full {
+            width: 0%;
+            height: 18px;
+            background: #fff;
+            border-radius: 3px;
+        }
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="unity-container">
+        <canvas id="unity-canvas"></canvas>
+        <div id="unity-loading-bar">
+            <div id="unity-logo"></div>
+            <div id="unity-progress-bar-empty">
+                <div id="unity-progress-bar-full"></div>
+            </div>
+        </div>
     </div>
-  </body>
+
+    <script>
+        const canvas = document.getElementById("unity-canvas");
+        const loadingBar = document.getElementById("unity-loading-bar");
+        const progressBar = document.getElementById("unity-progress-bar-full");
+
+        const buildUrl = "Build";
+        const config = {
+            dataUrl: buildUrl + "/gorilla tag web port build.data.gz",
+            frameworkUrl: buildUrl + "/gorilla tag web port build.framework.js.gz",
+            codeUrl: buildUrl + "/gorilla tag web port build.wasm.gz",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "boolonx",
+            productName: "gorilla tag web",
+            productVersion: "1.0"
+        };
+
+        const script = document.createElement("script");
+        script.src = buildUrl + "/gorilla tag web port build.loader.js";
+        script.onload = () => {
+            createUnityInstance(canvas, config, (progress) => {
+                progressBar.style.width = (100 * progress) + "%";
+            }).then(() => {
+                loadingBar.classList.add("hidden");
+            }).catch((error) => {
+                alert(error);
+            });
+        };
+        
+        document.body.appendChild(script);
+    </script>
+</body>
 </html>

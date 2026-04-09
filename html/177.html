@@ -1,35 +1,51 @@
-<html>
-  <head>
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Go To Bed web port</title>
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no" />
+		<style>
+			html, body {
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+				height: 100%;
+				width: 100%;
+			}
+			canvas {
+				display: block;
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100vw;
+				height: 100vh;
+				background: #26251e;
+			}
+			::-webkit-scrollbar {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas
+			id="unity-canvas"
+			width="100vw"
+			height="100vh"
+			tabindex="-1"
+		></canvas>
 
-<script src="/js/all.min.js"></script>
-
-
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Gun Mayhem Redux</title>
-    <style>html{background-color:#000;}</style>
-  </head>
-  <body>
-    <div id="ruffle" width="100%" height="100%"></div>
-    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
-    <script>
-      window.RufflePlayer = window.RufflePlayer || {};
-      window.addEventListener("load", (event) => {
-        const ruffle = window.RufflePlayer.newest();
-        const player = ruffle.createPlayer();
-        const container = document.getElementById("ruffle");
-        player.id = "player";
-        player.style.width = "100%";
-        player.style.height = "100%";
-        container.appendChild(player);
-        player.load("gunmayhemredux.swf");
-      });
-    </script>
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-PXHK7Q7G3Z');
-</script>
-  </body>
+		<script src="Build/GTBPort.loader.js"></script>
+		<script>
+			createUnityInstance(document.querySelector("#unity-canvas"), {
+				dataUrl: "Build/GTBPort.data",
+				frameworkUrl: "Build/GTBPort.framework.js",
+				codeUrl: "Build/GTBPort.wasm",
+				streamingAssetsUrl: "StreamingAssets",
+				companyName: "Joseph Mularczyk",
+				productName: "Go To Bed",
+				productVersion: "1.0",
+			});
+		</script>
+	</body>
 </html>

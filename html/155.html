@@ -1,110 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-us">
   <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
-    />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-
-    <meta name="theme-color" content="#000000" />
-
-    <link rel="manifest" href="./manifest.json" />
-    <script src="/js/main.js"></script>
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="application-name" content="Fruit Ninja" />
-    <meta name="apple-mobile-web-app-title" content="Fruit Ninja" />
-    <meta name="msapplication-starturl" content="./" />
-    <script type="text/javascript" src="h5Sdk.js"></script>
-    <script src="/js/main.js"></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-PXHK7Q7G3Z');
-</script>
-    <title>Fruit Ninja</title>
-    <style>
-      @font-face {
-        font-family: gangofchinese;
-        src: url('assets/font/gangofchinese.ttf');
-      }
-
-      body{
-          background-color: #000000;
-          margin: 0;
-
-          height: 100%;
-          max-height: 100vh !important;
-          overflow: hidden;
-          position: relative;
-      }
-
-      .fontLoader{
-          position: absolute;
-          left: -1000px;
-          visibility: hidden;
-      }
-
-      #phaser-canvas{
-          margin: 0 auto;
-      }
-
-      /*#enable3d-three-canvas{
-          position: sticky !important;
-      }*/
-      /*#enable3d-phaser-canvas{
-          margin: 0 auto;
-          position: absolute !important;
-      }*/
-
-      body,#content{
-          height: 100vh !important;
-          max-height: 100vh !important;
-      }
-
-      #divAds, #tempads{
-          display: none;
-          /*background-color: green;*/
-      }
-
-      canvas{
-          width: 100%;
-          height: 100%;
-          display: grid !important;
-          grid-area: 1/1;
-          /*position: sticky !important;*/
-          /*margin: 0 auto !important;*/
-          margin-top: 0 !important;
-          margin-bottom: 0 !important;
-          /*margin-left: auto !important;
-          margin-right: auto !important;*/
-          padding: 0 !important;
-          max-width: 100% !important;
-          max-height: 100vh !important;
-      }
-
-    </style>
-    <!-- <link rel="stylesheet" type="text/css" href="css/styles.css"> -->
-
-    <noscript>Please enable javascript to continue using this application.</noscript>
-
-    <script>window.adsbygoogle = window.adsbygoogle || [];
-        const adBreak =  adConfig = function(o) {adsbygoogle.push(o);}
-    </script>
-    <!-- installs the serviceWorker -->
-    <!-- <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('./sw.js')
-        })
-      }
-    </script> -->
+	<base href="https://cdn.jsdelivr.net/gh/web-ports/flying-gorilla@main/">
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity Web Player | Flying Gorilla</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
   </head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -112,18 +16,138 @@
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
   <body>
-    <div class="fontLoader" style="font-family: gangofchinese;">-</div>
-    <div id="content">
-        <div id="phaser-canvas"></div>
-    </div>        
-    <!-- <div id="phaser-game"></div> -->
-  <script type="text/javascript" src="vendors.fb6f2f7c51aa86f87ee3.bundle.js"></script><script type="text/javascript" src="main.bb79cf245c33f6bf6733.bundle.js"></script><style id="injectStyles">html, body{ background: none !important; }</style>
-</body>
+        <div id="loading-text"
+    style="color: white; font-size: 48px; font-family: cursive; text-align: center; margin-top: 20px;"> LOADING...
+  </div>
+    <div id="unity-container">
+      <canvas id="unity-canvas" width=960 height=540 tabindex="-1"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+      <div id="unity-warning"> </div>
+    </div>
+    <script>
+      var loadingText = document.querySelector("#loading-text");
+    let totalBytes = 0;
+    let loadedBytes = 0;
+
+    async function fetchWithProgress(url) {
+      const response = await fetch(url);
+      const reader = response.body.getReader();
+      let chunks = [];
+      let received = 0;
+      while (true) {
+        const {
+          done,
+          value
+        } = await reader.read();
+        if (done) break;
+        received += value.length;
+        loadedBytes += value.length;
+        chunks.push(value);
+        let mbDone = (loadedBytes / (1024 * 1024)).toFixed(2);
+        let mbTotal = '70.87';
+        loadingText.textContent = `LOADING... ${mbDone} MB / ${mbTotal} MB`;
+      }
+      let fullBuffer = new Uint8Array(received);
+      let offset = 0;
+      for (let chunk of chunks) {
+        fullBuffer.set(chunk, offset);
+        offset += chunk.length;
+      }
+      return fullBuffer.buffer;
+    }
+
+    async function mergeFiles(fileParts, cacheKey) {
+      const buffers = await Promise.all(
+        fileParts.map(part => fetchWithProgress(part))
+      );
+      const mergedBlob = new Blob(buffers);
+      return URL.createObjectURL(mergedBlob);
+    }
+
+    function getParts(file, start, end) {
+      let parts = [];
+      for (let i = start; i <= end; i++) {
+        parts.push(file + ".part" + i);
+      }
+      return parts;
+    }
+    (async () => {
+      const [dataUrl, wasmUrl] = await Promise.all([
+        mergeFiles(getParts("Build/vb.data", 1, 2), "vb.data"),
+        mergeFiles(getParts("Build/vb.wasm", 1, 2), "vb.wasm"),
+      ]);
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var warningBanner = document.querySelector("#unity-warning");
+
+      // Shows a temporary message banner/ribbon for a few seconds, or
+      // a permanent error message on top of the canvas if type=='error'.
+      // If type=='warning', a yellow highlight color is used.
+      // Modify or remove this function to customize the visually presented
+      // way that non-critical warnings and error messages are presented to the
+      // user.
+      function unityShowBanner(msg, type) {
+      }
+
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/vb.loader.js";
+      var config = {
+        arguments: [],
+        dataUrl: dataUrl,
+        frameworkUrl: buildUrl + "/vb.framework.js",
+        codeUrl: wasmUrl,
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "",
+        productName: "Flying Gorilla",
+        productVersion: "1.0",
+        showBanner: unityShowBanner,
+        // errorHandler: function(err, url, line) {
+        //    alert("error " + err + " occurred at line " + line);
+        //    // Return 'true' if you handled this error and don't want Unity
+        //    // to process it further, 'false' otherwise.
+        //    return true;
+        // },
+      };
+
+      // By default Unity keeps WebGL canvas render target size matched with
+      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+      // Set this to false if you want to decouple this synchronization from
+      // happening inside the engine, and you would instead like to size up
+      // the canvas DOM size and WebGL render target sizes yourself.
+      // config.matchWebGLToCanvasSize = false;
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        // Mobile device style: fill the whole browser client area with the game canvas:
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+      }
+
+
+      loadingBar.style.display = "block";
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+          loadingBar.style.display = "none";
+          loadingText.remove();
+        }).catch((message) => {
+          alert(message);
+        });
+      };
+      document.body.appendChild(script);
+    })();
+    </script>
+  </body>
 </html>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-PXHK7Q7G3Z');
-</script>

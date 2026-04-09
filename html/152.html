@@ -1,3 +1,27 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <base href="https://cdn.jsdelivr.net/gh/web-ports/fnae@c9c8b513a27155bf37c4ab3dee74e99b12b895ba/">
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity Web Player | Five Night's at BIG E</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+  </head>
+  <body>
+  <div id="loading-text"
+    style="color: white; font-size: 48px; font-family: cursive; text-align: center; margin-top: 20px;"> LOADING...
+  </div>
+    <div id="unity-container">
+      <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+    </div>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -5,61 +29,127 @@
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-<!DOCTYPE html>
-<!--
-Copyright (C) 2018 Calder Young. All Rights Reserved.
 
-This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.
-To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/4.0/ or send a letter to Creative
-Commons, PO Box 1866, Mountain View, CA 94042, USA. 
--->
-<html>
-    <head>
-        <base href="https://cdn.jsdelivr.net/gh/WhoIsEv/relivedassets@main/fnaw/">
-        <title>Five Nights at Winston's</title>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width" />
-        <meta name="description" content="My fnaf fan game where you play as the janitor at my school while these erasers with creepy faces and paperclip limbs hunt you down" />
-        <meta name="keywords" content="calder, young, calder young, LAX1DUDE, laxdude, erasers, winston, eagler, eaglers, five nights at winston's, five nights at winstons, darvy, five nights, winston, winston's, fnaw, fnaf, fan game, parody, funny, joke" />
-        <meta name='url' content="https://g.eags.us/fnaw/" />
-        <meta name="author" content="Calder Young" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta property="og:title" content="Five Nights at Winston's" />
-        <meta property="og:locale" content="en-US" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://g.eags.us/fnaw/" />
-        <meta property="og:image" content="https://g.eags.us/fnaw/smile.jpg" />
-        <meta property="og:description" content="My fnaf fan game where you play as the janitor at my school while these erasers with creepy faces and paperclip limbs hunt you down" />
-        <link type="image/x-icon" rel="shortcut icon" href="favicon.ico" />
-        <link type="text/css" href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet">
-        <style type="text/css">@font-face { font-family: 'font'; src: url('font.woff2') format('woff2'), url('font.woff') format('woff'); font-weight: normal; font-style: normal; }</style>
-		<script type="text/javascript">window.tag=["fnaw1_"];</script>
-		<script type="text/javascript" src="/runtime.js"></script>
-        <script type="text/javascript" src="untar.js"></script>
-        <script type="text/javascript" src="fnaw3.js"></script>
-        <script src="/js/main.js"></script>
-    </head>
-    <body style="background-color:black;margin:0px;user-select:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;overflow:hidden;">
-        <p style="font-family: 'VT323';z-index:-10;">.</p>
-        <p style="font-family: 'font';z-index:-10;">.</p>
-        <p id="game" style="display:none;">fnaw1</p>
-        <p>These are all keywords from here down:</p>
-        <h1>Play Five Nights at Winston's</h1>
-        <p> Five night's at winstons by calder young. Five nights at winston's by calder. My fnaf fan game where you play as the janitor at my school while these erasers with creepy faces and paperclip limbs hunt you down. Created by Calder Young. On g.eags.us, Created by LAX1DUDE. By Calder Young. Game about baby winston and being hunted by erasers. This game is takes place at Calder Young's school. You play as the janitor. Blah Blah this is just to make google think this is a real site. Play calder's game on this page. FNaW. calder young five nights at winston's. five nights at eagler's eaglers. Did you know darvy is a yeeing fudgli? Did you know the real name of the school is never mentioned because the teachers are scared of school sh00ters? In this game which is called five nights at winston's by calder young yee eagler google rank my site higher. Five nights at winston's from kahn academy sucks don't play it. Its by a deeing fudgli. Five nights at winstons is easily the best game I've ever made.</p>
-        <img src="smile.jpg" width="128" height="72" alt="five nights at winston's loading screen" style="-webkit-filter:brightness(0.0);filter: brightness(0.0);" />
-        <img src="https://eags.us/darvystare.png" width="128" height="72" alt="five nights at winston's alternate logo" style="-webkit-filter:brightness(0.0);filter: brightness(0.0);" />
-        <p>You can play five nights at winston's below. it's really cool. Let me remind you five nights at winston's was created by calder young. Calder Young is also known as LAX1DUDE unfortunatly yes that name was derived from laxdude from the original five nights at winstons game in 2015. ya ya ya ya ya ya. Darvy is secretly Darvilingus. Everyone is an eagler.</p>
-        <canvas width="1280" height="720" style="position:absolute;z-index:1;filter:brightness(2.0);" id="webglcanvas"></canvas>
-        <canvas width="1280" height="720" style="position:absolute;z-index:2;transform-origin:top left;" id="2dcanvas"></canvas>
-        <div id="mobilebutton" style="display:none;width:500px;height:300px;position:absolute;top:calc(50vh - 196px);left:calc(50vw - 296px);z-index:10;background:black;color:white;font-family:'Anonymous Pro';padding:20px;text-align:center;border:3px solid white;border-radius:5px;">
-            <h1>Mobile browser detected! You'll have to tap this button to allow sounds:</h1>
-            <button id="allowsound" style="zoom:3;">Click Here</button>
-            <h1>Sorry!</h1>
-        </div>
-        <div id="fullscreen" style="display:none;width:500px;height:300px;position:absolute;top:calc(50vh - 196px);left:calc(50vw - 296px);z-index:10;background:black;color:white;font-family:'Anonymous Pro';padding:20px;text-align:center;border:3px solid white;border-radius:5px;">
-            <h1>Press this button to return to fullscreen mode:</h1>
-            <button id="enterfull" style="zoom:3;">Click Here</button><br />
-            <button id="hidefull" style="zoom:1.5;">Cancel</button>
-        </div>
-    </body>
+    <script>
+var loadingText = document.querySelector("#loading-text");
+    let totalBytes = 0;
+    let loadedBytes = 0;
+
+    async function fetchWithProgress(url) {
+      const response = await fetch(url);
+      const reader = response.body.getReader();
+      let chunks = [];
+      let received = 0;
+      while (true) {
+        const {
+          done,
+          value
+        } = await reader.read();
+        if (done) break;
+        received += value.length;
+        loadedBytes += value.length;
+        chunks.push(value);
+        let mbDone = (loadedBytes / (1024 * 1024)).toFixed(2);
+        let mbTotal = '155.84';
+        loadingText.textContent = `LOADING... ${mbDone} MB / ${mbTotal} MB`;
+      }
+      let fullBuffer = new Uint8Array(received);
+      let offset = 0;
+      for (let chunk of chunks) {
+        fullBuffer.set(chunk, offset);
+        offset += chunk.length;
+      }
+      return fullBuffer.buffer;
+    }
+
+    async function mergeFiles(fileParts, cacheKey) {
+      const buffers = await Promise.all(
+        fileParts.map(part => fetchWithProgress(part))
+      );
+      const mergedBlob = new Blob(buffers);
+      return URL.createObjectURL(mergedBlob);
+    }
+
+    function getParts(file, start, end) {
+      let parts = [];
+      for (let i = start; i <= end; i++) {
+        parts.push(file + ".part" + i);
+      }
+      return parts;
+    }
+    (async () => {
+      const [dataUrl, wasmUrl, webm] = await Promise.all([
+        mergeFiles(getParts("Build/fnae.data", 1, 3), "fnae.data"),
+        mergeFiles(getParts("Build/fnae.wasm", 1, 3), "fnae.wasm"),
+        mergeFiles(getParts("StreamingAssets/202512191935.webm", 1, 3), "202512191935.webm"),
+      ]);
+
+window.randomwebm = webm;
+const realSrc = Object.getOwnPropertyDescriptor(
+  HTMLMediaElement.prototype,
+  "src"
+);
+
+Object.defineProperty(HTMLMediaElement.prototype, "src", {
+  set(value) {
+    if (typeof value === "string" && value.includes("202512191935.mp4") || value.includes("202512191935.webm")) {
+      value = window.randomwebm;
+    }
+    return realSrc.set.call(this, value);
+  },
+  get() {
+    return realSrc.get.call(this);
+  }
+});
+
+
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var warningBanner = document.querySelector("#unity-warning");
+
+      function unityShowBanner(msg, type) {
+
+      }
+
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/fnae.loader.js";
+      var config = {
+        arguments: [],
+        dataUrl: dataUrl,
+        frameworkUrl: buildUrl + "/fnae.framework.js",
+        codeUrl: wasmUrl,
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "fnae",
+        productVersion: "1.0",
+        showBanner: unityShowBanner,
+      };
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+      }
+
+
+      loadingBar.style.display = "block";
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+          loadingBar.style.display = "none";
+          loadingText.remove();
+        }).catch((message) => {
+        });
+      };
+      document.body.appendChild(script);
+    })();
+    </script>
+  </body>
 </html>

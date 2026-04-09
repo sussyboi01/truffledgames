@@ -1,216 +1,215 @@
-
-<html><head>
-  <base href="https://cdn.jsdelivr.net/gh/genizy/web-port@a6e2b184812dd22c58e6b6a18325083b7a131981/deltarune/">
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="style.css">
-   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<!DOCTYPE html>
+<html>
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-<style>
-     *{
-  -webkit-appearance: none;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-text-size-adjust: 100%;
-  -webkit-font-smoothing: antialiased;
-}
+    <base href="https://cdn.jsdelivr.net/gh/genizy/assets@main/ctr-holiday/">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-*:focus {
-  outline: none;
-  -webkit-focus-ring-color: transparent;
-}
+    <title>Cut the Rope: Holiday Gift</title>
+    <meta name="description" content="Play Cut the Rope! A mysterious package has arrived, and the little monster inside has only one request… CANDY!">
 
-::-webkit-scrollbar {
-  display: none;
-}
-</style>
-<script>
-  (function() {
-    var OrigAudioContext = window.AudioContext || window.webkitAudioContext;
-    if (OrigAudioContext) {
-      var origCreateGain = OrigAudioContext.prototype.createGain;
+    <meta name="msapplication-tooltip" content="Play Cut the Rope! A mysterious package has arrived, and the little monster inside has only one request… CANDY!" />
+    <meta name="msapplication-navbutton-color" content="#659729" />
+    <meta name="msApplication-ID" content="App"/>
+    <meta name="msApplication-PackageFamilyName" content="ZeptoLabUKLimited.CutTheRope_sq9zxnwrk84pj"/>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 
-      class MutedAudioContext extends OrigAudioContext {
-        constructor() {
-          super(...arguments);
-          var mute = origCreateGain.call(this);
-          mute.gain.value = 0;
-          mute.connect(super.destination);
-          this._muteNode = mute;
-        }
-        get destination() {
-          return this._muteNode;
-        }
-      }
+    <meta property="og:title" content="Cut the Rope" />
+    <meta property="og:type" content="game" />
+    <meta property="og:site_name" content="Cut the Rope" />
 
-      window.AudioContext = MutedAudioContext;
-      window.webkitAudioContext = MutedAudioContext;
-    }
-
-    var origPlay = HTMLMediaElement.prototype.play;
-    HTMLMediaElement.prototype.play = function() {
-      this.muted = true;
-      this.volume = 0;
-      return origPlay.call(this);
-    };
-
-    var OrigAudio = window.Audio;
-    window.Audio = function() {
-      var a = new OrigAudio(...arguments);
-      a.muted = true;
-      a.volume = 0;
-      return a;
-    };
-    window.Audio.prototype = OrigAudio.prototype;
-  })();
-</script>
+	<script type="text/javascript" src="scripts/detectmobilebrowser.js" ></script>
+    <link href="css/ctr.css?438" rel="stylesheet" type="text/css">
+    <script src="scripts/sm2.js?438" type="text/javascript"></script>
+    <script src="scripts/libraries.js?438" type="text/javascript"></script>
+    <script src="scripts/ctr.js?438" type="text/javascript"></script>
+    <noscript>
+        <link href="css/nojavascript.css?438" rel="stylesheet" type="text/css">
+    </noscript>
 </head>
-<body>
-  <div class="logo-container">
-    <img src="logo.png" alt="Logo" class="logo">
+<body class="ctrCursor">
+  <div id="lang">
+    <style  type="text/css">
+        .hideBeforeLoad, #loaderWindow, #popupWindow { display: none; }  
+    </style>
+
+    <div id="gameContainer" >
+        <div id="game-border">
+            <div id="loader-logo"></div>
+        </div>
+        <div id="gameArea" class="hideBeforeLoad">
+            <canvas id="c"></canvas>
+            <div id="loadingPanel" class="panel"></div>
+
+            <div id="startBackground" class="panel"></div>
+            <div id="menuBackground" class="panel"></div>
+            <div id="levelBackground" class="panel">
+                <canvas id="levelCanvas"></canvas>
+                <div id="levelTape" class="levelTape"></div>
+            </div>
+            <div id="shadowPanel" class="panel">
+                <canvas id="shadowCanvas"></canvas>
+            </div>
+            <div id="menuPanel" class="panel seethrough">
+                <div class="panelContent">
+                    <div id="menuLogo" ></div>
+                    <div id="menuBtnVbox" class="fBtnVBox">
+                        <div id="playBtn" class="fBtn"><img src="" /></div>
+                        <div id="optionsBtn" class="fBtn"><img src="" /></div>
+                    </div>
+                </div>
+                <div id="miniOptionsMenu">
+					<!--<div id="optionHd"></div>
+					<div id="optionSd"></div>-->
+                    <div id="optionSound" class="ctrPointer" ></div>
+                    <div id="optionMsg"></div>
+                </div>
+            </div>
+
+            <div id="boxPanel" class="panel seethrough">
+                
+                <canvas id="boxCanvas"></canvas>
+
+                <div id="boxScore" class="hideFromMouse"><img src="" /></div>
+
+                <div id="boxNavBack">
+                    <div class="boxNavDisabled">
+                    </div>
+                </div>
+                <div id="boxNavForward">
+                    <div>
+                    </div>
+                </div>
+                <div id="boxBack" class="bBtn">
+                </div>
+            </div>
+            <div id="levelPanel" class="panel">
+                <div id="levelScore">
+                    <img src="" /></div>
+                <div id="levelBack" class="bBtn">
+                </div>
+                <div id="levelOptions"></div>
+                <div id="levelResults">
+                    <div id="resultStatus"><img src="" /></div>
+                    <div class="starCase">
+                        <div id="resultStar1" class=""></div>
+                        <div id="resultStar2" class=""></div>
+                        <div id="resultStar3" class=""></div>
+                    </div>
+                    <div id="resultTicker">
+                        <img id="resultTickerLabel" />
+                        <img id="resultTickerValue" />
+                        <img id="resultTickerMessage" />
+                    </div>
+                    <div class="line"></div>
+                    <div id="resultScore"></div>
+                    <div class="btnCase">
+                        <div id="replayBtn" class="sBtn"><img src="" /></div>
+                        <div id="lrMenuBtn" class="sBtn"><img src="" /></div>
+                        <div id="nextBtn" class="sBtn"><img src="" /></div>
+                    </div>
+                    <div id="resultImproved"></div>
+                </div>
+            </div>
+
+            <div id="gameCompletePanel" class="panel">
+                <div id="congrats"></div>
+                <div id="finalScore"><img src="" /></div>
+                <a href="../../" id="finalFunBtn" class="lBtn" target="_blank"><img src="" /><div id="funOmNom"></div></a>
+                <div id="gameCompleteBack" class="bBtn"></div>
+            </div>
+            
+            <div id="optionsPanel" class="panel">
+                <div class="fBtnVBox">
+                    <div id="optionsTitle"><img src="" /></div>
+                    <div id="soundBtn" class="mini-button ctrCursor"><div id="options-speaker"></div><div class="options-x"></div></div>
+                    <div id="musicBtn" class="mini-button ctrCursor"><div id="options-note"></div><div class="options-x"></div></div>
+                    <div id="langBtn" class="fBtn"><img src="" /><div id="flag"></div></div>
+                    <div id="resetBtn" class="fBtn"><img src="" /></div>
+                    <div id="creditsBtn" class="fBtn"><img src="" /></div>
+                    <div id="dragBtn"><img id="dragText" /><div class="options-check-disabled"></div></div>
+                    <div id="cutBtn" class="ctrCursor"><img id="cutText" /><div class="options-check"></div></div>
+                </div>
+                <div id="optionsBack" class="bBtn"></div>
+            </div>
+
+            <div id="d" class="panel ctrPointer">
+                <img id="dmsg" />
+                <div id="dframe">
+                    <div id="dpic"></div>
+                </div>
+                <div id="dshareBtn" class="fBtn"><img src="" /><div id="dfb"></div></div>
+            </div>
+            <div id="gameBtnTray">
+                <div id="gameMsg" class="allSound"></div>
+                <div id="gameSound" class="ctrPointer allSound"></div>
+                <div id="gameRestartBtn" class="ctrPointer"></div>
+                <div id="gameMenuBtn" class="ctrPointer"></div>
+            </div>
+            <div id="levelMenu">
+                <div class="fBtnVBox">
+                    <div id="continueBtn" class="fBtn"><img src="" /></div>
+                    <div id="skipBtn" class="fBtn"><img src="" /></div>
+                    <div id="selectBtn" class="fBtn"><img src="" /></div>
+                    <div id="menuBtn" class="fBtn"><img src="" /></div>
+                </div>
+            </div>
+
+            <div id="boxCutter">
+            </div>
+            <div id="tapeRoll">
+            </div>
+            <div id="video"></div>
+            <div id="fadeToBlack" class="panel"></div>
+        </div>  
+        <canvas id="e"></canvas>
+        
+        <div id="loaderWindow">
+            <div id="loaderBubbles">
+                <img id="loaderLogo" src="images/page/loader-logo.png" />
+                <div id="loaderCanvasHost">
+                    <canvas id="loaderCanvas"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div id="popupWindow">
+            <div class="popupOuterFrame">
+                <div class="popupInnerFrame" id="slowComputer">
+                    <div class="fBtn" id="slowComputerBtn"><img src="" /></div>
+                </div>
+                <div class="popupInnerFrame" id="resetGame">
+                    <div id="resetText"></div>
+                    <div class="mBtn" id="resetYesBtn"><img src="" /></div>
+                    <div class="mBtn" id="resetNoBtn"><img src="" /></div>
+                    <div id="resetHoldYes"></div>
+                </div>
+                <div class="popupInnerFrame" id="missingStars">
+                    <div id="missingLine1"></div>
+                    <div id="missingCount"><div id="missingStar"></div></div>
+                    <div id="missingLine2"></div>
+                    <div id="missingLine3"></div>
+                    <div class="mBtn" id="missingOkBtn"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="upgrade">
+            <div id="upgrade-header"></div>
+            <a id="upgrade-button" href="http://windows.microsoft.com/ie"></a>
+        </div>
+
+    </div>
+
   </div>
-  
-  <div class="menu">
-    <a href="javascript:loadChapter(1)" class="row">
-      <span class="chapter">Chapter 1</span>
-      <span class="title">The Beginning</span>
-      <img src="icons/1.png">
-    </a>
-    <a href="javascript:loadChapter(2)" class="row">
-      <span class="chapter">Chapter 2</span>
-      <span class="title">A Cyber's World</span>
-      <img src="icons/2.png">
-    </a>
-    <a href="javascript:loadChapter(3)" class="row">
-      <span class="chapter">Chapter 3</span>
-      <span class="title">Late Night</span>
-      <img src="icons/3.png">
-    </a>
-    <a href="javascript:loadChapter(4)" class="row">
-      <span class="chapter">Chapter 4</span>
-      <span class="title">Prophecy</span>
-      <img src="icons/4.png">
-    </a>
-    <a href="javascript:alert('Chapter 5 coming soon!')" class="disabled-row">
-      <span class="chapter">Chapter 5</span>
-      <span class="disabled-title">--</span>
-      <img src="icons/0.png">
-    </a>
-    <a href="javascript:alert('Chapter 6 coming soon!')" class="disabled-row">
-      <span class="chapter">Chapter 6</span>
-      <span class="disabled-title">--</span>
-      <img src="icons/0.png">
-    </a>
-    <a href="javascript:alert('Chapter 7 coming soon!')" class="disabled-row">
-      <span class="chapter">Chapter 7</span>
-      <span class="disabled-title">--</span>
-      <img src="icons/0.png">
-    </a>
-    <a href="javascript:window.open('https://truffled.lol', '_blank')" class="row">
-      <span class="chapter"></span>
-      <span class="title">made by bog</span>
-      <span class="badge"></span>
-    </a>
-  </div>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-WLTG1S4STB');
-  </script>
-  <audio id="drone" controls="" loop="" autoplay="" hidden="" muted>
-    <source src="audios/AUDIO_DRONE.ogg" type="audio/ogg">
-    Your browser does not support the audio element.
-  </audio>
-  <button id="mute" hidden>🔇</button>
-  <script>
-    const audio = document.getElementById('drone');
-    audio.muted = true;
-    audio.volume = 0;
-    const mute = document.getElementById('mute');
-    let gamestarted = false;
 
-    function updateButton() {}
 
-    function loadChapter(chapter) {
-      fetch(`chapter${chapter}/index.html`).then(res => res.text()).then(html => {
-        gamestarted = true;
-        document.documentElement.innerHTML = html;
-        document.documentElement.querySelectorAll('script').forEach(oldScript => {
-          const newScript = document.createElement('script');
-          if (oldScript.src) {
-            newScript.src = oldScript.src;
-          } else {
-            newScript.textContent = oldScript.textContent;
-          }
-          document.body.appendChild(newScript);
-        });
-      });
-    }
-
-    const menumoveaudio = new Audio('audios/snd_menumove.mp3');
-    const menuselectaudio = new Audio('audios/snd_select.mp3');
-    document.querySelectorAll('.row').forEach(row => {
-      row.addEventListener('mouseenter', () => {
-        if (!gamestarted) {
-          menumoveaudio.play();
-          if (selectedChapter) {
-            document.querySelectorAll('.row')[selectedChapter].classList.remove("selected");
-          }
-        }
-      });
-      row.addEventListener('click', () => {
-        if (!gamestarted) {
-          menuselectaudio.play();
-        }
-      });
-    });
-
-    let selectedChapter = null;
-    document.addEventListener('keydown', function(event) {
-      if (!gamestarted) {
-      if (event.key === 'ArrowUp') {
-        if (selectedChapter === null) {
-          selectedChapter = 0;
-          document.querySelectorAll('.row')[0].classList.add("selected");
-          menumoveaudio.play();
-        } else {
-          document.querySelectorAll('.row')[selectedChapter].classList.remove("selected");
-          selectedChapter--;
-          if (selectedChapter < 0) {
-            selectedChapter = document.querySelectorAll('.row').length - 1;
-          }
-          document.querySelectorAll('.row')[selectedChapter].classList.add("selected");
-          menumoveaudio.play();
-        }
-      } else if (event.key === 'ArrowDown') {
-        if (selectedChapter === null) {
-          selectedChapter = 0;
-          document.querySelectorAll('.row')[0].classList.add("selected");
-          menumoveaudio.play();
-        } else {
-          if (selectedChapter+1 >= document.querySelectorAll('.row').length) {
-            document.querySelectorAll('.row')[selectedChapter].classList.remove("selected");
-            selectedChapter = 0;
-            document.querySelectorAll('.row')[0].classList.add("selected");
-            menumoveaudio.play();
-          } else {
-            document.querySelectorAll('.row')[selectedChapter].classList.remove("selected");
-            selectedChapter++;
-            document.querySelectorAll('.row')[selectedChapter].classList.add("selected");
-            menumoveaudio.play();
-          }
-        }
-      } else if (event.key === 'Enter') {
-        if (selectedChapter !== null) {
-          window.location.href = document.querySelectorAll('.row')[selectedChapter].href;
-          menuselectaudio.play();
-        }
-      }
-      }
-    });
-  </script>
-</body></html>
+</body>
+</html>

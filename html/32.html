@@ -1,258 +1,138 @@
-<!doctypehtml>
-<html lang=en-us>
-    <head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-        <meta charset=utf-8>
-        <meta content="text/html; charset=utf-8" http-equiv=Content-Type>
-        <title>Emscripten-Generated Code</title>
-        <style>
-            body {
-                font-family: arial;
-                margin: 0;
-                padding: none
-            }
+    <meta charset="utf-8">
+    <title>Unity WebGL Player | birthday bash</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-            .emscripten {
-                padding-right: 0;
-                margin-left: auto;
-                margin-right: auto;
-                display: block
-            }
+      body {
+        background: #000;
+        overflow: hidden;
+      }
 
-            div.emscripten {
-                text-align: center
-            }
+      #loading-text {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        font: 24px Arial;
+        text-align: center;
+        z-index: 10;
+      }
 
-            div.emscripten_border {
-                border: 1px solid #000
-            }
+      #unity-canvas {
+        width: 100vw;
+        height: 100vh;
+        display: block;
+      }
 
-            canvas.emscripten {
-                border: 0 none;
-                background-color: #000
-            }
-
-            #emscripten_logo {
-                display: inline-block;
-                margin: 0
-            }
-
-            .spinner {
-                height: 30px;
-                width: 30px;
-                margin: 0;
-                margin-top: 20px;
-                margin-left: 20px;
-                display: inline-block;
-                vertical-align: top;
-                -webkit-animation: rotation .8s linear infinite;
-                -moz-animation: rotation .8s linear infinite;
-                -o-animation: rotation .8s linear infinite;
-                animation: rotation .8s linear infinite;
-                border-left: 5px solid #ebebeb;
-                border-right: 5px solid #ebebeb;
-                border-bottom: 5px solid #ebebeb;
-                border-top: 5px solid #787878;
-                border-radius: 100%;
-                background-color: #bdd72e
-            }
-
-            @-webkit-keyframes rotation {
-                from {
-                    -webkit-transform: rotate(0)
-                }
-
-                to {
-                    -webkit-transform: rotate(360deg)
-                }
-            }
-
-            @-moz-keyframes rotation {
-                from {
-                    -moz-transform: rotate(0)
-                }
-
-                to {
-                    -moz-transform: rotate(360deg)
-                }
-            }
-
-            @-o-keyframes rotation {
-                from {
-                    -o-transform: rotate(0)
-                }
-
-                to {
-                    -o-transform: rotate(360deg)
-                }
-            }
-
-            @keyframes rotation {
-                from {
-                    transform: rotate(0)
-                }
-
-                to {
-                    transform: rotate(360deg)
-                }
-            }
-
-            #status {
-                display: inline-block;
-                vertical-align: top;
-                margin-top: 30px;
-                margin-left: 20px;
-                font-weight: 700;
-                color: #787878
-            }
-
-            #progress {
-                top: 0px;
-                left: 0px;
-                height: 10px;
-                width: 100%;
-                overflow: hidden;
-                display: block;
-                position: absolute;
-                z-index: 2;
-            }
-
-            #canvas {
-                position: absolute;
-                top: 0px;
-                left: 0px;
-                margin: 0px;
-                width: 100%;
-                height: 100%;
-                overflow: hidden;
-                display: block;
-            }
-
-            body {
-                overflow: hidden;
-                /* Hide scrollbars */
-            }
-        </style>
-    </head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+      #unity-mobile-warning {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        background: rgba(0, 0, 0, .9);
+        padding: 20px;
+        border-radius: 8px;
+        font: 14px Arial;
+        z-index: 20;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="unity-mobile-warning">WebGL not supported on mobile</div>
+    <div id="loading-text">Loading</div>
+    <canvas id="unity-canvas"></canvas>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-PXHK7Q7G3Z');
-</script>
-    <body>
-        <div class=emscripten>
-            <progress hidden id=progress max=100 value=0></progress>
-        </div>
-        <div class=emscripten_border>
-            <canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1></canvas>
-        </div>
-        <script>
-            // Fullscreen logic: wait for user gesture if #fullscreen is present
-            document.addEventListener('DOMContentLoaded', function() {
-                if (window.location.hash.startsWith('#fullscreen')) {
-                    var canvas = document.getElementById('canvas');
-                    var enterFullscreen = function() {
-                        if (canvas.requestFullscreen) {
-                            canvas.requestFullscreen();
-                        } else if (canvas.webkitRequestFullscreen) {
-                            canvas.webkitRequestFullscreen();
-                        } else if (canvas.mozRequestFullScreen) {
-                            canvas.mozRequestFullScreen();
-                        } else if (canvas.msRequestFullscreen) {
-                            canvas.msRequestFullscreen();
-                        }
-                        // Remove listener after first click
-                        canvas.removeEventListener('click', enterFullscreen);
-                    };
-                    // Show a hint to the user (optional, can be removed)
-                    canvas.title = 'Click to enter fullscreen';
-                    canvas.style.cursor = 'pointer';
-                    canvas.addEventListener('click', enterFullscreen);
-                }
-            });
 
-            progressElement = document.getElementById("progress"),
-            Module = {
-                preRun: [],
-                postRun: [],
-                print: function() {
-                    var e = document.getElementById("output");
-                    return e && (e.value = ""),
-                    function(t) {
-                        arguments.length > 1 && (t = Array.prototype.slice.call(arguments).join(" ")),
-                        console.log(t),
-                        e && (e.value += t + "\n",
-                        e.scrollTop = e.scrollHeight)
-                    }
-                }(),
-                printErr: function(e) {
-                    arguments.length > 1 && (e = Array.prototype.slice.call(arguments).join(" ")),
-                    console.error(e)
-                },
-                canvas: function() {
-                    var e = document.getElementById("canvas");
-                    return e.addEventListener("webglcontextlost", (function(e) {
-                        alert("WebGL context lost. You will need to reload the page."),
-                        e.preventDefault()
-                    }
-                    ), !1),
-                    e
-                }(),
-                setStatus: function(e) {
-                    if (Module.setStatus.last || (Module.setStatus.last = {
-                        time: Date.now(),
-                        text: ""
-                    }),
-                    e !== Module.setStatus.last.text) {
-                        var t = e.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/)
-                          , n = Date.now();
-                        t && n - Module.setStatus.last.time < 30 || (Module.setStatus.last.time = n,
-                        Module.setStatus.last.text = e,
-                        t ? (e = t[1],
-                        progressElement.value = 100 * parseInt(t[2]),
-                        progressElement.max = 100 * parseInt(t[4]),
-                        progressElement.hidden = !1) : (progressElement.value = null,
-                        progressElement.max = null,
-                        progressElement.hidden = !0,
-                        e))
-                    }
-                },
-                totalDependencies: 0,
-                monitorRunDependencies: function(e) {
-                    this.totalDependencies = Math.max(this.totalDependencies, e),
-                    Module.setStatus(e ? "Preparing... (" + (this.totalDependencies - e) + "/" + this.totalDependencies + ")" : fin())
-                }
-            };
-            Module.setStatus("Downloading..."),
-            window.onerror = function(e) {
-                Module.setStatus("Exception thrown, see JavaScript console"),
-                spinnerElement.style.display = "none",
-                Module.setStatus = function(e) {
-                    e && Module.printErr("[post-exception status] " + e)
-                }
-            }
-            ;
-            (function() {
-                var src = '//cdn.jsdelivr.net/npm/eruda';
-                if (!/eruda=true/.test(window.location) && localStorage.getItem('active-eruda') != 'true')
-                    return;
-                document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>');
-                document.write('<scr' + 'ipt>eruda.init();</scr' + 'ipt>');
-            }
-            )();
-            function fin() {
-                document.getElementById("progress").style.zIndex = 0;
-                return "All downloads complete."
-            }
-        </script>
-        <script async src=gemrb.js></script>
-    </body>
+const lt = document.getElementById("loading-text");
+const cv = document.getElementById("unity-canvas");
+const mw = document.getElementById("unity-mobile-warning");
+
+
+
+
+const base = "https://cdn.jsdelivr.net/gh/woahhcrackers/BirthdayBashWeb@main/Build/";
+const name = "BirthdayBashWeb";
+
+
+
+
+if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+  const m = document.createElement("meta");
+  m.name = "viewport";
+  m.content = "width=device-width,height=device-height,initial-scale=1,user-scalable=no";
+  document.head.appendChild(m);
+  mw.style.display = "block";
+  setTimeout(() => mw.style.display = "none", 5000);
+}
+
+const ex = async u => {
+  try { return (await fetch(u, { method: "HEAD" })).ok } catch { return false }
+};
+
+const parts = async ext => {
+  const out = [];
+
+  for (let i = 1; i < 100; i++) {
+    const p = `${base}${name}.${ext}.${String(i).padStart(3,"0")}`;
+    const r = await fetch(p, { method: "HEAD" });
+
+    if (r.status !== 200) break;
+
+    out.push(p);
+  }
+
+  return out;
+};
+
+const merge = async urls => {
+  const bufs = await Promise.all(urls.map(u => fetch(u).then(r => r.arrayBuffer())));
+  return URL.createObjectURL(new Blob(bufs));
+};
+
+(async () => {
+  let data = `${base}${name}.data`;
+  if (!(await ex(data))) data = await merge(await parts("data"));
+
+  let wasm = `${base}${name}.wasm`;
+  if (!(await ex(wasm))) wasm = await merge(await parts("wasm"));
+
+  const sc = document.createElement("script");
+  sc.src = `${base}${name}.loader.js`;
+
+  sc.onload = () => {
+    createUnityInstance(cv, {
+      dataUrl: data,
+      frameworkUrl: `${base}${name}.framework.js`,
+      codeUrl: wasm,
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "crackers",
+      productName: name,
+      productVersion: "1.0"
+    }).then(() => lt.remove()).catch(console.error);
+  };
+
+  document.body.appendChild(sc);
+  
+  
+  alert("this web port was made by crackers (woahhcrackers)");
+})();
+</script>
+  </body>
 </html>

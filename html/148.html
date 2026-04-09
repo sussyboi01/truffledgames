@@ -1,104 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-<style type="text/css">
-  h1 {
-	  font-family: Arial, Helvetica, sans-serif;
-	  color: #F00;
-	  font-size: x-large;
-  }
-  p {
-	  font-family: Arial, Helvetica, sans-serif;
-	  color: #000;
-	  font-size: small;
-  }
-  body {
-	  background-color: #1d1d1d;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-  }
-  #bloctxt {
-	  border-left-width: 5px;
-	  border-left-style: solid;
-	  border-left-color: #F00;
-	  padding-left: 10px;
-	  position: absolute;
-	  left: 50%;
-	  width: 600px;
-	  margin-left: -260px
-  }
-</style>
-<head>
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-
-  <!-- Enables full-screen on iOS devices -->
-  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densitydpi=device-dpi" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  <meta name="HandheldFriendly" content="true" />
-
-  <title>Five Nights at Freddy's 2</title>
-
-	<script>
-	   	// Detection of old browsers that do not support the canvas element
-		// Falls back to a default page
-	    if (!document.createElement("canvas").getContext)
-	    {
-			window.open("http://www.clickteam.com/html5-fallback", "_self");
-		}
-	</script>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="Bubblez">
+    <meta id="viewport" name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui,shrink-to-fit=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
 
 
-  	<!-- EXTRASOURCES -->
-    <!-- Loads the Javascript code...-->
-    <script src="src/Runtime.js"></script>
+    <meta name="apple-mobile-web-app-title" content="Fireboy & Watergirl 4 Crystal Temple">
+    <title>Fireboy & Watergirl 4 Crystal Temple</title>
 
-  <script>
 
-	// Detection of when the html file is ran locally.
-	// You can remove this code for the final version
-	if (window.location.protocol == "file:")
-	{
-		document.write('<div id="bloctxt">');
-		document.write('<h1>The application cannot be run...</h1>');
-		document.write('<p>HTML browsers do not allow you to launch data files directly from the file system.<br>');
-		document.write('A drag & drop of the html file on a web-browser window will not work, on any machine.<br>');
-		document.write('Please use the Build & Run option (it opens a local web server) to run your application,<br>')
-		document.write('or upload your application folder to a remote web-server, and start it from there...</p>');
-		document.write('</div>');
-		throw new error("Cannot run application");
-	}
-  </script>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" sizes="60x60" href="icon-60x60.png">
+    <link rel="icon" sizes="256x256" href="icon-256x256.png">
+    <link rel="icon" sizes="512x512" href="icon-512x512.png">
+    <link rel="apple-touch-icon" href="icon-60x60.png">
+
+
 </head>
 
-<body>
+<body style="margin: 0px; overflow:hidden;" oncontextmenu="return false">
+    <script type="text/javascript">
+        window.requireNode = window.require;
+        window.require = undefined;
+        var gtag;
+    </script>
+    <script src="bower_components/requirejs/require.js"></script>
 
-<div style="display: inline-block; -webkit-user-select: none; text-align: left;">
-    <canvas id="MMFCanvas" width="1024" height="768">
-    	Your browser does not support Canvas.
-    </canvas>
-</div>
+    <div id="root">
+        <div id="container"></div>
+        <div id="hammer"></div>
+        <div id="debug-fps" style="color:#ff0000; position: absolute; top: 0;"></div>
+    </div>
 
-<script>
-    // RUNTIMESTART
-    // This is where the HTML5 runtime is actually started
-    window.addEventListener("load", windowLoaded, false);
-    function windowLoaded()
-    {
-        // Calls the runtime
-        // First parameter : name of the canvas element
-        // Second parameter : path to the cch file. Images and sounds must lay beside this file
-        new Runtime("MMFCanvas", "resources/FiveNights2NOHACKS.cch");
-    }
-    // RUNTIMESTARTEND
-</script>
+
+
+
+    <script type="text/javascript">
+        var enableAnalytics;
+        var gameName = "fireboy-and-watergirl-crystal-temple.min.js";
+
+
+        //This all here is for cache busting;
+        function addScript(src, buster, callback) {
+            var s = document.createElement('script');
+            s.setAttribute('src', src + '?v=' + buster);
+            if (typeof callback === 'function') {
+                s.onload = callback;
+            }
+            document.body.appendChild(s);
+        }
+
+
+
+
+
+
+        addScript('version.js', Date.now(), function() {
+
+
+
+            require(["fireboy-and-watergirl-crystal-temple.min.js?v=" + version]);
+
+
+        });
+    </script>
 </body>
+
 </html>

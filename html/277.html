@@ -1,1 +1,114 @@
-<!doctypehtml><html lang=en-us><head><meta charset=utf-8><meta content="text/html; charset=utf-8"http-equiv=Content-Type><title>Qwasm2</title><style>*{margin:0;padding:0}html,body{width:100%;height:100%;overflow:hidden;background-color:#000;color:#e0e0e0;font-family:Arial,Helvetica,sans-serif;font-size:16px}.emscripten{padding-right:0;margin-left:auto;margin-right:auto;display:block}textarea.emscripten{font-family:monospace;font-size:14px;width:calc(100% - 24px);height:calc(100vh - 24px);margin-top:8px;background-color:inherit;color:silver;border:1px solid #404040;resize:none;display:none;outline:0}div.emscripten{text-align:center}canvas.emscripten{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);max-width:100%;max-height:100%;border:0 none;background-color:#000;display:none;outline:0}.spinner{height:50px;width:50px;margin:0 auto;animation:rotation .8s linear infinite;border-left:10px solid #606020;border-right:10px solid #606020;border-bottom:10px solid #606020;border-top:10px solid #ffffa0;border-radius:100%;background-color:#202020}@keyframes rotation{from{transform:rotate(0)}to{transform:rotate(360deg)}}</style></head><body><figure id=spinner style=overflow:visible><div class=spinner></div><center style=margin-top:.5em><strong>Qwasm2</strong></center></figure><div class=emscripten id=status>Downloading...</div><div class=emscripten><progress hidden id=progress max=100 value=0></progress></div><textarea class=emscripten id=output readonly></textarea><canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1></canvas><a hidden id=exportFile></a><script>var statusElement=document.getElementById("status"),progressElement=document.getElementById("progress"),spinnerElement=document.getElementById("spinner"),canvasElement=document.getElementById("canvas"),outputElement=document.getElementById("output"),exportElement=document.getElementById("exportFile");var Module={_canLockPointer:!0,print:(outputElement.value="",function(e){arguments.length>1&&(e=Array.prototype.slice.call(arguments).join(" ")),console.log(e),outputElement.value+=e+"\n",outputElement.scrollTop=outputElement.scrollHeight}),canvas:(canvasElement.addEventListener("webglcontextlost",(e=>{alert("WebGL context lost. You will need to reload the page."),e.preventDefault()}),!1),canvasElement),setStatus:e=>{if(Module.setStatus.last||(Module.setStatus.last={time:Date.now(),text:""}),e!==Module.setStatus.last.text){var t=e.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/),n=Date.now();t&&n-Module.setStatus.last.time<30||(Module.setStatus.last.time=n,Module.setStatus.last.text=e,t?(e=t[1],progressElement.value=100*parseInt(t[2]),progressElement.max=100*parseInt(t[4]),progressElement.hidden=!1,spinnerElement.hidden=!1):(progressElement.value=null,progressElement.max=null,progressElement.hidden=!0,e||(spinnerElement.hidden=!0)),statusElement.innerHTML=e)}},hideConsole:()=>{outputElement.style.display="none",canvasElement.style.display="block",canvasElement.focus()},showConsole:()=>{canvasElement.style.display="none",outputElement.style.display="block",outputElement.scrollTop=outputElement.scrollHeight,outputElement.focus()},exportFile:e=>{try{const t=e.split("/"),n=new Uint8Array(FS.readFile(e)),o=new Blob([n],{type:"application/octet-stream"}),l=URL.createObjectURL(o);exportElement.href=l,exportElement.download=t[t.length-1],exportElement.click(),URL.revokeObjectURL(l)}catch(e){console.error("Error exporting file:",e)}},winResized:()=>{console.info("Detected window resize: "+canvasElement.width+"x"+canvasElement.height)},setGamma:e=>{e=Number(Number(e).toFixed(2)),console.info("Detected canvas gamma change: "+e),canvasElement.style.filter=e<0?null:"brightness("+2*e+")"},captureMouse:()=>{Module._canLockPointer&&!Module._attemptPointerLock()&&(Module._canLockPointer=!1,console.info("Delayed pointer lock requested."),document.addEventListener("keydown",Module._lockPointerOnKey))},_attemptPointerLock:()=>(null===document.pointerLockElement&&canvasElement.requestPointerLock(),null!==document.pointerLockElement),_lockPointerOnKey:e=>{("Escape"===e.key||Module._attemptPointerLock())&&(document.removeEventListener("keydown",Module._lockPointerOnKey),console.info("Delayed pointer lock complete."),Module._canLockPointer=!0)},totalDependencies:0,monitorRunDependencies:e=>{this.totalDependencies=Math.max(this.totalDependencies,e),Module.setStatus(e?"Preparing... ("+(this.totalDependencies-e)+"/"+this.totalDependencies+")":"All downloads complete.")},onRuntimeInitialized:()=>{outputElement.style.display="block"}};Module.arguments=window.location.search.length>1?window.location.search.substr(1).split("&"):[],Module.setStatus("Downloading..."),window.onerror=()=>{Module.setStatus("Exception thrown, see JavaScript console"),spinnerElement.style.display="none",Module.setStatus=e=>{e&&console.error("[post-exception status] "+e)}};window.addEventListener("resize",()=>{if(canvasElement.style.display!=="none"){Module.winResized&&Module.winResized()}})</script><script async src=index.js></script></body></html>
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | People Playground</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <link rel="manifest" href="manifest.webmanifest">
+  </head>
+   <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background: #231F20;
+        }
+        #unity-container {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+    </style>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-PXHK7Q7G3Z');
+</script>
+  <body>
+    <div id="unity-container">
+      <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+      <div id="unity-warning"> </div>
+    </div>
+    <script>
+      window.addEventListener("load", function () {
+        if ("serviceWorker" in navigator) {
+          navigator.serviceWorker.register("ServiceWorker.js");
+        }
+      });
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var warningBanner = document.querySelector("#unity-warning");
+      function doNothing() { }
+      canvas.requestFullscreen = doNothing;
+      canvas.webkitRequestFullscreen = doNothing;
+      canvas.mozRequestFullScreen = doNothing;
+      canvas.msRequestFullscreen = doNothing;
+      function unityShowBanner(msg, type) {
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+        }
+        var div = document.createElement('div');
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == 'error') div.style = 'background: red; padding: 10px;';
+        else {
+          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+          setTimeout(function() {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
+        }
+        updateBannerVisibility();
+      }
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/pggbog.loader.js";
+      var config = {
+        dataUrl: buildUrl + "/pggbog.data",
+        frameworkUrl: buildUrl + "/pggbog.framework.js",
+        codeUrl: buildUrl + "/pggbog.wasm",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "Studio Minus",
+        productName: "People Playground",
+        productVersion: "1",
+        showBanner: unityShowBanner,
+      };
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+      }
+
+      loadingBar.style.display = "block";
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+          loadingBar.style.display = "none";
+        }).catch((message) => {
+          alert(message);
+        });
+      };
+      document.body.appendChild(script);
+    </script>
+  </body>
+</html>

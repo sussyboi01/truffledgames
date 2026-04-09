@@ -1,259 +1,125 @@
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<!DOCTYPE html>
+<html lang="en-us">
+<base href="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@main/last-breath-epstein/">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  
-  <base href="https://cdn.jsdelivr.net/gh/genizy/fridayfunk/">
   <meta charset="utf-8">
-  <title>Friday Night Funkin'</title>
-  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <link rel="shortcut icon" type="image/png" href="https://cdn.jsdelivr.net/gh/genizy/fridayfunk/favicon.png">
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/genizy/fridayfunk/Funkin.js"></script>
-  <script>
-    window.addEventListener("touchmove", function(event) {
-      event.preventDefault();
-    }, {
-      capture: false,
-      passive: false
-    });
-    if (typeof window.devicePixelRatio != 'undefined' && window.devicePixelRatio > 2) {
-      var meta = document.getElementById("viewport");
-      meta.setAttribute('content', 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no');
-    }
-  </script>
-  <style>
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    #openfl-content {
-      background: #000000;
-      width: 100%;
-      height: 100%;
-    }
-
-    @font-face {
-      font-family: '5by7';
-      src: url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/5by7.eot?#iefix') format('embedded-opentype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/5by7.woff') format('woff'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/5by7.ttf') format('truetype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/5by7.svg#5by7') format('svg');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: '5by7 Bold';
-      src: url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/5by7_b.eot?#iefix') format('embedded-opentype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/5by7_b.woff') format('woff'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/5by7_b.ttf') format('truetype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/5by7_b.svg#5by7%20Bold') format('svg');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: 'DS-Digital';
-      src: url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/DS-DIGI.eot?#iefix') format('embedded-opentype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/DS-DIGI.TTF') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: 'DS-Digital Bold';
-      src: url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/DS-DIGIB.eot?#iefix') format('embedded-opentype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/DS-DIGIB.TTF') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: 'DS-Digital Italic';
-      src: url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/DS-DIGII.eot?#iefix') format('embedded-opentype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/DS-DIGII.TTF') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: 'DS-Digital Bold Italic';
-      src: url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/DS-DIGIT.eot?#iefix') format('embedded-opentype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/DS-DIGIT.TTF') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: 'Inconsolata Black';
-      src: url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-Black.eot?#iefix') format('embedded-opentype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-Black.woff') format('woff'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-Black.ttf') format('truetype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-Black.svg#Inconsolata%20Black') format('svg');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: 'Inconsolata Bold';
-      src: url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-Bold.eot?#iefix') format('embedded-opentype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-Bold.woff') format('woff'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-Bold.ttf') format('truetype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-Bold.svg#Inconsolata%20Bold') format('svg');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: 'Inconsolata ExtraBold';
-      src: url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-ExtraBold.eot?#iefix') format('embedded-opentype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-ExtraBold.woff') format('woff'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-ExtraBold.ttf') format('truetype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-ExtraBold.svg#Inconsolata%20ExtraBold') format('svg');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: 'Inconsolata ExtraLight';
-      src: url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-ExtraLight.eot?#iefix') format('embedded-opentype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-ExtraLight.woff') format('woff'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-ExtraLight.ttf') format('truetype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-ExtraLight.svg#Inconsolata%20ExtraLight') format('svg');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: 'Inconsolata Medium';
-      src: url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-Medium.eot?#iefix') format('embedded-opentype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-Medium.woff') format('woff'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-Medium.ttf') format('truetype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-Medium.svg#Inconsolata%20Medium') format('svg');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: 'Inconsolata Regular';
-      src: url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-Regular.eot?#iefix') format('embedded-opentype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-Regular.woff') format('woff'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-Regular.ttf') format('truetype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-Regular.svg#Inconsolata%20Regular') format('svg');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: 'Inconsolata SemiBold';
-      src: url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-SemiBold.eot?#iefix') format('embedded-opentype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-SemiBold.woff') format('woff'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-SemiBold.ttf') format('truetype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Inconsolata-SemiBold.svg#Inconsolata%20SemiBold') format('svg');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: 'Pixel Arial 11 Bold';
-      src: url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/pixel.eot?#iefix') format('embedded-opentype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/pixel.woff') format('woff'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/pixel.otf') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: 'Quantico-Bold';
-      src: url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Quantico-Bold.eot?#iefix') format('embedded-opentype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Quantico-Bold.woff') format('woff'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Quantico-Bold.ttf') format('truetype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Quantico-Bold.svg#Quantico-Bold') format('svg');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: 'Quantico-BoldItalic';
-      src: url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Quantico-BoldItalic.eot?#iefix') format('embedded-opentype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Quantico-BoldItalic.woff') format('woff'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Quantico-BoldItalic.ttf') format('truetype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Quantico-BoldItalic.svg#Quantico-BoldItalic') format('svg');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: 'Quantico-Italic';
-      src: url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Quantico-Italic.eot?#iefix') format('embedded-opentype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Quantico-Italic.woff') format('woff'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Quantico-Italic.ttf') format('truetype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Quantico-Italic.svg#Quantico-Italic') format('svg');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: 'Quantico';
-      src: url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Quantico-Regular.eot?#iefix') format('embedded-opentype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Quantico-Regular.woff') format('woff'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Quantico-Regular.ttf') format('truetype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/Quantico-Regular.svg#Quantico') format('svg');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: 'VCR OSD Mono';
-      src: url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/vcr.eot?#iefix') format('embedded-opentype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/vcr.woff') format('woff'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/vcr.ttf') format('truetype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/assets/fonts/vcr.svg#VCR%20OSD%20Mono') format('svg');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: 'Nokia Cellphone FC Small';
-      src: url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/flixel/fonts/nokiafc22.eot?#iefix') format('embedded-opentype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/flixel/fonts/nokiafc22.woff') format('woff'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/flixel/fonts/nokiafc22.ttf') format('truetype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/flixel/fonts/nokiafc22.svg#Nokia%20Cellphone%20FC%20Small') format('svg');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: 'Monsterrat';
-      src: url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/flixel/fonts/monsterrat.eot?#iefix') format('embedded-opentype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/flixel/fonts/monsterrat.woff') format('woff'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/flixel/fonts/monsterrat.ttf') format('truetype'),
-        url('https://cdn.jsdelivr.net/gh/genizy/fridayfunk/flixel/fonts/monsterrat.svg#Monsterrat') format('svg');
-      font-weight: normal;
-      font-style: normal;
-    }
-  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Unity Web Player | Five Nights at Last Breath</title>
+  <link rel="shortcut icon" href="TemplateData/favicon.ico">
+  <style>body { padding: 0; margin: 0 }
+#unity-container { position: fixed; width: 100%; height: 100%; }
+#unity-canvas { width: 100%; height: 100%; background: #231F20 }
+#unity-loading-bar { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: none }
+#unity-logo { width: 154px; height: 130px; background: url('unity-logo-dark.png') no-repeat center }
+#unity-progress-bar-empty { margin-left: auto; margin-right: auto; width: 141px; height: 18px; margin-top: 10px; background: url('progress-bar-empty-dark.png') no-repeat center }
+#unity-progress-bar-full { width: 0%; height: 18px; margin-top: 10px; background: url('progress-bar-full-dark.png') no-repeat center }
+#unity-warning { position: absolute; left: 50%; top: 5%; transform: translate(-50%); background: white; padding: 10px; display: none }
+</style>
 </head>
 
 <body>
-  <noscript>This webpage makes extensive use of JavaScript. Please enable JavaScript in your web browser to view this page.</noscript>
-  <div id="openfl-content"></div>
-  <script type="text/javascript">
-    lime.embed("Funkin", "openfl-content", 1280, 720, {
-      parameters: {}
-    });
+  <div id="unity-container" class="unity-desktop">
+    <canvas id="unity-canvas" width=1280 height=720 tabindex="-1"></canvas>
+    <div id="unity-loading-bar">
+      <div id="unity-logo"></div>
+      <div id="unity-progress-bar-empty">
+        <div id="unity-progress-bar-full"></div>
+      </div>
+    </div>
+  </div>
+      <script>
+      window.fileMergerConfig = {
+        files: [
+          { name: 'WebBuild.data.br', parts: 3 },
+          { name: 'WebBuild.wasm.br', parts: 3 },
+        ],
+        basePath: 'Build/',
+        debug: true
+      };  
+      </script>
+    <script src="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@main/merge.js"></script>
+  <script>
+    var canvas = document.querySelector("#unity-canvas");
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var warningBanner = document.querySelector("#unity-warning");
+    // Shows a temporary message banner/ribbon for a few seconds, or
+    // a permanent error message on top of the canvas if type=='error'.
+    // If type=='warning', a yellow highlight color is used.
+    // Modify or remove this function to customize the visually presented
+    // way that non-critical warnings and error messages are presented to the
+    // user.
+    function unityShowBanner(msg, type) {
+    }
+
+    var buildUrl = "Build";
+    var loaderUrl = buildUrl + "/WebBuild.loader.js";
+    var config = {
+      arguments: [],
+      dataUrl: buildUrl + "/WebBuild.data.br",
+      frameworkUrl: buildUrl + "/WebBuild.framework.js",
+      codeUrl: buildUrl + "/WebBuild.wasm.br",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "Last Breath Entertainment",
+      productName: "Five Nights at Last Breath",
+      productVersion: "1.7",
+      showBanner: unityShowBanner,
+      // errorHandler: function(err, url, line) {
+      //    alert("error " + err + " occurred at line " + line);
+      //    // Return 'true' if you handled this error and don't want Unity
+      //    // to process it further, 'false' otherwise.
+      //    return true;
+      // },
+    };
+
+    // By default, Unity keeps WebGL canvas render target size matched with
+    // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+    // Set this to false if you want to decouple this synchronization from
+    // happening inside the engine, and you would instead like to size up
+    // the canvas DOM size and WebGL render target sizes yourself.
+    // config.matchWebGLToCanvasSize = false;
+
+    // If you would like all file writes inside Unity Application.persistentDataPath
+    // directory to automatically persist so that the contents are remembered when
+    // the user revisits the site the next time, uncomment the following line:
+    // config.autoSyncPersistentDataPath = true;
+    // This autosyncing is currently not the default behavior to avoid regressing
+    // existing user projects that might rely on the earlier manual
+    // JS_FileSystem_Sync() behavior, but in future Unity version, this will be
+    // expected to change.
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        // Mobile device style: fill the whole browser client area with the game canvas:
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+      }
+
+
+      loadingBar.style.display = "block";
+
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+          loadingBar.style.display = "none";
+        }).catch((message) => {
+        });
+      };
+      document.body.appendChild(script);
   </script>
 </body>
 

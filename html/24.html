@@ -1,149 +1,205 @@
-<!DOCTYPE html>
-<html lang="en-us">
-  <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
-</script>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Unity WebGL Player | Bad Parenting 1</title>
-    <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css">
+</script><!DOCTYPE html>
+<html>
+  <head>
+    <base href="https://cdn.jsdelivr.net/gh/genizy/assets@main/bad-ice-cream/">
+    <meta charset="utf-8" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#382C2A" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+    <title>Bad Ice Cream</title>
+    <link rel="icon" href="/favicon.ico">
+    <script src="poki.js"></script>
+    <script type="text/javascript" src="./js/loader.js"></script>
+    <script type="text/javascript" src="./js/virtualJoystickSkinMod.js"></script>
+    <script type="text/javascript" src="./preloader/nitromePreloader.js"></script>
     <style>
       * {
         margin: 0;
         padding: 0;
-        border: 0;
+      }
+
+      canvas {
+        outline: none;
+      }
+
+      html,
+      body,
+      #container {
+        margin: 0;
         overflow: hidden;
-      }
-      body {
-        background: #000;
-        position: fixed;
         width: 100%;
         height: 100%;
+        background-color: #9badbe;
       }
-      #unity-container {
+
+      #splash {
         position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
+        visibility: hidden;
+        z-index: 10;
       }
-      #unity-canvas {
-        width: 100%;
-        height: 100%;
-        display: block;
-      }
-      .footer {
+
+      #splash__image {
         position: absolute;
-        bottom: 0;
-        width: 100%;
-        text-align: center;
-        padding: 10px 0;
-        background: rgba(0,0,0,0.5);
-        z-index: 100;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-image: url("assets/badicecream_splash.jpg");
+        visibility: visible;
+        transition: opacity 0.5s;
+        z-index: 10;
       }
-    </style>
+
+      #progress__root {
+        position: absolute;
+      }
+
+      #progress__line {
+        width: 0;
+        height: 100%;
+        transition: all 0.5s;
+      }
+    #sidebarad1,
+#sidebarad2 {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 160px;
+  height: 600px;
+  padding: 0;
+  margin: 0;
+  z-index: 999999;
+}
+#sidebarad1 {
+  left: 0;
+}
+#sidebarad2 {
+  right: 0;
+}
+.sidebar-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+  z-index: 10;
+}
+.sidebar-frame {
+  width: 160px;
+  height: 600px;
+  border: none;
+  display: block;
+}
+</style>
   </head>
+
   <body>
-    <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas" tabindex="-1"></canvas>
-      <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
-        <div id="unity-progress-bar-empty">
-          <div id="unity-progress-bar-full"></div>
-        </div>
-      </div>
-      <div id="unity-footer">
-        <div id="unity-webgl-logo"></div>
-        <div id="unity-build-title">Bad Parenting 1</div>
+    <div id="splash__image">
+      <div id="progress__root">
+        <div id="progress__line"></div>
       </div>
     </div>
 
     <script>
-      var container = document.querySelector("#unity-container");
-      var canvas = document.querySelector("#unity-canvas");
-      var loadingBar = document.querySelector("#unity-loading-bar");
-      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      window.addEventListener("load", () => {
+        PokiSDK.setDebugTouchOverlayController(true);
 
-      // Shows a temporary message banner/ribbon for a few seconds
-      function unityShowBanner(msg, type) {
-        var warningBanner = document.querySelector("#unity-warning");
-        function updateBannerVisibility() {
-          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
-        }
-        var div = document.createElement('div');
-        div.innerHTML = msg;
-        warningBanner.appendChild(div);
-        if (type == 'error') div.style = 'background: red; padding: 10px;';
-        else {
-          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
-          setTimeout(function() {
-            warningBanner.removeChild(div);
-            updateBannerVisibility();
-          }, 5000);
-        }
-        updateBannerVisibility();
-      }
+        PokiSDK.init()
+          .then(() => {
+            // successfully initialized
+            onPokiInitComplete(false);
+          })
+          .catch(() => {
+            // successfully initialized but the user has adblock
+            onPokiInitComplete(true);
+          });
+        let config;
 
-      var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/Build.loader.js";
-      var config = {
-        dataUrl: buildUrl + "/Build.data",
-        frameworkUrl: buildUrl + "/Build.framework.js",
-        codeUrl: buildUrl + "/Build.wasm",
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "twoootwo",
-        productName: "Bad Parenting 1",
-        productVersion: "1.0",
-        showBanner: unityShowBanner,
-      };
+        config = {
+          key: "bic1",
+          title: "BadIceCream 1",
+          filename: "BadIceCream1_sdk",
+          pokiSDK: true,
+          debugPoki: false,
+          showFPS: false,
+          debug: false,
+          splash: "assets/badicecream_splash.jpg",
+          start: null,
+          width: 550,
+          height: 550,
+          x: 0,
+          y: 0,
+          w: "100%",
+          h: "100%",
+          stageScaleMode: null,
+          stageAlign: null,
+          progressParserWeigth: 1,
+          progress: {
+            direction: "lr",
+            back: "#35809e",
+            line: "#070bff",
+            rect: [0.25, 0.65, 0.5, 0.03],
+          },
+          box2dVersion: "none",
+          skipFramesOfScene: null,
+          buttonPokiSDKActions: null,
+          retryButtonIDS: null,
+          retryButtonAction: null,
+          actionOnStop: null,
+          actionWhenRetryButtonEncountered: null,
+          binary: [
+            {
+              name: "BadIceCream1_sdk",
+              path: "assets/BadIceCream1_sdk.swf",
+              size: 1937690,
+              resourceType: "GAME",
+            },
+          ],
+          runtime: "js/BadIceCream.js",
+        };
 
-      // Handle resizing and mobile responsiveness
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        var meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.getElementsByTagName('head')[0].appendChild(meta);
-        container.className = "unity-mobile";
-        canvas.className = "unity-mobile";
-        canvas.style.width = "100%";
-        canvas.style.height = "100%";
-      } else {
-        canvas.style.width = "100%";
-        canvas.style.height = "100%";
-        canvas.style.position = "absolute";
-        canvas.style.top = "0";
-        canvas.style.left = "0";
-      }
+        PokiSDK.setDebug(config.debugPoki);
 
-      loadingBar.style.display = "block";
+        Loader.init(config);
 
-      var script = document.createElement("script");
-      script.src = loaderUrl;
-      script.onload = () => {
-        createUnityInstance(canvas, config, (progress) => {
-          progressBarFull.style.width = 100 * progress + "%";
-        }).then((unityInstance) => {
-          loadingBar.style.display = "none";
-          
-          // Automatically enter fullscreen once Unity is loaded
-          setTimeout(() => {
-            if (unityInstance.SetFullscreen) {
-              unityInstance.SetFullscreen(1); // This triggers fullscreen
+        let onPokiInitComplete = (adBlocked) => {
+          PokiSDK.adBlocked = adBlocked;
+          PokiSDK.gameLoadingStart();
+
+          Loader.runGame(
+            (fill) => {
+              PokiSDK.gameLoadingProgress({
+                percentageDone: fill,
+                kbLoaded: 0,
+                kbTotal: 0,
+                fileNameLoaded: "",
+                filesLoaded: 0,
+                filesTotal: 0,
+              });
+              window.nitromePreloaderSetProgress(fill / 1.0);
+            },
+            (instance) => {
+              PokiSDK.gameLoadingFinished();
+              window.nitromePreloaderSetComplete();
             }
-          }, 1000); // A slight delay to ensure everything is loaded
-        }).catch((message) => {
-          alert(message);
-        });
-      };
-
-      document.body.appendChild(script);
+          );
+        };
+        window.nitromePreloaderInit("bad-ice-cream");
+      });
     </script>
-  </body>
 </html>

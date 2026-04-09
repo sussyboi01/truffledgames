@@ -1,6 +1,33 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    
+  <meta charset="utf-8">
+  <title>BALDI</title>
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: black;
+    }
+
+    #unity-container {
+      width: 100%;
+      height: 100%;
+    }
+
+    #unity-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: black;
+    }
+  </style>
+</head>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -8,18 +35,24 @@
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-    
-    <meta charset="utf-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AndreajnRcm4/b398dl2h74v@9a23fbb2373d743a564873251cbb57736ebc1f73/style.css" type="text/css" />
-    
-</head>
 <body>
-<script src="https://cdn.jsdelivr.net/gh/u-cvlassrom-y/google@main/ruffle.js"></script>
+  <div id="unity-container">
+    <canvas id="unity-canvas"></canvas>
+  </div>
 
-<object width="100%" height="100%">
-    <param name="movie" value="https://cdn.jsdelivr.net/gh/gn-math/assets/175/Run.swf">
-    <embed src="https://cdn.jsdelivr.net/gh/gn-math/assets/175/Run.swf" width="100%" height="100%">
+  <script src="TemplateData/BALDI.loader.js"></script>
+  <script>
+    const canvas = document.querySelector("#unity-canvas");
+
+    createUnityInstance(canvas, {
+      dataUrl: "Build/BALDI.data",
+      frameworkUrl: "Build/BALDI.framework.js",
+      codeUrl: "Build/BALDI.wasm",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "Unknown",
+      productName: "BALDI",
+      productVersion: "1.0"
+    });
+  </script>
 </body>
 </html>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html>
-<head>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -8,208 +7,126 @@
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-    <base href="https://cdn.jsdelivr.net/gh/genizy/assets@main/ctr-holiday/">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<!-- Ultimate Game Stash file--> 
+<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
 
-    <title>Cut the Rope: Holiday Gift</title>
-    <meta name="description" content="Play Cut the Rope! A mysterious package has arrived, and the little monster inside has only one request… CANDY!">
 
-    <meta name="msapplication-tooltip" content="Play Cut the Rope! A mysterious package has arrived, and the little monster inside has only one request… CANDY!" />
-    <meta name="msapplication-navbutton-color" content="#659729" />
-    <meta name="msApplication-ID" content="App"/>
-    <meta name="msApplication-PackageFamilyName" content="ZeptoLabUKLimited.CutTheRope_sq9zxnwrk84pj"/>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-    <meta property="og:title" content="Cut the Rope" />
-    <meta property="og:type" content="game" />
-    <meta property="og:site_name" content="Cut the Rope" />
-
-	<script type="text/javascript" src="scripts/detectmobilebrowser.js" ></script>
-    <link href="css/ctr.css?438" rel="stylesheet" type="text/css">
-    <script src="scripts/sm2.js?438" type="text/javascript"></script>
-    <script src="scripts/libraries.js?438" type="text/javascript"></script>
-    <script src="scripts/ctr.js?438" type="text/javascript"></script>
-    <noscript>
-        <link href="css/nojavascript.css?438" rel="stylesheet" type="text/css">
-    </noscript>
-</head>
-<body class="ctrCursor">
-  <div id="lang">
-    <style  type="text/css">
-        .hideBeforeLoad, #loaderWindow, #popupWindow { display: none; }  
+  <head>
+    <script>
+      window.gameconfig = {
+        name: "Castlevania: Symphony of the Night",
+        url: "https://cdn.jsdelivr.net/gh/schoolstuff1337/supplies@main/ps1/crash2/Crash%20Bandicoot%202%20-%20Cortex%20Strikes%20Back%20(USA).iso",
+        core: "psx",
+        min: 1,
+        max: 7
+      };
+    </script>
+    <script>
+      function mergeFiles(fileParts, cb) {
+        return new Promise((resolve, reject) => {
+          let buffers = [];
+          function fetchPart(index) {
+            if (index >= fileParts.length) {
+              let mergedBlob = new Blob(buffers);
+              let mergedFileUrl = URL.createObjectURL(mergedBlob);
+              resolve(mergedFileUrl);
+              return;
+            }
+            fetch(fileParts[index])
+              .then((response) => response.arrayBuffer())
+              .then((data) => {
+                buffers.push(data);
+                fetchPart(index + 1);
+              })
+              .catch(reject);
+            cb(index);
+          }
+          fetchPart(0);
+        });
+      }
+      function getParts(file, start, end) {
+        let parts = [];
+        for (let i = start; i <= end; i++) {
+          let padded = String(i).padStart((end+"").length, '0');
+          parts.push(file + ".part" + padded);
+        }
+        return parts;
+      }
+getParts("asd.js", 0, 100)
+    </script>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        background-color: #121212;
+        color: white;
+        font-family: Arial, sans-serif;
+      }
+      #game-container {
+        text-align: center;
+        width: 100%;
+        height: 100%;
+      }
+      #loading-progress {
+        font-size: 18px;
+        margin-top: 20px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        display: inline-block;
+      }
     </style>
-
-    <div id="gameContainer" >
-        <div id="game-border">
-            <div id="loader-logo"></div>
-        </div>
-        <div id="gameArea" class="hideBeforeLoad">
-            <canvas id="c"></canvas>
-            <div id="loadingPanel" class="panel"></div>
-
-            <div id="startBackground" class="panel"></div>
-            <div id="menuBackground" class="panel"></div>
-            <div id="levelBackground" class="panel">
-                <canvas id="levelCanvas"></canvas>
-                <div id="levelTape" class="levelTape"></div>
-            </div>
-            <div id="shadowPanel" class="panel">
-                <canvas id="shadowCanvas"></canvas>
-            </div>
-            <div id="menuPanel" class="panel seethrough">
-                <div class="panelContent">
-                    <div id="menuLogo" ></div>
-                    <div id="menuBtnVbox" class="fBtnVBox">
-                        <div id="playBtn" class="fBtn"><img src="" /></div>
-                        <div id="optionsBtn" class="fBtn"><img src="" /></div>
-                    </div>
-                </div>
-                <div id="miniOptionsMenu">
-					<!--<div id="optionHd"></div>
-					<div id="optionSd"></div>-->
-                    <div id="optionSound" class="ctrPointer" ></div>
-                    <div id="optionMsg"></div>
-                </div>
-            </div>
-
-            <div id="boxPanel" class="panel seethrough">
-                
-                <canvas id="boxCanvas"></canvas>
-
-                <div id="boxScore" class="hideFromMouse"><img src="" /></div>
-
-                <div id="boxNavBack">
-                    <div class="boxNavDisabled">
-                    </div>
-                </div>
-                <div id="boxNavForward">
-                    <div>
-                    </div>
-                </div>
-                <div id="boxBack" class="bBtn">
-                </div>
-            </div>
-            <div id="levelPanel" class="panel">
-                <div id="levelScore">
-                    <img src="" /></div>
-                <div id="levelBack" class="bBtn">
-                </div>
-                <div id="levelOptions"></div>
-                <div id="levelResults">
-                    <div id="resultStatus"><img src="" /></div>
-                    <div class="starCase">
-                        <div id="resultStar1" class=""></div>
-                        <div id="resultStar2" class=""></div>
-                        <div id="resultStar3" class=""></div>
-                    </div>
-                    <div id="resultTicker">
-                        <img id="resultTickerLabel" />
-                        <img id="resultTickerValue" />
-                        <img id="resultTickerMessage" />
-                    </div>
-                    <div class="line"></div>
-                    <div id="resultScore"></div>
-                    <div class="btnCase">
-                        <div id="replayBtn" class="sBtn"><img src="" /></div>
-                        <div id="lrMenuBtn" class="sBtn"><img src="" /></div>
-                        <div id="nextBtn" class="sBtn"><img src="" /></div>
-                    </div>
-                    <div id="resultImproved"></div>
-                </div>
-            </div>
-
-            <div id="gameCompletePanel" class="panel">
-                <div id="congrats"></div>
-                <div id="finalScore"><img src="" /></div>
-                <a href="../../" id="finalFunBtn" class="lBtn" target="_blank"><img src="" /><div id="funOmNom"></div></a>
-                <div id="gameCompleteBack" class="bBtn"></div>
-            </div>
-            
-            <div id="optionsPanel" class="panel">
-                <div class="fBtnVBox">
-                    <div id="optionsTitle"><img src="" /></div>
-                    <div id="soundBtn" class="mini-button ctrCursor"><div id="options-speaker"></div><div class="options-x"></div></div>
-                    <div id="musicBtn" class="mini-button ctrCursor"><div id="options-note"></div><div class="options-x"></div></div>
-                    <div id="langBtn" class="fBtn"><img src="" /><div id="flag"></div></div>
-                    <div id="resetBtn" class="fBtn"><img src="" /></div>
-                    <div id="creditsBtn" class="fBtn"><img src="" /></div>
-                    <div id="dragBtn"><img id="dragText" /><div class="options-check-disabled"></div></div>
-                    <div id="cutBtn" class="ctrCursor"><img id="cutText" /><div class="options-check"></div></div>
-                </div>
-                <div id="optionsBack" class="bBtn"></div>
-            </div>
-
-            <div id="d" class="panel ctrPointer">
-                <img id="dmsg" />
-                <div id="dframe">
-                    <div id="dpic"></div>
-                </div>
-                <div id="dshareBtn" class="fBtn"><img src="" /><div id="dfb"></div></div>
-            </div>
-            <div id="gameBtnTray">
-                <div id="gameMsg" class="allSound"></div>
-                <div id="gameSound" class="ctrPointer allSound"></div>
-                <div id="gameRestartBtn" class="ctrPointer"></div>
-                <div id="gameMenuBtn" class="ctrPointer"></div>
-            </div>
-            <div id="levelMenu">
-                <div class="fBtnVBox">
-                    <div id="continueBtn" class="fBtn"><img src="" /></div>
-                    <div id="skipBtn" class="fBtn"><img src="" /></div>
-                    <div id="selectBtn" class="fBtn"><img src="" /></div>
-                    <div id="menuBtn" class="fBtn"><img src="" /></div>
-                </div>
-            </div>
-
-            <div id="boxCutter">
-            </div>
-            <div id="tapeRoll">
-            </div>
-            <div id="video"></div>
-            <div id="fadeToBlack" class="panel"></div>
-        </div>  
-        <canvas id="e"></canvas>
-        
-        <div id="loaderWindow">
-            <div id="loaderBubbles">
-                <img id="loaderLogo" src="images/page/loader-logo.png" />
-                <div id="loaderCanvasHost">
-                    <canvas id="loaderCanvas"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <div id="popupWindow">
-            <div class="popupOuterFrame">
-                <div class="popupInnerFrame" id="slowComputer">
-                    <div class="fBtn" id="slowComputerBtn"><img src="" /></div>
-                </div>
-                <div class="popupInnerFrame" id="resetGame">
-                    <div id="resetText"></div>
-                    <div class="mBtn" id="resetYesBtn"><img src="" /></div>
-                    <div class="mBtn" id="resetNoBtn"><img src="" /></div>
-                    <div id="resetHoldYes"></div>
-                </div>
-                <div class="popupInnerFrame" id="missingStars">
-                    <div id="missingLine1"></div>
-                    <div id="missingCount"><div id="missingStar"></div></div>
-                    <div id="missingLine2"></div>
-                    <div id="missingLine3"></div>
-                    <div class="mBtn" id="missingOkBtn"></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="upgrade">
-            <div id="upgrade-header"></div>
-            <a id="upgrade-button" href="http://windows.microsoft.com/ie"></a>
-        </div>
-
+  </head>
+  <body>
+    <div id="game-container">
+      <div id="game"></div>
+      <div id="loading-progress">Loading: 0/0</div>
+      <div id="first-time">First-time loading may take longer...</div>
     </div>
+    <script>
+      var parts = getParts(
+        window.gameconfig.url,
+        window.gameconfig.min,
+        window.gameconfig.max
+      );
+      var totalParts = parts.length;
 
-  </div>
+      function updateLoadingProgress(loaded) {
+        const progressElement = document.getElementById("loading-progress");
+        if (loaded === 0) {
+          progressElement.textContent = "Loading: 0/0";
+        } else {
+          progressElement.textContent = `Loading: ${loaded}/${totalParts}`;
+        }
+      }
 
-
-</body>
-</html>
+      Promise.all([mergeFiles(parts, updateLoadingProgress)])
+        .then(([gameUrl]) => {
+          document.getElementById("loading-progress").remove();
+          document.getElementById("first-time").remove();
+          EJS_player = "#game";
+          EJS_core = window.gameconfig.core;
+          EJS_gameName = window.gameconfig.name;
+          EJS_color = "#0064ff";
+          EJS_startOnLoaded = true;
+          EJS_pathtodata = "https://cdn.jsdelivr.net/gh/genizy/emu@master/";
+          EJS_gameUrl = gameUrl;
+          const script = document.createElement("script");
+          script.src =
+            "https://cdn.jsdelivr.net/gh/genizy/emu@master/loader.js";
+          document.body.appendChild(script);
+        })
+        .catch((error) => {
+          console.error(error);
+          document.getElementById("loading-progress").textContent =
+            "Error loading game.";
+        });
+    </script>
+  </body>
+</html> 

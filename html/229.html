@@ -1,143 +1,132 @@
-        <!doctype html>
-<html lang="en">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<html>
+
+<!-- Ultimate Game Stash file--> 
+<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-<head>
-    <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="theme-color" content="#000000">
-    <title>myTeardrop</title>
-    <base href="https://cdn.jsdelivr.net/gh/waycrosspublicmedia/teardrop/play/">
-    <meta content="myTeardrop" property="og:title" />
-    <meta content="Take care of your very own Teardrop!" property="og:description" />
-    <meta content="#4291ff" property="theme-color" />
-    <link rel="manifest" href="manifest.json" />
-</head>
 
-</html>
-<style>
-    canvas {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+  <head>
+    <script>
+      window.gameconfig = {
+        name: "Mario Party 2 (USA)",
+        url: "https://cdn.jsdelivr.net/gh/bubbls/ugss@c88fc400f04b77c4cceab3e82b81bb3999abb450/Mario%20Party%202%20(USA)/Mario%20Party%202%20(USA).z64",
+        core: "n64",
+        min: 1,
+        max: 2,
+      };
+    </script>
+    <script>
+      function mergeFiles(fileParts, cb) {
+        return new Promise((resolve, reject) => {
+          let buffers = [];
+          function fetchPart(index) {
+            if (index >= fileParts.length) {
+              let mergedBlob = new Blob(buffers);
+              let mergedFileUrl = URL.createObjectURL(mergedBlob);
+              resolve(mergedFileUrl);
+              return;
+            }
+            fetch(fileParts[index])
+              .then((response) => response.arrayBuffer())
+              .then((data) => {
+                buffers.push(data);
+                fetchPart(index + 1);
+              })
+              .catch(reject);
+            cb(index);
+          }
+          fetchPart(0);
+        });
+      }
+      function getParts(file, start, end) {
+        let parts = [];
+        for (let i = start; i <= end; i++) {
+          parts.push(file + ".part" + i);
+        }
+        return parts;
+      }
+    </script>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 100%;
         height: 100%;
-        /*top: 0px;
-        left: 0px;*/
-        position: fixed;
-        object-fit: contain;
-    }
-
-    #collecting {
-        left: 50%;
-        transform: translate(-50%, 0%);
-        position: fixed;
-        animation-iteration-count: infinite;
-        animation: scale 4s infinite ease-in-out;
-        filter: drop-shadow(0px 5px 10px rgba(0, 0, 0, 0.2));
-    }
-
-    @keyframes scale {
-        0% {
-            width: calc(20% + 80px);
-        }
-
-        50% {
-            width: calc(20% + 90px);
-        }
-
-        100% {
-            width: calc(20% + 80px);
-        }
-    }
-
-    body {
-        background-color: black;
-        overflow: hidden;
-    }
-
-    * {
-        user-select: none;
-        -webkit-user-select: none;
-    }
-
-    #loader {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        /*top: 0px;
-        left: 0px;*/
-        position: fixed;
-        background-color: white;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        font-weight: 400;
-        line-height: 5px;
-        font-size: 12px;
-        width: calc(40% + 80px);
-        border-radius: 100px;
-        height: 10px;
-        padding: 1px;
-        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
-        outline: 2px solid #00000020;
-    }
-
-    #loader p {
-        margin-left: 10px;
-        font-size: 15px;
-        position: fixed;
-    }
-
-    #bar {
-        width: 0px;
+        background-color: #121212;
+        color: white;
+        font-family: Arial, sans-serif;
+      }
+      #game-container {
+        text-align: center;
+        width: 100%;
         height: 100%;
-        background: linear-gradient(#4bbdff 50%, #1e34ff 50%, #4bbdff);
-        border-radius: 100px;
-    }
+      }
+      #loading-progress {
+        font-size: 18px;
+        margin-top: 20px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="game-container">
+      <div id="game"></div>
+      <div id="loading-progress">Loading: 0/0</div>
+      <div id="first-time">First-time loading may take longer...</div>
+    </div>
+    <script>
+      var parts = getParts(
+        window.gameconfig.url,
+        window.gameconfig.min,
+        window.gameconfig.max
+      );
+      var totalParts = parts.length;
 
-    #loadbackground {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: -1;
-        image-rendering: optimizeSpeed;
-    }
-</style>
-<img id="collecting" src="Sprites/Load.png" style="bottom: calc(52%);">
-<div id="loader">
-    <div id="bar"></div>
-</div>
-<!--<img id="loadbackground" src="Sprites/bg1024x1024.png">-->
+      function updateLoadingProgress(loaded) {
+        const progressElement = document.getElementById("loading-progress");
+        if (loaded === 0) {
+          progressElement.textContent = "Loading: 0/0";
+        } else {
+          progressElement.textContent = `Loading: ${loaded}/${totalParts}`;
+        }
+      }
 
-<!--<script>
-    let scale = 640 / (1920 / 4);
-    let landscapeMode = (640 * (window.innerWidth / window.innerHeight)) >= 360;
-
-    let resolution = window.innerHeight / 640;
-    let width = (640 * (window.innerWidth / window.innerHeight));
-    let height = 640;
-    if (landscapeMode == false) {
-        width = 360;
-        height = (360 * (window.innerHeight / window.innerWidth));
-        resolution = window.innerWidth / 360;
-    };
-    scale *= resolution;
-
-    if (scale * 1024 < window.innerWidth) {
-        scale = window.innerWidth / 1024;
-    };
-    if (scale * 1024 < window.innerHeight) {
-        scale = window.innerHeight / 1024;
-    };
-    let loadbackground = document.getElementById("loadbackground");
-    loadbackground.style.transform = `translate(-50%, -50%) scale(${scale}, ${scale})`;
-</script>-->
-<script src="pixi.js"></script>
-<script src="matter.js"></script>
-<script src="pizzicato.js"></script>
-<script type="module" src="ease.js"></script>
-<script type="module" src="bfdi/bfdi.js"></script>
+      Promise.all([mergeFiles(parts, updateLoadingProgress)])
+        .then(([gameUrl]) => {
+          document.getElementById("loading-progress").remove();
+          document.getElementById("first-time").remove();
+          EJS_player = "#game";
+          EJS_core = window.gameconfig.core;
+          EJS_gameName = window.gameconfig.name;
+          EJS_color = "#0064ff";
+          EJS_startOnLoaded = true;
+          EJS_pathtodata = "https://cdn.jsdelivr.net/gh/genizy/emu@master/";
+          EJS_gameUrl = gameUrl;
+          EJS_defaultOptions = {
+        vsync: "disabled"
+}
+          const script = document.createElement("script");
+          script.src =
+            "https://cdn.jsdelivr.net/gh/genizy/emu@master/loader.js";
+          document.body.appendChild(script);
+        })
+        .catch((error) => {
+          console.error(error);
+          document.getElementById("loading-progress").textContent =
+            "Error loading game.";
+        });
+    </script>
+  </body>
+</html> 

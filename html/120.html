@@ -1,76 +1,45 @@
-<html lang="en">
+
+<!DOCTYPE html>
+<html>
 <head>
-    <base href="https://cdn.jsdelivr.net/gh/web-ports/dumb-ways-to-die@main/">
-  <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Dumb Ways to Die</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: black;
-      overflow: hidden;
-      height: 100%;
-      width: 100%;
-    }
+   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-PXHK7Q7G3Z');
+</script>
+   <base href="https://cdn.jsdelivr.net/gh/gn-math/assets@main/310/">
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow" />
+<title>Dreadhead Parkour</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 
-    #flash-container {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: black;
-    }
+<meta name="generator" content="Scirra Construct">
+   <meta name="author" content="gametornado">
+   <link rel="manifest" href="appmanifest.json">
+   <link rel="apple-touch-icon" sizes="128x128" href="icons/icon-128.png">
+   <link rel="icon" type="image/png" href="icons/icon-128.png">
+   <meta name="theme-color" content="#9b63b6">
+<link rel="stylesheet" href="style.css">
+   <link rel="stylesheet" href="file.css">
 
-    ruffle-player {
-      width: 100%;
-      height: 100%;
-      background: black;
-      display: block;
-    }
-  </style>
-  <script src="https://cdn.jsdelivr.net/npm/@ruffle-rs/ruffle@0.2.0-nightly.2026.3.11/ruffle.min.js"></script>
 </head>
 <body>
-  <div id="flash-container"></div>
 
-  <script>
-    const container = document.getElementById("flash-container");
+   <script src="box2d.wasm.js"></script>
 
-    function resizeGame() {
-      const windowWidth = window.innerWidth;
-      const windowHeight = window.innerHeight;
-      const aspectRatio = 4 / 3;
 
-      let width = Math.floor(windowWidth);
-      let height = Math.floor(windowWidth / aspectRatio);
+   <noscript>
+      <div id="notSupportedWrap">
+         <h2 id="notSupportedTitle">This content requires JavaScript</h2>
+         <p class="notSupportedMessage">JavaScript appears to be disabled. Please enable it to view this content.</p>
+      </div>
+   </noscript>
+   <script src="scripts/supportcheck.js"></script>
+   <script src="scripts/offlineclient.js" type="module"></script>
+   <script src="scripts/main.js" type="module"></script>
+   <script src="scripts/register-sw.js" type="module"></script>
 
-      if (height > windowHeight) {
-        height = Math.floor(windowHeight);
-        width = Math.floor(height * aspectRatio);
-      }
-
-      container.style.width = `${width}px`;
-      container.style.height = `${height}px`;
-    }
-
-    window.addEventListener("resize", resizeGame);
-    window.addEventListener("DOMContentLoaded", () => {
-      resizeGame();
-
-      const ruffle = window.RufflePlayer?.newest() || window.RufflePlayer?.createPlayer();
-      if (ruffle && container) {
-        const player = ruffle.createPlayer();
-        player.style.width = "100%";
-        player.style.height = "100%";
-        player.style.background = "black";
-        container.appendChild(player);
-        player.load("https://cdn.jsdelivr.net/gh/web-ports/dumb-ways-to-die@main/data/main.swf");
-      } else {
-        container.textContent = "Ruffle failed to load."; 
-      }
-    });
-  </script>
 </body>
 </html>

@@ -1,36 +1,43 @@
 <!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | MilkmanKarlson</title>
-    <script src="Build/UnityLoader.js"></script>
-    
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3kh0 | Learn To Fly 3</title>
+    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
     <script>
-      UnityLoader.instantiate("unityContainer", "Build/truffled.json");
+        window.onload = function() { // resize flash game to fit window
+            var game = document.getElementById("game");
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+            game.style.width = width + "px";
+            game.style.height = height + "px";
+        }
     </script>
-    <style>
-      html, body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-      }
-      #unityContainer {
-        width: 100vw;
-        height: 100vh;
-      }
-    </style>
-  </head>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-  <body>
-    <div id="unityContainer"></div>
-  </body>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<embed>
+    <embed src="./ltf3.swf" type="application/x-shockwave-flash" id="game">
+</body>
 </html>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'G-WLTG1S4STB');
+  </script>

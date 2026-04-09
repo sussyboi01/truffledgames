@@ -1,180 +1,163 @@
-<!DOCTYPE html>
-
-
-<!-- Ultimate Game Stash file--> 
-<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
-
-
-  
-<html>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
+<!DOCTYPE html>
+<html>
+
 <head>
-  <base href="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@main/eggy%20car/"> 
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>Eggy Car</title>
-  <!-- Standardised web app manifest -->
-  <link rel="manifest" href="appmanifest.json" />
+	<title>Drift Boss</title>
+	<meta name="description" content="Drift Boss is a one-button endless drifting game where you must steer your vehicle across a platform with tricky bends and bumps whilst avoiding falling off the edge.">
+	<link rel="icon" type="image/x-icon" href="/media/graphics/misc/favicon.ico" />
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<!-- Use this metatag when Apple fixes their IOS 9
+	<meta name="viewport" content="width=device-width,height=device-height, initial-scale=1, maximum-scale=1, user-scalable=0, minimal-ui"/>
+	-->
 
-  <!-- Allow fullscreen mode on iOS devices. (These are Apple specific meta tags.) -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  <link rel="apple-touch-icon" sizes="256x256" href="icon-256.png" />
-  <meta name="HandheldFriendly" content="true" />
+	<!--Temporary fix for IOS 9-->
+	<meta name="viewport" content="initial-scale=1.0001, minimum-scale=1.0001, maximum-scale=1.0001, user-scalable=no, minimal-ui" />
 
-  <meta property="og:title" content="Eggy Car" />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="./intantgames/banners/eggycar.jpg" />
-  <meta property="og:site_name" content="Eggy Car" />
-  <meta property="og:description" content="Eggy Car is a hill climbing car game with a egg on top of it. There is only one important task, DON'T DROP THE EGG. Drive carefully and cover maximum distance. It is not easy as well. Good Luck! ." />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
 
-  <!-- Chrome for Android web app tags -->
-  <meta name="mobile-web-app-capable" content="yes" />
-  <link rel="shortcut icon" sizes="256x256" href="icon-256.png" />
+	<link rel="stylesheet" type="text/css" href="game.css">
 
-  <!-- All margins and padding must be zero for the canvas to fill the screen. -->
-  <style type="text/css">
-    * {
-      padding: 0;
-      margin: 0;
-    }
-
-    html,
-    body {
-      background: #000;
-      color: #fff;
-      overflow: hidden;
-      touch-action: none;
-      -ms-touch-action: none;
-    }
-
-    canvas {
-      touch-action-delay: none;
-      touch-action: none;
-      -ms-touch-action: none;
-    }
-
-    @font-face {
-      font-family: Changa One;
-      src: url(changaone_regular.ttf.ttf);
-    }
-  </style>
-
-
+	<script type="text/javascript" src="game.js"></script>
+	<!-- AnalyticsCode -->
+	<script type="text/javascript" src=""></script>
+  	<meta name="robots" content="noindex,nofollow" />
+	<!-- APICode -->
 </head>
 
-<body>
-  <script>
-  (function() {
-    const originalImage = window.Image;
-    
-    window.Image = function() {
-      const img = new originalImage();
-      img.crossOrigin = "anonymous";
-      return img;
-    };
-    
-    const originalCreateElement = document.createElement.bind(document);
-    document.createElement = function(tagName) {
-      const element = originalCreateElement(tagName);
-      if (tagName.toLowerCase() === 'img') {
-        element.crossOrigin = "anonymous";
-      }
-      return element;
-    };
-  })();
-</script>
-  <div id="fb-root"></div>
+<body onload="setTimeout(function(){window.scrollTo(0,1)},1);">
+	<!--body-->
 
-  <script>
-    (function() {
-      // Check for running exported on file protocol
-      if (window.location.protocol.substr(0, 4) === "file") {
-        alert("Exported games won't work until you upload them. (When running on the file:/// protocol, browsers block many features from working for security reasons.)");
-      }
-    })();
-  </script>
+	<div id="ajaxbar">
+		<div id="game"><canvas id="canvas"></canvas></div>
+		<div id="webgl"><canvas id="webglcanvas"></canvas></div>
 
-  <!-- The canvas must be inside a div called c2canvasdiv -->
-  <div id="c2canvasdiv">
+		<div id="orientate"><img src="media/graphics/orientate/landscape.jpg" /></div>
+		<div id="play" class="play" onclick=""><img src="media/graphics/splash/mobile/cover-start.jpg" /></div>
+		<!--<img id="scrollDown" width="220" height="277"></img>-->
 
-    <!-- The canvas the project will render to.  If you change its ID, don't forget to change the
-		ID the runtime looks for in the jQuery events above (ready() and cr_sizeCanvas()). -->
-    <canvas id="c2canvas" width="1280" height="720">
-      <!-- This text is displayed if the visitor's browser does not support HTML5.
-			You can change it, but it is a good idea to link to a description of a browser
-			and provide some links to download some popular HTML5-compatible browsers. -->
-      <h1>Your browser does not appear to support HTML5. Try upgrading your browser to the latest version. <a href="http://www.whatbrowser.org">What is a browser?</a>
-        <br /><br /><a href="http://www.microsoft.com/windows/internet-explorer/default.aspx">Microsoft Internet Explorer</a><br />
-        <a href="http://www.mozilla.com/firefox/">Mozilla Firefox</a><br />
-        <a href="https://www.google.com/chrome/">Google Chrome</a><br />
-        <a href="http://www.apple.com/safari/download/">Apple Safari</a>
-      </h1>
-    </canvas>
+		<!-- SECTION GENERATED BY CODE -->
+		<div id="MobileAdInGamePreroll">
+			<div id="MobileAdInGamePreroll-Box">
+				<div id="MobileAdInGamePreroll-Box-Header"></div>
+				<a id="MobileAdInGamePreroll-Box-Close" onclick="MobileAdInGamePreroll.Close();"></a>
+				<div id="MobileAdInGamePreroll-Box-Body">
+					<center>
+						<!-- MobileAdInGamePreroll -->
+						<!-- AdTest-MobileAdInGamePreroll -->
+						<img src="https://cdn-factory.marketjs.com/generic.png">
+						<!-- EndOfAdTest-MobileAdInGamePreroll -->
+					</center>
+				</div>
+				<div id='MobileAdInGamePreroll-Box-Footer'></div>
+			</div>
+		</div>
 
-  </div>
+		<!-- SECOND AD (ROTATION) -->
+		<div id="MobileAdInGamePreroll2">
+			<div id="MobileAdInGamePreroll2-Box">
+				<div id="MobileAdInGamePreroll2-Box-Header"></div>
+				<a id="MobileAdInGamePreroll2-Box-Close" onclick="MobileAdInGamePreroll.Close();"></a>
+				<div id="MobileAdInGamePreroll2-Box-Body">
+					<center>
+						<!-- MobileAdInGamePreroll2 -->
+					</center>
+				</div>
+				<div id='MobileAdInGamePreroll2-Box-Footer'></div>
+			</div>
+		</div>
 
-  <!-- Pages load faster with scripts at the bottom -->
+		<!-- THIRD AD (ROTATION) -->
+		<div id="MobileAdInGamePreroll3">
+			<div id="MobileAdInGamePreroll3-Box">
+				<div id="MobileAdInGamePreroll3-Box-Header"></div>
+				<a id="MobileAdInGamePreroll3-Box-Close" onclick="MobileAdInGamePreroll.Close();"></a>
+				<div id="MobileAdInGamePreroll3-Box-Body">
+					<center>
+						<!-- MobileAdInGamePreroll3 -->
+					</center>
+				</div>
+				<div id='MobileAdInGamePreroll3-Box-Footer'></div>
+			</div>
+		</div>
 
-  <!-- Construct 2 exported games require jQuery. -->
-  <script src="jquery-2.1.1.min.js"></script>
+		<div id="MobileAdInGameHeader">
+			<!-- MobileAdInGameHeader -->
+		</div>
+		<div id="MobileAdInGameHeader2">
+			<!-- MobileAdInGameHeader2 -->
+		</div>
+		<div id="MobileAdInGameHeader3">
+			<!-- MobileAdInGameHeader3 -->
+		</div>
+
+		<div id="MobileAdInGameFooter">
+			<!-- MobileAdInGameFooter -->
+		</div>
+		<div id="MobileAdInGameFooter2">
+			<!-- MobileAdInGameFooter2 -->
+		</div>
+		<div id="MobileAdInGameFooter3">
+			<!-- MobileAdInGameFooter3 -->
+		</div>
 
 
+		<div id="MobileAdInGameEnd">
+			<div id="MobileAdInGameEnd-Box">
+				<div id="MobileAdInGameEnd-Box-Header"></div>
+				<a id="MobileAdInGameEnd-Box-Close" onclick="MobileAdInGameEnd.Close();"></a>
+				<div id="MobileAdInGameEnd-Box-Body">
+					<center>
+						<!-- MobileAdInGameEnd -->
+					</center>
+				</div>
+				<div id='MobileAdInGameEnd-Box-Footer'></div>
+			</div>
+		</div>
 
-  <!-- The runtime script.  You can rename it, but don't forget to rename the reference here as well.
-    This file will have been minified and obfuscated if you enabled "Minify script" during export. -->
-  <script src="c5runtime.js"></script>
+		<!-- SECOND AD (ROTATION) -->
+		<div id="MobileAdInGameEnd2">
+			<div id="MobileAdInGameEnd2-Box">
+				<div id="MobileAdInGameEnd2-Box-Header"></div>
+				<a id="MobileAdInGameEnd2-Box-Close" onclick="MobileAdInGameEnd.Close();"></a>
+				<div id="MobileAdInGameEnd2-Box-Body">
+					<center>
+						<!-- MobileAdInGameEnd2 -->
+					</center>
+				</div>
+				<div id='MobileAdInGameEnd2-Box-Footer'></div>
+			</div>
+		</div>
 
-  <script>
-    // Start the Construct 2 project running on window load.
-    jQuery(document).ready(function() {
-      // Create new runtime using the c2canvas
-      cr_createRuntime("c2canvas");
-    });
+		<!-- THIRD AD (ROTATION) -->
+		<div id="MobileAdInGameEnd3">
+			<div id="MobileAdInGameEnd3-Box">
+				<div id="MobileAdInGameEnd3-Box-Header"></div>
+				<a id="MobileAdInGameEnd3-Box-Close" onclick="MobileAdInGameEnd.Close();"></a>
+				<div id="MobileAdInGameEnd3-Box-Body">
+					<center>
+						<!-- MobileAdInGameEnd3 -->
+					</center>
+				</div>
+				<div id='MobileAdInGameEnd3-Box-Footer'></div>
+			</div>
+		</div>
 
-    // Pause and resume on page becoming visible/invisible
-    function onVisibilityChanged() {
-      if (document.hidden || document.mozHidden || document.webkitHidden || document.msHidden)
-        cr_setSuspended(true);
-      else
-        cr_setSuspended(false);
-    };
+		<!-- END OF SECTION GENERATED BY CODE -->
 
-    document.addEventListener("visibilitychange", onVisibilityChanged, false);
-    document.addEventListener("mozvisibilitychange", onVisibilityChanged, false);
-    document.addEventListener("webkitvisibilitychange", onVisibilityChanged, false);
-    document.addEventListener("msvisibilitychange", onVisibilityChanged, false);
+	</div>
+	<!-- <div id="tempdiv"><br><br><br></div> -->
+	<!-- APICode2 -->
 
-    function OnRegisterSWError(e) {
-      console.warn("Failed to register service worker: ", e);
-    };
 
-    // Runtime calls this global method when ready to start caching (i.e. after startup).
-    // This registers the service worker which caches resources for offline support.
-    window.C2_RegisterSW = function C2_RegisterSW() {
-      if (!navigator.serviceWorker)
-        return; // no SW support, ignore call
+	<!-- END OF TEST -->
 
-      try {
-        navigator.serviceWorker.register("sw.js", {
-            scope: "./"
-          })
-          .then(function(reg) {
-            console.log("Registered service worker on " + reg.scope);
-          })
-          .catch(OnRegisterSWError);
-      } catch (e) {
-        OnRegisterSWError(e);
-      }
-    };
-  </script>
 </body>
 
 </html>

@@ -1,146 +1,149 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en-us">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+  <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, minimum-scale=1, maximum-scale=1">
-  <title>Balatro</title>
-
-  <!-- Load custom style sheet -->
-  <link rel="stylesheet" type="text/css" href="theme/love.css">
-
-  <script src="consolewrapper.js"></script>
-</head>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-PXHK7Q7G3Z');
-</script>
-<body>
-  <center>
-    <div>
-      <!-- <h1>Balatro</h1> -->
-      <canvas id="loadingCanvas" oncontextmenu="event.preventDefault()" width="800" height="600"></canvas>
-      <canvas id="canvas" oncontextmenu="event.preventDefault()" width="100%" height="100%"></canvas>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Unity WebGL Player | Bad Parenting 1</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        overflow: hidden;
+      }
+      body {
+        background: #000;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+      }
+      #unity-container {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+      }
+      #unity-canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 100;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas" tabindex="-1"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+      <div id="unity-footer">
+        <div id="unity-webgl-logo"></div>
+        <div id="unity-build-title">Bad Parenting 1</div>
+      </div>
     </div>
-  </center>
 
-  <script type='text/javascript'>
-    window.callad = () => {
-      window.parent.postMessage({
-        type: 'adcall'
-      }, '*');
-    }
-    var canvas = document.getElementById("loadingCanvas");
-    canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-    canvas.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    <script>
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
 
-    function goFullScreen() {
-      var canvas = document.getElementById("canvas");
-      if (canvas.requestFullScreen)
-        canvas.requestFullScreen();
-      else if (canvas.webkitRequestFullScreen)
-        canvas.webkitRequestFullScreen();
-      else if (canvas.mozRequestFullScreen)
-        canvas.mozRequestFullScreen();
-    }
-
-    function FullScreenHook() {
-      var canvas = document.getElementById("canvas");
-      canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-      canvas.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-    }
-    var loadingContext = document.getElementById('loadingCanvas').getContext('2d');
-
-    function drawLoadingText(text) {
-      var canvas = loadingContext.canvas;
-
-      loadingContext.fillStyle = "rgb(142, 195, 227)";
-      loadingContext.fillRect(0, 0, canvas.scrollWidth, canvas.scrollHeight);
-
-      loadingContext.font = '2em arial';
-      loadingContext.textAlign = 'center'
-      loadingContext.fillStyle = "rgb( 11, 86, 117 )";
-      loadingContext.fillText(text, canvas.scrollWidth / 2, canvas.scrollHeight / 2);
-
-      // loadingContext.fillText("Powered By Emscripten.", canvas.scrollWidth / 2, canvas.scrollHeight / 4);
-      // loadingContext.fillText("Powered By LÖVE.", canvas.scrollWidth / 2, canvas.scrollHeight / 4 * 3);
-    }
-
-    window.onload = function() {
-      window.focus();
-    };
-    window.onclick = function() {
-      window.focus();
-    };
-
-    window.addEventListener("keydown", function(e) {
-      // space and arrow keys
-      if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-        e.preventDefault();
-      }
-    }, false);
-
-    var Module = {
-      arguments: ["./game.love"],
-      INITIAL_MEMORY: 256000000,
-      printErr: console.error.bind(console),
-      canvas: (function() {
-        var canvas = document.getElementById('canvas');
-
-        // As a default initial behavior, pop up an alert when webgl context is lost. To make your
-        // application robust, you may want to override this behavior before shipping!
-        // See http://www.khronos.org/registry/webgl/specs/latest/1.0/#5.15.2
-        canvas.addEventListener("webglcontextlost", function(e) {
-          alert('WebGL context lost. You will need to reload the page.');
-          e.preventDefault();
-        }, false);
-
-        return canvas;
-      })(),
-      setStatus: function(text) {
-        if (text) {
-          drawLoadingText(text);
-        } else if (Module.remainingDependencies === 0) {
-          document.getElementById('loadingCanvas').style.display = 'none';
-          document.getElementById('canvas').style.visibility = 'visible';
+      // Shows a temporary message banner/ribbon for a few seconds
+      function unityShowBanner(msg, type) {
+        var warningBanner = document.querySelector("#unity-warning");
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
         }
-      },
-      totalDependencies: 0,
-      remainingDependencies: 0,
-      monitorRunDependencies: function(left) {
-        this.remainingDependencies = left;
-        this.totalDependencies = Math.max(this.totalDependencies, left);
-        Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies - left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
+        var div = document.createElement('div');
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == 'error') div.style = 'background: red; padding: 10px;';
+        else {
+          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+          setTimeout(function() {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
+        }
+        updateBannerVisibility();
       }
-    };
-    Module.setStatus('Downloading...');
-    window.onerror = function(event) {
-      // TODO: do not warn on ok events like simulating an infinite loop or exitStatus
-      Module.setStatus('Exception thrown, see JavaScript console');
-      Module.setStatus = function(text) {
-        if (text) Module.printErr('[post-exception status] ' + text);
+
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/Build.loader.js";
+      var config = {
+        dataUrl: buildUrl + "/Build.data",
+        frameworkUrl: buildUrl + "/Build.framework.js",
+        codeUrl: buildUrl + "/Build.wasm",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "twoootwo",
+        productName: "Bad Parenting 1",
+        productVersion: "1.0",
+        showBanner: unityShowBanner,
       };
-    };
 
-    var applicationLoad = function(e) {
-      Love(Module);
-    }
-  </script>
-  <script type="text/javascript" src="game.js?v=d7e34743-2fea-4de6-8a0e-1103b5fcf07f"></script>
-  <script async type="text/javascript" src="love.js" onload="applicationLoad(this)"></script>
-  <!-- <footer>
-      <p>Built with <a href="https://github.com/Davidobot/love.js">love.js</a> <button onclick="goFullScreen();">Go Fullscreen</button><br>Hint: Reload the page if screen is blank</p>
-    </footer> -->
-</body>
+      // Handle resizing and mobile responsiveness
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+        container.className = "unity-mobile";
+        canvas.className = "unity-mobile";
+        canvas.style.width = "100%";
+        canvas.style.height = "100%";
+      } else {
+        canvas.style.width = "100%";
+        canvas.style.height = "100%";
+        canvas.style.position = "absolute";
+        canvas.style.top = "0";
+        canvas.style.left = "0";
+      }
 
+      loadingBar.style.display = "block";
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+          loadingBar.style.display = "none";
+          
+          // Automatically enter fullscreen once Unity is loaded
+          setTimeout(() => {
+            if (unityInstance.SetFullscreen) {
+              unityInstance.SetFullscreen(1); // This triggers fullscreen
+            }
+          }, 1000); // A slight delay to ensure everything is loaded
+        }).catch((message) => {
+          alert(message);
+        });
+      };
+
+      document.body.appendChild(script);
+    </script>
+  </body>
 </html>

@@ -1,148 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>WEBFISHING</title>
-  <link rel="icon" href="favicon.ico" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="style.css" />
-  <script src="webfishing_2_newver.js"></script>
-  <script type="module" src="index.js"></script>
-  <script src="download.js"></script>
-</head>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<html lang="en-us">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-<body>
-  <h1>WEBFISHING</h1>
+<head>
+    <base href="https://cdn.jsdelivr.net/gh/gn-math/assets@main/199/">
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Time Shooter</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+</head>
 
-  <label>
-    Username: 
-    <input type="text" id="username" placeholder="player" />
-  </label>
+<body class="dark">
+    <div id="unity-container" class="unity-desktop">
+        <canvas id="unity-canvas"></canvas>
+    </div>
+    <div id="loading-cover" style="display:none;">
+        <div id="unity-loading-bar">
+            <div id="unity-logo"><img src="logo.png"></div>
+            <div id="unity-progress-bar-empty" style="display: none;">
+                <div id="unity-progress-bar-full"></div>
+            </div>
+            <div class="spinner"></div>
+        </div>
+    </div>
+    <div id="unity-fullscreen-button" style="display: none;"></div>
+    <script>
+        const hideFullScreenButton = "1";
+        const buildUrl = "Build";
+        const loaderUrl = buildUrl + "/TimeGD.loader.js";
+        const config = {
+            dataUrl: buildUrl + "/TimeGD.data.unityweb",
+            frameworkUrl: buildUrl + "/TimeGD.framework.js.unityweb",
+            codeUrl: buildUrl + "/TimeGD.wasm.unityweb",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "g80g",
+            productName: "Time Shooter",
+            productVersion: "1.0",
+        };
 
-  <input type="file" id="save" style="display: none" accept=".sav" />
-  <input type="file" id="exe" style="display: none" accept=".exe" disabled />
+        const container = document.querySelector("#unity-container");
+        const canvas = document.querySelector("#unity-canvas");
+        const loadingCover = document.querySelector("#loading-cover");
+        const progressBarEmpty = document.querySelector("#unity-progress-bar-empty");
+        const progressBarFull = document.querySelector("#unity-progress-bar-full");
+        const fullscreenButton = document.querySelector("#unity-fullscreen-button");
+        const spinner = document.querySelector('.spinner');
 
-  <div class="wfmenu">
-    <button onclick="document.getElementById('exe').click()">Load Game</button>
-    <button onclick="downloadEXE()">Download Webfishing.exe</button>
-    <button id="downloadSaveBtn" type="button">Download Save</button>
-    <button id="importSaveBtn" type="button">Import Save</button>
-  <input type="file" id="importFile" accept=".sav" style="display:none" />
-  </div>
+        const canFullscreen = (function() {
+            for (const key of [
+                    'exitFullscreen',
+                    'webkitExitFullscreen',
+                    'webkitCancelFullScreen',
+                    'mozCancelFullScreen',
+                    'msExitFullscreen',
+                ]) {
+                if (key in document) {
+                    return true;
+                }
+            }
+            return false;
+        }());
 
-  <p>
-    Click Download WEBFISHING.exe. Then click Load Game and select the downloaded file.
-  </p>
-  
-  <canvas id="canvas"></canvas>
+        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+            container.className = "unity-mobile";
+            config.devicePixelRatio = 1;
+        }
+        canvas.style.background = "url('" + buildUrl + "/TimeGD.jpg') center / cover";
+        loadingCover.style.display = "";
 
-  <div style="margin-top: -40px; text-align: left;">  
-    <button id="creditBtn" type="button" style="
-      background: none;
-      border: none;
-      color: #000000;
-      font-size: 0.9rem;
-      cursor: default;
-      user-select: none;
-      padding: 0;
-    ">
-      Made with ❤️ by <strong>aukak</strong> (Design) and <strong>98corbins & Notnite
-      </strong> (Development)
-    </button>
-  </div>
-
-
-<script>
-const usernameInput = document.getElementById('username');
-const downloadSaveBtn = document.getElementById('downloadSaveBtn');
-const importSaveBtn = document.getElementById('importSaveBtn');
-const importFile = document.getElementById('importFile');
-
-let secondName = localStorage.getItem('secondName') || '';
-
-window.addEventListener('load', () => {
-  const savedName = localStorage.getItem('username');
-  if (savedName) {
-    usernameInput.value = savedName;
-  }
-});
-
-usernameInput.addEventListener('input', () => {
-  localStorage.setItem('username', usernameInput.value);
-});
-
-usernameInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
-    localStorage.setItem('username', usernameInput.value);
-  }
-});
-
-function saveSecondName(name) {
-  secondName = name;
-  localStorage.setItem('secondName', secondName);
-}
-
-window.addEventListener('beforeunload', () => {
-  localStorage.setItem('username', usernameInput.value);
-  localStorage.setItem('secondName', secondName);
-});
-
-setInterval(() => {
-  localStorage.setItem('username', usernameInput.value);
-  localStorage.setItem('secondName', secondName);
-}, 10000);
-
-downloadSaveBtn.addEventListener('click', () => {
-  const saveData = {
-    username: usernameInput.value,
-    secondName: secondName
-  };
-  const blob = new Blob([JSON.stringify(saveData, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'webfishing_save.sav';
-  a.click();
-  URL.revokeObjectURL(url);
-});
-
-importSaveBtn.addEventListener('click', () => {
-  importFile.click();
-});
-
-importFile.addEventListener('change', (event) => {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = e => {
-    try {
-      const saveData = JSON.parse(e.target.result);
-      if (saveData.username) {
-        usernameInput.value = saveData.username;
-        localStorage.setItem('username', saveData.username);
-      }
-      if (saveData.secondName) {
-        saveSecondName(saveData.secondName);
-      }
-      alert('Save loaded successfully!');
-    } catch {
-      alert('Failed to load save file: invalid format.');
-    }
-  };
-  reader.readAsText(file);
-});
-
-</script>
-
-<script src="download.js"></script>
+        const script = document.createElement("script");
+        script.src = loaderUrl;
+        script.onload = () => {
+            createUnityInstance(canvas, config, (progress) => {
+                spinner.style.display = "none";
+                progressBarEmpty.style.display = "";
+                progressBarFull.style.width = `${100 * progress}%`;
+            }).then((unityInstance) => {
+                loadingCover.style.display = "none";
+                if (canFullscreen) {
+                    if (!hideFullScreenButton) {
+                        fullscreenButton.style.display = "";
+                    }
+                    fullscreenButton.onclick = () => {
+                        unityInstance.SetFullscreen(1);
+                    };
+                }
+            }).catch((message) => {
+                alert(message);
+            });
+        };
+        document.body.appendChild(script);
+    </script>
 </body>
+
 </html>

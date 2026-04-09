@@ -1,133 +1,76 @@
-<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="https://cdn.jsdelivr.net/gh/web-ports/dumb-ways-to-die@main/">
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Dumb Ways to Die</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+    }
 
+    #flash-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: black;
+    }
 
-<!-- Ultimate Game Stash file--> 
-<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
+    ruffle-player {
+      width: 100%;
+      height: 100%;
+      background: black;
+      display: block;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@ruffle-rs/ruffle@0.2.0-nightly.2026.3.11/ruffle.min.js"></script>
+</head>
+<body>
+  <div id="flash-container"></div>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-PXHK7Q7G3Z');
-</script>
-  <head> 
-    <script>
-      window.gameconfig = {
-        name: "Final Fantasy VII (USA) (Disc 1)",
-        url: "https://cdn.jsdelivr.net/gh/bubbls/ugss@d47da970bd2d5b253ec05caeb9985423cc66e4cf/VII/Final%20Fantasy%20VII%20(USA)%20(Disc%201).chd",
-        core: "psx",
-        min: 1,
-        max: 25,
-      };
-    </script>
-    <script>
-      function mergeFiles(fileParts, cb) {
-        return new Promise((resolve, reject) => {
-          let buffers = [];
-          function fetchPart(index) {
-            if (index >= fileParts.length) {
-              let mergedBlob = new Blob(buffers);
-              let mergedFileUrl = URL.createObjectURL(mergedBlob);
-              resolve(mergedFileUrl);
-              return;
-            }
-            fetch(fileParts[index])
-              .then((response) => response.arrayBuffer())
-              .then((data) => {
-                buffers.push(data);
-                fetchPart(index + 1);
-              })
-              .catch(reject);
-            cb(index);
-          }
-          fetchPart(0);
-        });
-      }
-      function getParts(file, start, end) {
-        let parts = [];
-        for (let i = start; i <= end; i++) {
-          let padded = String(i).padStart((end+"").length, '0');
-          parts.push(file + ".part" + padded);
-        }
-        return parts;
-      }
-getParts("asd.js", 0, 100)
-    </script>
-    <style>
-      body,
-      html {
-        margin: 0;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-        background-color: #121212;
-        color: white;
-        font-family: Arial, sans-serif;
-      }
-      #game-container {
-        text-align: center;
-        width: 100%;
-        height: 100%;
-      }
-      #loading-progress {
-        font-size: 18px;
-        margin-top: 20px;
-        padding: 10px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-        display: inline-block;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="game-container">
-      <div id="game"></div>
-      <div id="loading-progress">Loading: 0/0</div>
-      <div id="first-time">First-time loading may take longer...</div>
-    </div>
-    <script>
-      var parts = getParts(
-        window.gameconfig.url,
-        window.gameconfig.min,
-        window.gameconfig.max
-      );
-      var totalParts = parts.length;
+  <script>
+    const container = document.getElementById("flash-container");
 
-      function updateLoadingProgress(loaded) {
-        const progressElement = document.getElementById("loading-progress");
-        if (loaded === 0) {
-          progressElement.textContent = "Loading: 0/0";
-        } else {
-          progressElement.textContent = `Loading: ${loaded}/${totalParts}`;
-        }
+    function resizeGame() {
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+      const aspectRatio = 4 / 3;
+
+      let width = Math.floor(windowWidth);
+      let height = Math.floor(windowWidth / aspectRatio);
+
+      if (height > windowHeight) {
+        height = Math.floor(windowHeight);
+        width = Math.floor(height * aspectRatio);
       }
 
-      Promise.all([mergeFiles(parts, updateLoadingProgress)])
-        .then(([gameUrl]) => {
-          document.getElementById("loading-progress").remove();
-          document.getElementById("first-time").remove();
-          EJS_player = "#game";
-          EJS_core = window.gameconfig.core;
-          EJS_gameName = window.gameconfig.name;
-          EJS_color = "#0064ff";
-          EJS_startOnLoaded = true;
-          EJS_pathtodata = "https://cdn.jsdelivr.net/gh/genizy/emu@master/";
-          EJS_gameUrl = gameUrl;
-          EJS_biosUrl = "https://cdn.jsdelivr.net/gh/Abdess/retroarch_system@5f96368f6dbad5851cdb16a5041fefec4bdcd305/Sony%20-%20PlayStation/scph5501.bin";
-          const script = document.createElement("script");
-          script.src =
-            "https://cdn.jsdelivr.net/gh/genizy/emu@master/loader.js";
-          document.body.appendChild(script);
-        })
-        .catch((error) => {
-          console.error(error);
-          document.getElementById("loading-progress").textContent =
-            "Error loading game.";
-        });
-    </script>
-  </body>
-</html>  
+      container.style.width = `${width}px`;
+      container.style.height = `${height}px`;
+    }
+
+    window.addEventListener("resize", resizeGame);
+    window.addEventListener("DOMContentLoaded", () => {
+      resizeGame();
+
+      const ruffle = window.RufflePlayer?.newest() || window.RufflePlayer?.createPlayer();
+      if (ruffle && container) {
+        const player = ruffle.createPlayer();
+        player.style.width = "100%";
+        player.style.height = "100%";
+        player.style.background = "black";
+        container.appendChild(player);
+        player.load("https://cdn.jsdelivr.net/gh/web-ports/dumb-ways-to-die@main/data/main.swf");
+      } else {
+        container.textContent = "Ruffle failed to load."; 
+      }
+    });
+  </script>
+</body>
+</html>

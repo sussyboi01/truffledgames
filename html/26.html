@@ -1,153 +1,208 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
-</script>
-    <meta charset="UTF-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<title>Bad Time Simulator (Sans Fight)</title>
-	<script src="/js/all.min.js"></script>
+</script><!DOCTYPE html>
+<html>
+  <head>
+    <base href="https://cdn.jsdelivr.net/gh/genizy/assets@main/bad-ice-cream-3/">
+    <meta charset="utf-8" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#382C2A" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 
-	<meta name="description" content="do you wanna have a bad time? 'cause if you visit this page... you are REALLY not going to like what happens next." />
-	
-	<!-- Standardised web app manifest -->
-	<link rel="manifest" href="appmanifest.json" />
-	
-	<!-- Allow fullscreen mode on iOS devices. (These are Apple specific meta tags.) -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui" />
-	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-	<link rel="apple-touch-icon" sizes="256x256" href="icon-256.png" />
-	<meta name="HandheldFriendly" content="true" />
-	
-	<!-- Chrome for Android web app tags -->
-	<meta name="mobile-web-app-capable" content="yes" />
-	<link rel="shortcut icon" sizes="256x256" href="icon-256.png" />
+    <title>Bad Ice Cream 3</title>
+    <link rel="icon" href="/favicon.ico">
 
-    <!-- All margins and padding must be zero for the canvas to fill the screen. -->
-	<style type="text/css">
-		* {
-			padding: 0;
-			margin: 0;
-		}
-		html, body {
-			background: #000;
-			color: #fff;
-			overflow: hidden;
-			touch-action: none;
-			-ms-touch-action: none;
-		}
-		canvas {
-			touch-action-delay: none;
-			touch-action: none;
-			-ms-touch-action: none;
-		}
-    </style>
-	
+    <script src="poki.js"></script>
+    <script type="text/javascript" src="./js/loader.js"></script>
+    <script type="text/javascript" src="./js/virtualJoystickSkinMod.js"></script>
+    <script type="text/javascript" src="./preloader/nitromePreloader.js"></script>
+    <script src="/js/main.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
 
-</head> 
- 
-<body> 
-	<div id="fb-root"></div>
-	
-	<script>
-	// Issue a warning if trying to preview an exported project on disk.
-	(function(){
-		// Check for running exported on file protocol
-		if (window.location.protocol.substr(0, 4) === "file")
-		{
-			alert("Exported games won't work until you upload them. (When running on the file:/// protocol, browsers block many features from working for security reasons.)");
-		}
-	})();
-	</script>
-	
-	<!-- The canvas must be inside a div called c2canvasdiv -->
-	<div id="c2canvasdiv">
-	
-		<!-- The canvas the project will render to.  If you change its ID, don't forget to change the
-		ID the runtime looks for in the jQuery events above (ready() and cr_sizeCanvas()). -->
-		<canvas id="c2canvas" width="640" height="480">
-			<!-- This text is displayed if the visitor's browser does not support HTML5.
-			You can change it, but it is a good idea to link to a description of a browser
-			and provide some links to download some popular HTML5-compatible browsers. -->
-			<h1>Your browser does not appear to support HTML5.  Try upgrading your browser to the latest version.  <a href="http://www.whatbrowser.org">What is a browser?</a>
-			<br/><br/><a href="http://www.microsoft.com/windows/internet-explorer/default.aspx">Microsoft Internet Explorer</a><br/>
-			<a href="http://www.mozilla.com/firefox/">Mozilla Firefox</a><br/>
-			<a href="http://www.google.com/chrome/">Google Chrome</a><br/>
-			<a href="http://www.apple.com/safari/download/">Apple Safari</a></h1>
-		</canvas>
-		
-	</div>
-	
-	<!-- Pages load faster with scripts at the bottom -->
-	
-	<!-- Construct 2 exported games require jQuery. -->
-	<script src="jquery-3.4.1.min.js"></script>
+      canvas {
+        outline: none;
+      }
 
+      html,
+      body,
+      #container {
+        margin: 0;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        background-color: #9badbe;
+      }
 
-	
-    <!-- The runtime script.  You can rename it, but don't forget to rename the reference here as well.
-    This file will have been minified and obfuscated if you enabled "Minify script" during export. -->
-	<script src="c2runtime.js"></script>
+      #splash {
+        position: absolute;
+        visibility: hidden;
+        z-index: 10;
+      }
+
+      #splash__image {
+        position: absolute;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-image: url("assets/badicecream_splash.jpg");
+        visibility: visible;
+        transition: opacity 0.5s;
+        z-index: 10;
+      }
+
+      #progress__root {
+        position: absolute;
+      }
+
+      #progress__line {
+        width: 0;
+        height: 100%;
+        transition: all 0.5s;
+      }
+    #sidebarad1,
+#sidebarad2 {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 160px;
+  height: 600px;
+  padding: 0;
+  margin: 0;
+  z-index: 999999;
+}
+#sidebarad1 {
+  left: 0;
+}
+#sidebarad2 {
+  right: 0;
+}
+.sidebar-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+  z-index: 10;
+}
+.sidebar-frame {
+  width: 160px;
+  height: 600px;
+  border: none;
+  display: block;
+}
+</style>
+  </head>
+
+  <body>
+    <div id="splash__image">
+      <div id="progress__root">
+        <div id="progress__line"></div>
+      </div>
+    </div>
 
     <script>
-		// Start the Construct 2 project running on window load.
-		jQuery(document).ready(function ()
-		{			
-			// Create new runtime using the c2canvas
-			cr_createRuntime("c2canvas");
-		});
-		
-		// Pause and resume on page becoming visible/invisible
-		function onVisibilityChanged() {
-			if (document.hidden || document.mozHidden || document.webkitHidden || document.msHidden)
-				cr_setSuspended(true);
-			else
-				cr_setSuspended(false);
-		};
-		
-		document.addEventListener("visibilitychange", onVisibilityChanged, false);
-		document.addEventListener("mozvisibilitychange", onVisibilityChanged, false);
-		document.addEventListener("webkitvisibilitychange", onVisibilityChanged, false);
-		document.addEventListener("msvisibilitychange", onVisibilityChanged, false);
-		
-		function OnRegisterSWError(e)
-		{
-			console.warn("Failed to register service worker: ", e);
-		};
-		
-		// Runtime calls this global method when ready to start caching (i.e. after startup).
-		// This registers the service worker which caches resources for offline support.
-		window.C2_RegisterSW = function C2_RegisterSW()
-		{
-			if (!navigator.serviceWorker)
-				return;		// no SW support, ignore call
-			
-			try {
-				navigator.serviceWorker.register("sw.js", { scope: "./" })
-				.then(function (reg)
-				{
-					console.log("Registered service worker on " + reg.scope);
-				})
-				.catch(OnRegisterSWError);
-			}
-			catch (e)
-			{
-				OnRegisterSWError(e);
-			}
-		};
-    </script>
-</body> 
-</html> 
+      window.addEventListener("load", () => {
+        PokiSDK.setDebugTouchOverlayController(true);
 
-<script>
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-WLTG1S4STB');
-</script>
+        PokiSDK.init()
+          .then(() => {
+            // successfully initialized
+            onPokiInitComplete(false);
+          })
+          .catch(() => {
+            // successfully initialized but the user has adblock
+            onPokiInitComplete(true);
+          });
+
+        let config;
+
+        config = {
+          key: "bic3",
+          title: "BadIceCream 3",
+          filename: "BadIceCream3_sdk",
+          pokiSDK: true,
+          debugPoki: false,
+          showFPS: false,
+          debug: false,
+          splash: "assets/badicecream_splash.jpg",
+          start: null,
+          width: 550,
+          height: 550,
+          x: 0,
+          y: 0,
+          w: "100%",
+          h: "100%",
+          stageScaleMode: null,
+          stageAlign: null,
+          progressParserWeigth: 1,
+          progress: {
+            direction: "lr",
+            back: "#35809e",
+            line: "#070bff",
+            rect: [0.25, 0.65, 0.5, 0.03],
+          },
+          box2dVersion: "none",
+          skipFramesOfScene: null,
+          buttonPokiSDKActions: null,
+          retryButtonIDS: null,
+          retryButtonAction: null,
+          actionOnStop: null,
+          actionWhenRetryButtonEncountered: null,
+          binary: [
+            {
+              name: "BadIceCream3_sdk",
+              path: "assets/BadIceCream3_sdk.swf",
+              size: 3943834,
+              resourceType: "GAME",
+            },
+          ],
+          runtime: "js/BadIceCream.js",
+        };
+
+        PokiSDK.setDebug(config.debugPoki);
+
+        Loader.init(config);
+
+        let onPokiInitComplete = (adBlocked) => {
+          PokiSDK.adBlocked = adBlocked;
+          PokiSDK.gameLoadingStart();
+
+          Loader.runGame(
+            (fill) => {
+              PokiSDK.gameLoadingProgress({
+                percentageDone: fill,
+                kbLoaded: 0,
+                kbTotal: 0,
+                fileNameLoaded: "",
+                filesLoaded: 0,
+                filesTotal: 0,
+              });
+              window.nitromePreloaderSetProgress(fill / 1.0);
+            },
+            (instance) => {
+              PokiSDK.gameLoadingFinished();
+              window.nitromePreloaderSetComplete();
+            }
+          );
+        };
+        window.nitromePreloaderInit("bad-ice-cream-3");
+      });
+    </script>
+</html>

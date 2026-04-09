@@ -1,107 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>gtag</title>
-    <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            overflow: hidden;
-            background: #000;
-        }
-        #unity-container {
-            width: 100vw;
-            height: 100vh;
-        }
-        #unity-canvas {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-        #unity-loading-bar {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-        #unity-logo {
-            width: 154px;
-            height: 130px;
-            background: url('TemplateData/unity-logo-dark.png') no-repeat center;
-            background-size: contain;
-            margin: 0 auto 20px;
-        }
-        #unity-progress-bar-empty {
-            width: 200px;
-            height: 18px;
-            background: #202020;
-            border-radius: 3px;
-            margin: 0 auto;
-        }
-        #unity-progress-bar-full {
-            width: 0%;
-            height: 18px;
-            background: #fff;
-            border-radius: 3px;
-        }
-        .hidden {
-            display: none !important;
-        }
-    </style>
+<head>
+	<base href="https://cdn.jsdelivr.net/gh/genizy/fnaf@latest/4-halloween/">
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densitydpi=device-dpi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="HandheldFriendly" content="true" />
+    <title>Five Nights at Freddy's 4 Halloween</title>
 </head>
+
 <body>
-    <div id="unity-container">
-        <canvas id="unity-canvas"></canvas>
-        <div id="unity-loading-bar">
-            <div id="unity-logo"></div>
-            <div id="unity-progress-bar-empty">
-                <div id="unity-progress-bar-full"></div>
-            </div>
+    <div style="display: inline-block; -webkit-user-select: none; text-align: left">
+        <canvas id="MMFCanvas" width="1280" height="720"> Your browser does not support Canvas, Please try again. </canvas>
+    </div>
+    <div id="progress-container">
+        <div style="margin-bottom: 6px;">Downloading... <span id="download-text">0%</span></div>
+        <div style="width: 100%; background: #444; border-radius: 6px; overflow: hidden;">
+            <div id="download-bar" style="height: 10px; background: #3b82f6; width: 0%; transition: width 0.2s;"></div>
+        </div>
+        <div style="margin: 12px 0 6px;">Extracting... <span id="extract-text">0%</span></div>
+        <div style="width: 100%; background: #444; border-radius: 6px; overflow: hidden;">
+            <div id="extract-bar" style="height: 10px; background: #10b981; width: 0%; transition: width 0.2s;"></div>
         </div>
     </div>
-
-    <script>
-        const canvas = document.getElementById("unity-canvas");
-        const loadingBar = document.getElementById("unity-loading-bar");
-        const progressBar = document.getElementById("unity-progress-bar-full");
-
-        const buildUrl = "Build";
-        const config = {
-            dataUrl: buildUrl + "/gorilla tag web port build.data.gz",
-            frameworkUrl: buildUrl + "/gorilla tag web port build.framework.js.gz",
-            codeUrl: buildUrl + "/gorilla tag web port build.wasm.gz",
-            streamingAssetsUrl: "StreamingAssets",
-            companyName: "boolonx",
-            productName: "gorilla tag web",
-            productVersion: "1.0"
-        };
-
-        const script = document.createElement("script");
-        script.src = buildUrl + "/gorilla tag web port build.loader.js";
-        script.onload = () => {
-            createUnityInstance(canvas, config, (progress) => {
-                progressBar.style.width = (100 * progress) + "%";
-            }).then(() => {
-                loadingBar.classList.add("hidden");
-            }).catch((error) => {
-                alert(error);
-            });
-        };
-        
-        document.body.appendChild(script);
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="main.js"></script>
 </body>
+
 </html>

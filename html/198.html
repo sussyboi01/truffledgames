@@ -1,75 +1,104 @@
 <!DOCTYPE html>
-<html lang="en-us">
-	<head>
-		<meta charset="utf-8" />
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Unity WebGL Player | Kindergarten3</title>
-	</head>
-	<body
-		style="text-align: center; padding: 0; border: 0; margin: 0; height: 100vh"
-	>
-		<canvas
-			id="unity-canvas"
-			width="100%"
-			height="100%"
-			tabindex="-1"
-			style="width: 100%; height: 100%; background: #000000"
-		></canvas>
-		<script src="Build/Kindergarten3Port.loader.js"></script>
-		    <style>
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-            background: #231F20;
-        }
-
-        #unity-container {
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-        }
-
-    </style>
-	  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<html lang="en">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-		<script>
-			if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-				// Mobile device style: fill the whole browser client area with the game canvas:
-				var meta = document.createElement("meta");
-				meta.name = "viewport";
-				meta.content =
-					"width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes";
-				document.getElementsByTagName("head")[0].appendChild(meta);
+  <base href="https://cdn.jsdelivr.net/gh/aukak/hlm/main@latest">
+  <meta charset="utf-8"/>
+  <title>HOTLINE MIAMI</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-				var canvas = document.querySelector("#unity-canvas");
-				canvas.style.width = "100%";
-				canvas.style.height = "100%";
-				canvas.style.position = "fixed";
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      background: #000;
+      overflow: hidden;
+      font-family: 'Press Start 2P', monospace;
+    }
 
-				document.body.style.textAlign = "left";
-			}
+    canvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      image-rendering: pixelated;
+    }
 
-			createUnityInstance(document.querySelector("#unity-canvas"), {
-				dataUrl: "Build/Kindergarten3Port.data",
-				frameworkUrl: "Build/Kindergarten3Port.framework.js",
-				codeUrl: "Build/Kindergarten3Port.wasm",
-				streamingAssetsUrl: "StreamingAssets",
-				companyName: "Con Man Games",
-				productName: "Kindergarten3",
-				productVersion: "0.01",
-				// matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
-				// devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
-			});
-		</script>
-	</body>
+    #credits {
+      position: absolute;
+      bottom: 8px;  
+      right: 12px;
+      font-size: 24px;
+      color: #00ffe5;
+      text-shadow: 1px 1px #ff0080;
+      user-select: none;
+      z-index: 5;
+    }
+  </style>
+</head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-PXHK7Q7G3Z');
+</script>
+<script>
+  const OriginalXHR = window.XMLHttpRequest;
+
+  function InterceptedXHR() {
+    const xhr = new OriginalXHR();
+
+    let blocked = false;
+
+    const originalOpen = xhr.open;
+    xhr.open = function(method, url, async, user, password) {
+      blocked = (url.endsWith("steamon") || url.endsWith("achievements.dat") || url.endsWith("mask.tmp") || url.endsWith("surfaces") || url.endsWith("steamoff") || url.endsWith("skip") || url.endsWith("restartmusic") || url.endsWith("xbox") || url.endsWith("volume.dat") || url.endsWith("keyboard.dat") || url.endsWith("volume.dat") || url.endsWith("blood") || url.endsWith("volume.dat") || url.endsWith("alienware"));
+      return originalOpen.apply(this, arguments);
+    };
+
+    const originalSend = xhr.send;
+    xhr.send = function(body) {
+      if (blocked) {
+        // simulate async 404 response
+        setTimeout(() => {
+          this.readyState = 4;
+          this.status = 404;
+          this.statusText = "Not Found";
+          this.response = "Not Found";
+          this.responseText = "Not Found";
+
+          if (typeof this.onreadystatechange === "function") {
+            this.onreadystatechange();
+          }
+          if (typeof this.onload === "function") {
+            this.onload();
+          }
+        }, 0);
+        return;
+      }
+      return originalSend.apply(this, arguments);
+    };
+
+    return xhr;
+  }
+
+  window.XMLHttpRequest = function () {
+    return new InterceptedXHR();
+  };
+</script>
+<body>
+  <canvas id="canvas" width="1920" height="1080"></canvas>
+    <div id="credits" data-credit="truffled-98c">
+    port by 98corbins — truffled.lol
+    </div>
+  <script src="html5game/HotlineMiami.js"></script>
+</body>
 </html>

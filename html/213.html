@@ -1,135 +1,75 @@
 <!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Unity WebGL Player | Kindergarten3</title>
+	</head>
+	<body
+		style="text-align: center; padding: 0; border: 0; margin: 0; height: 100vh"
+	>
+		<canvas
+			id="unity-canvas"
+			width="100%"
+			height="100%"
+			tabindex="-1"
+			style="width: 100%; height: 100%; background: #000000"
+		></canvas>
+		<script src="Build/Kindergarten3Port.loader.js"></script>
+		    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background: #231F20;
+        }
 
+        #unity-container {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
 
-<!-- Ultimate Game Stash file--> 
-<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+    </style>
+	  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
+		<script>
+			if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+				// Mobile device style: fill the whole browser client area with the game canvas:
+				var meta = document.createElement("meta");
+				meta.name = "viewport";
+				meta.content =
+					"width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes";
+				document.getElementsByTagName("head")[0].appendChild(meta);
 
-  <head> 
-    <script>
-      window.gameconfig = {
-        name: "Mario Party (USA)",
-        url: "https://cdn.jsdelivr.net/gh/bubbls/ugss@bedc66a398d9078f30471e9255aa188f79f9d611/Mario%20Party%20(USA)/Mario%20Party%20(USA).z64",
-        core: "n64",
-        min: 1,
-        max: 2,
-      };
-    </script>
-    <script>
-      function mergeFiles(fileParts, cb) {
-        return new Promise((resolve, reject) => {
-          let buffers = [];
-          function fetchPart(index) {
-            if (index >= fileParts.length) {
-              let mergedBlob = new Blob(buffers);
-              let mergedFileUrl = URL.createObjectURL(mergedBlob);
-              resolve(mergedFileUrl);
-              return;
-            }
-            fetch(fileParts[index])
-              .then((response) => response.arrayBuffer())
-              .then((data) => {
-                buffers.push(data);
-                fetchPart(index + 1);
-              })
-              .catch(reject);
-            cb(index);
-          }
-          fetchPart(0);
-        });
-      }
-      function getParts(file, start, end) {
-        let parts = [];
-        for (let i = start; i <= end; i++) {
-          let padded = String(i).padStart((end+"").length, '0');
-          parts.push(file + ".part" + padded);
-        }
-        return parts;
-      }
-getParts("asd.js", 0, 100)
-    </script>
-    <style>
-      body,
-      html {
-        margin: 0;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-        background-color: #121212;
-        color: white;
-        font-family: Arial, sans-serif;
-      }
-      #game-container {
-        text-align: center;
-        width: 100%;
-        height: 100%;
-      }
-      #loading-progress {
-        font-size: 18px;
-        margin-top: 20px;
-        padding: 10px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-        display: inline-block;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="game-container">
-      <div id="game"></div>
-      <div id="loading-progress">Loading: 0/0</div>
-      <div id="first-time">First-time loading may take longer...</div>
-    </div>
-    <script>
-      var parts = getParts(
-        window.gameconfig.url,
-        window.gameconfig.min,
-        window.gameconfig.max
-      );
-      var totalParts = parts.length;
+				var canvas = document.querySelector("#unity-canvas");
+				canvas.style.width = "100%";
+				canvas.style.height = "100%";
+				canvas.style.position = "fixed";
 
-      function updateLoadingProgress(loaded) {
-        const progressElement = document.getElementById("loading-progress");
-        if (loaded === 0) {
-          progressElement.textContent = "Loading: 0/0";
-        } else {
-          progressElement.textContent = `Loading: ${loaded}/${totalParts}`;
-        }
-      }
+				document.body.style.textAlign = "left";
+			}
 
-      Promise.all([mergeFiles(parts, updateLoadingProgress)])
-        .then(([gameUrl]) => {
-          document.getElementById("loading-progress").remove();
-          document.getElementById("first-time").remove();
-          EJS_player = "#game";
-          EJS_core = window.gameconfig.core;
-          EJS_gameName = window.gameconfig.name;
-          EJS_color = "#0064ff";
-          EJS_startOnLoaded = true;
-          EJS_pathtodata = "https://cdn.jsdelivr.net/gh/genizy/emu@master/";
-          EJS_gameUrl = gameUrl;
-          EJS_defaultOptions = {
-        vsync: "disabled"
-}
-          const script = document.createElement("script");
-          script.src =
-            "https://cdn.jsdelivr.net/gh/genizy/emu@master/loader.js";
-          document.body.appendChild(script);
-        })
-        .catch((error) => {
-          console.error(error);
-          document.getElementById("loading-progress").textContent =
-            "Error loading game.";
-        });
-    </script>
-  </body>
-</html>  
+			createUnityInstance(document.querySelector("#unity-canvas"), {
+				dataUrl: "Build/Kindergarten3Port.data",
+				frameworkUrl: "Build/Kindergarten3Port.framework.js",
+				codeUrl: "Build/Kindergarten3Port.wasm",
+				streamingAssetsUrl: "StreamingAssets",
+				companyName: "Con Man Games",
+				productName: "Kindergarten3",
+				productVersion: "0.01",
+				// matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
+				// devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
+			});
+		</script>
+	</body>
+</html>

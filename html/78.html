@@ -1,217 +1,10 @@
-<!DOCTYPE html>
+
 <html>
-  <head>
-    <script src="/js/main.js"></script>
-    <meta charset="utf-8">
-    <title>CS:GO Clicker</title>
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <link href='https://fonts.googleapis.com/css?family=Rajdhani:600' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="./css/stylesheet.css" media="screen" title="no title" charset="utf-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-  </head>
-  <body>
-    <div class="container noselect">
-      <div class="notification hidden" id="notif"><a href="https://discord.gg/Yb2hzPs">Join the Discord!</a></div>
-      <div class="navbar">
-        <ul>
-          <div class="settings"></div>
-          <div class="about">About</div>
-        </ul>
-      </div>
-      <div class="settingsList hidden">
-        <li><h1>SETTINGS</h1></li>
-        <li>Disable Popup: <input type="checkbox" id="popupCheckbox"></li>
-        <div class="clearGameState">Clear Game Save</div>
-      </div>
-      <div class="aboutContainer">
-        <div class="aboutInfo">
-          <div class="aboutHeader">Welcome to CSGOClicker.</div>
-          <div class="aboutBody">CSGOClicker is an incremental clicker game based around csgo and the jackpot/skin community. The goal is to open cases and get rich.</div>
-          <div class="aboutDevelopers">
-            <div class="aboutDev">
-              <a class="aboutDevName" href="https://steamcommunity.com/id/bnned">banned</a>
-              <div class="aboutDevDesc">With CSGOClicker just being a thought, banned took it on as a learners project. Since version one, CSGOClicker has come a long way.</div>
-            </div>
-            <div class="aboutDev">
-			        <a class="aboutDevName" href="https://steamcommunity.com/id/roflzilla_">roflzilla</a>
-              <div class="aboutDevDesc">Helping with logic and ideas, roflzilla assists in bringing the project to life.</div>
-            </div>
-            <!--
-            <div class="aboutDev">
-			        <a class="aboutDevName" href="https://github.com/u4pak">shady</a>
-            </div>
-          -->
-            <div class="aboutDev">
-            </div>
-          </div>
-          <div class="aboutLinks"></div>
-        </div>
-      </div>
-      <div class="tooltipAnchor"></div>
-      <div class="main">
-        <div class="modalWindow">
-          <div class="modalMain">
 
-          </div>
-        </div>
-        <canvas id="drawing"></canvas>
-        <!-- <canvas id="canvas"></canvas> -->
-        <div class="left">
-          <div class="display">
-            <div class="jackpot">
-              <div class="jackpotTopContainer">
-                <div class="jackpotTop">
-                  <!--
-                  <div class="canvasContainer">
-        						<canvas id="canvasCircle" width="450" height="450"></canvas>
-        					</div>
-                -->
-                  <div class="jackpotStats">
-                    <div class="jackpotCountDownLabel">Time Left</div>
-                    <div class="jackpotCountDown">00</div>
-                    <div class="winnerIs"></div>
-                    <div class="jackpotCurrentWorth"></div>
-                    <div class="jackpotPercentOfTickets"></div>
-                  </div>
-                  <div class="depositorLabel">
-                    <div class="depositorNameLabel">Name</div>
-                    <div class="depositorPriceLabel">Price</div>
-                    <div class="depositorItemsLabel">Items</div>
-                  </div>
-                </div>
-              </div>
-              <div class="jackpotBottomContainer">
-                  <div class="depositorMainInfo">
 
-                  </div>
-                  <div class="depositorContainer">
-                    <!--
-                    <div class="jackpotDepositor">
-                      <div class="depositorInfo">
-                        <img src="http://i.imgur.com/BzuCWzL.png" class="depositorProPic" id="">
-                        <div class="depositorName">Platinum (diff7)</div>
-                        <div class="depositorValue">$942.65</div>
-                        <div class="depositorSkinContainer">
-                          <div class="depositorSkin">
-                            <div class="itemPrice">$5.50</div>
-                            <img src="">
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  -->
-                  </div>
-              </div>
-            </div>
-            <div class="unboxing">
-              <div class="backgroundImage"></div>
-              <div class="caseDisplay" id="case">
-                <img src="https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFUuh6qZJmlD7tiyl4OIlaGhYuLTzjhVupJ12urH89ii3lHlqEdoMDr2I5jVLFFSv_J2Rg/240fx182f" id="caseDisplayImage" />
-                <div class="caseInfoContainer">
-                  <div class="caseName" id="caseName"></div>
-                  <div class="priceContainer">
-                    <div class="casePrice" id="casePrice"></div>
-                    <div class="keyPrice" id="keyPrice"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="right">
-          <div class="mainInfo">
-            <div class="mainInfoLabel wallet">Wallet: <span class="money" id="money"></span></div>
-            <div class="mainInfoLabel inv" id="invSpace">Inventory Space: <span class="inventorySpace" id="inventorySpace"></span> <div class="mainInfoLabelWarning tt" data-tt="Inventory over max capacity."><i class="fa fa-exclamation-triangle"></i></div></div>
-          </div>
-          <div class="tabContainer">
-            <div class="tab active" id="inventoryTab">Inventory</div>
-            <div class="tab" id="upgradeTab">Shop</div>
-            <div class="tab" id="caseTab">Case</div>
-            <div class="tab" id="jackpotTab">Jackpot</div>
-          </div>
-          <div class="rightMain">
-            <div class="inventoryContainer">
-              <div class="inventoryTagContainer"><span class="inventoryTag">Inventory</span><span class="inventoryValue">Value: </span></div>
-              <div class="inventoryItemContainer">
+<!-- Ultimate Game Stash file--> 
+<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
 
-              </div>
-              <!--
-              <div class="inventoryItem">
-                <div class="itemPrice">$5.50</div>
-                <img src="http://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgposbaqKAxf0v73dS9D69O4q4eHmPT_DLfYkWNF18lwmO7Eu4mh2lXj-RJtajjxJoWcIQ83Y13X-QO2ye_ojJ61u8yfynUwvXYq4XbD30vgIiQpgfY/360fx360f">
-              </div>
-            -->
-            </div>
-            <div class="upgradeContainer">
-              <div class="stackingUpgradeContainer">
-
-              </div>
-              <div class="permUpgradeContainer">
-                <div class="permUpgrade" id="permUpgrade1"><i class="fa fa-cubes fa-2x"></i><span class="permUpgradeLabel" id="permUpgradeLabel1">..........</span></div>
-                <div class="permUpgrade locked" id="permUpgrade2"><i class="fa fa-exchange fa-2x"></i><span class="permUpgradeLabel" id="permUpgradeLabel2">..........</span></div>
-                <div class="permUpgrade locked" id="permUpgrade3"><i class="fa fa-cubes fa-2x"></i><span class="permUpgradeLabel" id="permUpgradeLabel3">..........</span></div>
-                <div class="permUpgrade locked" id="permUpgrade4"><i class="fa fa-cubes fa-2x"></i><span class="permUpgradeLabel" id="permUpgradeLabel4">..........</span></div>
-              </div>
-              <!--
-              <div class="upgrade cantAfford">
-                <div class="upgradePicture"></div>
-                <div class="upgradeInfo">
-                  <div class="upgradeName">Test Upgrade</div>
-                  <div class="upgradeDesc">Test Description lorem ipsum dolar sit amet</div>
-                  <div class="upgradePrice">$999999999.00</div>
-                </div>
-              </div>
-            -->
-            </div>
-            <div class="caseContainer">
-              <!--
-              <div class="case locked">
-                <div class="casePicture"></div>
-                <div class="caseInfo">
-                  <div class="caseName"></div>
-                  <div class="caseValue"></div>
-                </div>
-              </div>
-            -->
-            </div>
-            <div class="jackpotRightContainer">
-              <div class="jackpotDifficultyContainer">
-                <div class="jackpotDifficulty active" id="low">Low</div>
-                <div class="jackpotDifficulty" id="medium">Medium</div>
-                <div class="jackpotDifficulty" id="high">High</div>
-              </div>
-              <div class="inventoryTagContainer"><span class="inventoryTag">Inventory</span><span class="inventoryValue">Value: </span></div>
-              <div class="jackpotRightPlayer"></div>
-              <div class="jackpotRightSTBTag">Skins to bet:</div>
-              <div class="jackpotRightToBet"></div>
-              <div class="jackpotRightInfo">
-                <div class="jackpotRightValue"><span class="spanTag">Value: </span><span class="jackpotRightValueTotal">$0.00</span></div>
-                <div class="jackpotRightSkins"><span class="spanTag">Skins: </span><span class="jackpotRightSkinsTotal">0/6</span></div>
-                <div class="jackpotRightStartButton">Enter Jackpot</div>
-              </div>
-            </div>
-          </div>
-          <div class="tradeButtonContainer">
-            <div class="tradeButton" id="acceptButton">ACCEPT</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script src="./js/script.js" type="text/javascript"></script>
-    <script>
-	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-	  ga('create', 'UA-104065563-1', 'auto');
-	  ga('send', 'pageview');
-   </script>
-  </body>
-</html>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -219,3 +12,95 @@
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
+
+<head>
+	<script src="//www.google.com/jsapi"></script>
+	<script>
+		window.parent.maeExportApis_();
+	</script>
+
+	<style>
+		body {
+			overflow: hidden;
+			background: #000000;
+			margin-top: 0;
+			margin-left: 0;
+			color: #000000;
+		}
+
+		#startButton {
+			display: block;
+			width: 160px;
+			height: 40px;
+			background-color: #4CAF50;
+			color: white;
+			text-align: center;
+			text-decoration: none;
+			font-size: 16px;
+			margin: 20px auto;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 8px;
+			cursor: pointer;
+			font-family: 'Press Start 2P', cursive;
+			box-shadow: 0px 0px 10px 2px #000000;
+		}
+	</style>
+	<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap" rel="stylesheet">
+	<style type="text/css">
+		#button {
+			display: none;
+		}
+
+		.imgb_vis {
+			animation: imgb-animation 7s linear;
+		}
+
+		@keyframes imgb-animation {
+			10% {
+				transform: translateX(0);
+			}
+
+			20% {
+				transform: translateX(100px);
+			}
+
+			90% {
+				transform: translateX(100px);
+			}
+
+			100% {
+				transform: translateX(0);
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div style="width: 100vw; height: 100vh;max-width:100%">
+		<div id="game" style="display: none;"></div>
+		<button id="startButton">PLAY</button>
+	</div>
+	<script>
+		document.getElementById("game").style.display = "none";
+            function startGame() {
+                document.getElementById("game").style.display = "block";
+                document.getElementById("startButton").style.display = "none";
+                EJS_player = "#game";
+                EJS_core = "nds";
+                EJS_color = "#000000";
+                EJS_startOnLoaded = true;
+                EJS_pathtodata = "https://cdn.jsdelivr.net/gh/a456pur/seraph@81f551ca0aa8e3d6018d32d8ac5904ac9bc78f76/storage/emulatorjs/data";
+                EJS_gameUrl = "https://cdn.jsdelivr.net/gh/bubbls/UGS-file-encryption@f1bb03077f21f17329d380dd6b5630509328c399/Cooking%20Mama%20(USA).zip";
+                loadGame();  
+            }
+            document.getElementById("startButton").addEventListener("click", startGame);
+            function loadGame() {
+                var script = document.createElement("script");
+                script.src = "https://cdn.jsdelivr.net/gh/a456pur/seraph@81f551ca0aa8e3d6018d32d8ac5904ac9bc78f76/storage/emulatorjs/data/loader.js";
+                document.body.appendChild(script);
+		var script = document.createElement("script");
+                script.src = "https://cdn.jsdelivr.net/gh/a456pur/seraph@ae2fcc6d6a9cd051654fcc0519080db1f79cf2a7/storage/js/cloak.js";
+                document.body.appendChild(script);
+            }
+	</script>

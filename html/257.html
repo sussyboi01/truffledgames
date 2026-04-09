@@ -1,151 +1,162 @@
-<!doctype html>
-<html lang="en">
-   <head>
-      <meta charset="utf-8"/>
-      <link rel="icon" href="/favicon.ico"/>
-      <meta name="viewport" content="width=device-width,initial-scale=1"/>
-      <meta name="theme-color" content="#000000"/>
-      <meta name="description" content="A PlayStation2 emulator for web browsers"/>
-      <link rel="apple-touch-icon" href="/logo192.png"/>
-      <link rel="manifest" href="/manifest.json"/>
-      <title>Play!.js</title>
-      <script defer="defer" src="static/js/main.fb6e8aea.js"></script>
-      <link href="static/css/main.5a525eca.css" rel="stylesheet">
-      <style>
-         * { margin: 0; padding: 0; box-sizing: border-box; }
-         html, body { width: 100vw; height: 100vh; overflow: hidden; background: #000; }
-         .global-row, .global-column { display: contents; }
-         .global-column:last-child { display: none; }
-         #outputCanvas {
-            position: fixed !important;
-            top: 50% !important;
-            left: 50% !important;
-            transform: translate(-50%, -50%) !important;
-            width: min(100vw, calc(100vh * 4 / 3)) !important;
-            height: min(100vh, calc(100vw * 3 / 4)) !important;
-            z-index: 1;
-            image-rendering: auto;
-         }
-         #root, #root * {
-            position: fixed !important;
-            overflow: hidden !important;
-            width: 0 !important;
-            height: 0 !important;
-            opacity: 0 !important;
-            pointer-events: none !important;
-         }
-         #autoload-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 999;
-            background: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-family: system-ui, sans-serif;
-            font-size: 1.2rem;
-         }
-         #autoload-overlay .progress {
-            text-align: center;
-         }
-         #autoload-overlay .bar-track {
-            width: 300px;
-            height: 4px;
-            background: #222;
-            border-radius: 2px;
-            margin-top: 12px;
-         }
-         #autoload-overlay .bar-fill {
-            height: 100%;
-            background: #fff;
-            border-radius: 2px;
-            width: 0%;
-            transition: width 0.2s;
-         }
-      </style>
-   </head>
-   <body>
-      <div id="autoload-overlay">
-         <div class="progress">
-            <div id="autoload-status">loading parappa.iso...</div>
-            <div class="bar-track"><div class="bar-fill" id="autoload-bar"></div></div>
-         </div>
-      </div>
-      <noscript>You need to enable JavaScript to run this app.</noscript>
-      <div class="global-row">
-         <div class="global-column">
-            <div>
-               <canvas id="outputCanvas" width="640" height="480" tabindex="-1"/>
-            </div>
-            <div id="root"></div>
-         </div>
-         <div class="global-column">
-         </div>
-      </div>
-      <script>
-         (function() {
-            let overlay = document.getElementById('autoload-overlay')
-            let status = document.getElementById('autoload-status')
-            let bar = document.getElementById('autoload-bar')
+﻿<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-PXHK7Q7G3Z');
+</script>
+<!DOCTYPE html>
+<html>
 
-            async function autoload() {
-               try {
-                  let res = await fetch('parappa.iso')
-                  if (!res.ok) throw new Error('failed to fetch parappa.iso (' + res.status + ')')
+<!-- Mirrored from dedragames.com/games/ovo/1.4.4/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 05 Feb 2022 16:30:34 GMT -->
+<head>
+    <meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<title>OvO</title>
+	<script src="/js/main.js"></script>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-PXHK7Q7G3Z');
+</script>
+	<!-- Standardised web app manifest -->
+	<link rel="manifest" href="appmanifest.json" />
+	
+	<!-- Allow fullscreen mode on iOS devices. (These are Apple specific meta tags.) -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<link rel="apple-touch-icon" sizes="256x256" href="icon-256.png" />
+	<meta name="HandheldFriendly" content="true" />
+	
+	<!-- Chrome for Android web app tags -->
+	<meta name="mobile-web-app-capable" content="yes" />
+	<link rel="shortcut icon" sizes="256x256" href="icon-256.png" />
 
-                  let total = parseInt(res.headers.get('content-length') || '0')
-                  let loaded = 0
-                  let chunks = []
-                  let reader = res.body.getReader()
+    <!-- All margins and padding must be zero for the canvas to fill the screen. -->
+	<style type="text/css">
+		* {
+			padding: 0;
+			margin: 0;
+		}
+		html, body {
+			background: #000;
+			color: #fff;
+			overflow: hidden;
+			touch-action: none;
+			-ms-touch-action: none;
+		}
+		canvas {
+			touch-action-delay: none;
+			touch-action: none;
+			-ms-touch-action: none;
+		}
+    </style>
+	
+	<link href="animate.css" rel="stylesheet" type="text/css" />
+	<link href="hmmg_layoutTransition.css" rel="stylesheet" type="text/css" />
+	<link href="jquery.gritter.css" rel="stylesheet" type="text/css" />
 
-                  while (true) {
-                     let { done, value } = await reader.read()
-                     if (done) break
-                     chunks.push(value)
-                     loaded += value.length
-                     if (total > 0) {
-                        let pct = Math.round((loaded / total) * 100)
-                        bar.style.width = pct + '%'
-                        status.textContent = 'loading parappa.iso... ' + pct + '%'
-                     }
-                  }
+</head> 
+ 
+<body> 
+	<div id="fb-root"></div>
+	
+	<script>
+	// Issue a warning if trying to preview an exported project on disk.
+	(function(){
+		// Check for running exported on file protocol
+		if (window.location.protocol.substr(0, 4) === "file")
+		{
+			alert("Exported games won't work until you upload them. (When running on the file:/// protocol, browsers block many features from working for security reasons.)");
+		}
+	})();
+	</script>
+	
+	<!-- The canvas must be inside a div called c2canvasdiv -->
+	<div id="c2canvasdiv">
+	
+		<!-- The canvas the project will render to.  If you change its ID, don't forget to change the
+		ID the runtime looks for in the jQuery events above (ready() and cr_sizeCanvas()). -->
+		<canvas id="c2canvas" width="640" height="640">
+			<!-- This text is displayed if the visitor's browser does not support HTML5.
+			You can change it, but it is a good idea to link to a description of a browser
+			and provide some links to download some popular HTML5-compatible browsers. -->
+			<h1>Your browser does not appear to support HTML5.  Try upgrading your browser to the latest version.  <a href="http://www.whatbrowser.org/">What is a browser?</a>
+			<br/><br/><a href="http://www.microsoft.com/windows/internet-explorer/default.aspx">Microsoft Internet Explorer</a><br/>
+			<a href="http://www.mozilla.com/firefox/">Mozilla Firefox</a><br/>
+			<a href="http://www.google.com/chrome/">Google Chrome</a><br/>
+			<a href="http://www.apple.com/safari/download/">Apple Safari</a></h1>
+		</canvas>
+		
+	</div>
+	
+	<!-- Pages load faster with scripts at the bottom -->
+	
+	<!-- Construct 2 exported games require jQuery. -->
+	<script src="jquery-3.4.1.min.js"></script>
 
-                  let blob = new Blob(chunks)
-                  let file = new File([blob], 'parappa.iso', { type: 'application/octet-stream' })
+	<script src="GameAnalytics.js"></script>
+	<script src="Tween.js"></script>
+	<script src="html2canvas.min.js"></script>
+	<script src="jquery.gritter.js"></script>
+	<script src="howler.js"></script>
 
-                  status.textContent = 'waiting for emulator...'
-                  bar.style.width = '100%'
+	
+    <!-- The runtime script.  You can rename it, but don't forget to rename the reference here as well.
+    This file will have been minified and obfuscated if you enabled "Minify script" during export. -->
+	<script src="c2runtime.js"></script>
 
-                  let input = await waitForInput()
-                  let dt = new DataTransfer()
-                  dt.items.add(file)
-                  input.files = dt.files
-                  input.dispatchEvent(new Event('change', { bubbles: true }))
+    <script>
+		// Start the Construct 2 project running on window load.
+		jQuery(document).ready(function ()
+		{			
+			// Create new runtime using the c2canvas
+			cr_createRuntime("c2canvas");
+		});
+		
+		// Pause and resume on page becoming visible/invisible
+		function onVisibilityChanged() {
+			if (document.hidden || document.mozHidden || document.webkitHidden || document.msHidden)
+				cr_setSuspended(true);
+			else
+				cr_setSuspended(false);
+		};
+		
+		document.addEventListener("visibilitychange", onVisibilityChanged, false);
+		document.addEventListener("mozvisibilitychange", onVisibilityChanged, false);
+		document.addEventListener("webkitvisibilitychange", onVisibilityChanged, false);
+		document.addEventListener("msvisibilitychange", onVisibilityChanged, false);
+		
+		function OnRegisterSWError(e)
+		{
+			console.warn("Failed to register service worker: ", e);
+		};
+		
+		// Runtime calls this global method when ready to start caching (i.e. after startup).
+		// This registers the service worker which caches resources for offline support.
+		window.C2_RegisterSW = function C2_RegisterSW()
+		{
+			if (!navigator.serviceWorker)
+				return;		// no SW support, ignore call
+			
+			try {
+				navigator.serviceWorker.register("sw.js", { scope: "./" })
+				.then(function (reg)
+				{
+					console.log("Registered service worker on " + reg.scope);
+				})
+				.catch(OnRegisterSWError);
+			}
+			catch (e)
+			{
+				OnRegisterSWError(e);
+			}
+		};
+    </script>
+</body> 
 
-                  overlay.style.opacity = '0'
-                  overlay.style.transition = 'opacity 0.4s'
-                  setTimeout(() => overlay.remove(), 500)
-               } catch (e) {
-                  status.textContent = e.message
-                  console.error(e)
-               }
-            }
-
-            function waitForInput() {
-               return new Promise(resolve => {
-                  let check = setInterval(() => {
-                     let input = document.querySelector('input[type="file"]')
-                     if (input) {
-                        clearInterval(check)
-                        resolve(input)
-                     }
-                  }, 100)
-               })
-            }
-
-            autoload()
-         })()
-      </script>
-   </body>
-</html>
+<!-- Mirrored from dedragames.com/games/ovo/1.4.4/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 05 Feb 2022 16:30:44 GMT -->
+</html> 

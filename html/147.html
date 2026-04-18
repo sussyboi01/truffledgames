@@ -1,103 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-    <title>AlgebraHelper</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="AlgebraHelper">
-    <script src="/assets/lib/include/navbar.js"></script>
-    <link rel="stylesheet" href="/assets/lib/include/navbar.css">
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="icon" href="/assets/img/logotransparent.png" type="image/x-icon">
-    <style>
-    body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
-    .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
-    .fa-anchor,.fa-coffee {font-size:200px}
-    .button {
-      border: none;
-      color: white;
-      padding: 16px 64px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      margin: 4px 2px;
-      transition-duration: 0.4s;
-      cursor: pointer;
-    }
-    .container {
-      height: 200px;
-      position: relative;
-      border: 3px solid black;
-    }
-    .vertical-center {
-      margin: 0;
-      position: absolute;
-      top: 50%;
-      -ms-transform: translateY(-50%);
-      transform: translateY(-50%);
-    }
-    .button1 {
-      background-color: black; 
-      color: white; 
-    }
-    .button1:hover {
-      background-color: black;
-      color: white;
-    }
-    #rcorners {
-      border-radius: 5%;
-      background: #f200fa;
-      padding: 20px;
-      width: 50%;
-      height: 50%;
-    }
-    </style>
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-<ins class="adsbygoogle"
-style="display:block"
-data-ad-client="ca-pub-2417935702588836"
-data-ad-slot="1705773220"
-data-ad-format="auto"
-data-full-width-responsive="true"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-<div id="navbar">
-</div>
-
-<h1 style="text-align:center; position:relative; top: 10%; left: 0%;">Fireboy and Watergirl 3</h1>
-
-<p id="rcorners" style="width: 50%; height: 50%; margin: 0; position: absolute; top: 50%; left: 50%; -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%);"><a href="play/"><img src="../../../assets/img/playbutton.png" style="width: 310px; height: 310px; margin: 0; position: absolute; top: 50%; left: 50%; -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%);"></img></a></p>
-
-<h1 style="text-align:center; position:relative; top: 70%; left: 0%;">Instructions/Compatibility:</h1>
-<p style="text-align:center; position:relative; top: 70%; left: 0%;">WORKS ON MOBILE!</p>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="Bubblez">
+    <meta id="viewport" name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui,shrink-to-fit=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
 
 
+    <meta name="apple-mobile-web-app-title" content="Fireboy & Watergirl 2 Light Temple">
+    <title>Fireboy & Watergirl 2 Light Temple</title>
 
-    <script>
-    // Used to toggle the menu on small screens when clicking on the menu button
-    function myFunction() {
-      var x = document.getElementById("navDemo");
-      if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
-      } else { 
-        x.className = x.className.replace(" w3-show", "");
-      }
-    }
+
+    <link rel='stylesheet' href='assets/styles/main.css'>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" sizes="60x60" href="icon-60x60.png">
+    <link rel="icon" sizes="256x256" href="icon-256x256.png">
+    <link rel="icon" sizes="512x512" href="icon-512x512.png">
+    <link rel="apple-touch-icon" href="icon-60x60.png">
+    <script type="text/javascript">
+        var gtag;
     </script>
-    
-    </body>
-  </head>
+
+</head>
+
+<body style="margin: 0px; overflow: hidden">
+    <script type="text/javascript">
+        window.requireNode = window.require;
+        window.require = undefined;
+    </script>
+    <script src="bower_components/requirejs/require.js"></script>
+
+    <div id="root">
+        <div id="container"></div>
+        <div id="hammer"></div>
+        <div id="debug-fps" style="color:#ff0000; position: absolute; top: 0;"></div>
+    </div>
+
+
+
+
+    <script type="text/javascript">
+        var enableAnalytics;
+        var gameName = "fireboy-and-watergirl-light-temple.min.js";
+
+
+        //This all here is for cache busting;
+        function addScript(src, buster, callback) {
+            var s = document.createElement('script');
+            s.setAttribute('src', src + '?v=' + buster);
+            if (typeof callback === 'function') {
+                s.onload = callback;
+            }
+            document.body.appendChild(s);
+        }
+
+
+        var fbrqLA = false,
+            fbrqBD = 0,
+            playBtn = true,
+            fbrqSA = true,
+            libs = [],
+            version = 'GD-35';
+
+
+
+
+
+        require(["fireboy-and-watergirl-light-temple.min.js?v=" + version]);
+    </script>
+</body>
+
 </html>

@@ -1,5 +1,10 @@
-<!DOCTYPE html>
-<html lang="en-us">
+
+<html>
+
+
+<!-- Ultimate Game Stash file--> 
+<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
+
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -7,142 +12,95 @@
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
+
 <head>
-	<base href="https://cdn.jsdelivr.net/gh/genizy/web-port@master/yandere-simulator/">
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>YandereSimulator</title>
-    <script src="Build/UnityLoader.js"></script>
-    <style>
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            overflow: hidden;
-        }
+	<script src="//www.google.com/jsapi"></script>
+	<script>
+		window.parent.maeExportApis_();
+	</script>
 
-        #unityContainer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #000;
-        }
+	<style>
+		body {
+			overflow: hidden;
+			background: #000000;
+			margin-top: 0;
+			margin-left: 0;
+			color: #000000;
+		}
 
-        #unityContainer canvas {
-            width: 100% !important;
-            height: 100% !important;
-            display: block;
-        }
+		#startButton {
+			display: block;
+			width: 160px;
+			height: 40px;
+			background-color: #4CAF50;
+			color: white;
+			text-align: center;
+			text-decoration: none;
+			font-size: 16px;
+			margin: 20px auto;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 8px;
+			cursor: pointer;
+			font-family: 'Press Start 2P', cursive;
+			box-shadow: 0px 0px 10px 2px #000000;
+		}
+	</style>
+	<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap" rel="stylesheet">
+	<style type="text/css">
+		#button {
+			display: none;
+		}
 
-        #loading-text {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 48px;
-            font-family: cursive;
-            text-align: center;
-        }
-    </style>
+		.imgb_vis {
+			animation: imgb-animation 7s linear;
+		}
 
-    <script>
-        let max = 0,
-            done = 0;
+		@keyframes imgb-animation {
+			10% {
+				transform: translateX(0);
+			}
 
-        function mergeFiles(fileParts) {
-            return new Promise((resolve, reject) => {
-                const buffers = [];
-                const fetchPart = (index) => {
-                    if (index >= fileParts.length) {
-                        const blob = new Blob(buffers);
-                        resolve(URL.createObjectURL(blob));
-                        return;
-                    }
-                    fetch(fileParts[index])
-                        .then(r => r.arrayBuffer())
-                        .then(b => {
-                            buffers.push(b);
-                            done++;
-                            document.querySelector("#loading-text").textContent = `LOADING... (${done}/${max})`;
-                            fetchPart(index + 1);
-                        })
-                        .catch(reject);
-                };
-                fetchPart(0);
-            });
-        }
+			20% {
+				transform: translateX(100px);
+			}
 
-        function getParts(file, start, end) {
-            const parts = [];
-            for (let i = start; i <= end; i++) parts.push(`${file}.part${i}`);
-            max += end;
-            return parts;
-        }
+			90% {
+				transform: translateX(100px);
+			}
 
-        Promise.all([
-            mergeFiles(getParts("Build/YandereSim.data.unityweb", 1, 5)),
-        ]).then(([dataUrl]) => {
-            const json = {
-                companyName: "YandereDev",
-                productName: "YandereSimulator",
-                dataUrl: dataUrl,
-                wasmCodeUrl: "YandereSim.wasm.code.unityweb",
-                wasmFrameworkUrl: "YandereSim.wasm.framework.unityweb",
-                TOTAL_MEMORY: 268435456,
-                graphicsAPI: ["WebGL 2.0", "WebGL 1.0"],
-                webglContextAttributes: {
-                    preserveDrawingBuffer: false
-                },
-                splashScreenStyle: "Dark",
-                backgroundColor: "#000000",
-                cacheControl: {
-                    default: "must-revalidate"
-                }
-            };
-
-            const blob = new Blob([JSON.stringify(json)], {
-                type: "application/json"
-            });
-            const blobUrl = URL.createObjectURL(blob);
-
-            const gameInstance = UnityLoader.instantiate("unityContainer", json, {
-                url: blobUrl,
-                Module: {
-                    onRuntimeInitialized: () => {
-                        const loadingText = document.querySelector("#loading-text");
-                        if (loadingText) loadingText.remove();
-                    },
-                },
-            });
-
-            const resize = () => {
-                const container = document.getElementById("unityContainer");
-                container.style.width = window.innerWidth + "px";
-                container.style.height = window.innerHeight + "px";
-            };
-            window.addEventListener("resize", resize);
-            resize();
-        });
-    </script>
+			100% {
+				transform: translateX(0);
+			}
+		}
+	</style>
 </head>
 
 <body>
-    <div id="loading-text" style="
-					color: white;
-					font-size: 48px;
-					font-family: 'Comic Sans MS', cursive;
-					text-align: center;
-					margin-top: 20px;
-				">
-        LOADING...
-    </div>LOADING...</div>
-    <div id="unityContainer"></div>
-</body>
-
-</html>
+	<div style="width: 100vw; height: 100vh;max-width:100%">
+		<div id="game" style="display: none;"></div>
+		<button id="startButton">PLAY</button>
+	</div>
+	<script>
+		document.getElementById("game").style.display = "none";
+            function startGame() {
+                document.getElementById("game").style.display = "block";
+                document.getElementById("startButton").style.display = "none";
+                EJS_player = "#game";
+                EJS_core = "nds";
+                EJS_color = "#000000";
+                EJS_startOnLoaded = true;
+                EJS_pathtodata = "https://cdn.jsdelivr.net/gh/a456pur/seraph@81f551ca0aa8e3d6018d32d8ac5904ac9bc78f76/storage/emulatorjs/data";
+                EJS_gameUrl = "https://cdn.jsdelivr.net/gh/bubbls/ugss@05b28f491a9500ce7dc5e88455f21823b6d3e1ab/WarioWare%20-%20D.I.Y.%20(USA).zip";
+                loadGame();  
+            }
+            document.getElementById("startButton").addEventListener("click", startGame);
+            function loadGame() {
+                var script = document.createElement("script");
+                script.src = "https://cdn.jsdelivr.net/gh/a456pur/seraph@81f551ca0aa8e3d6018d32d8ac5904ac9bc78f76/storage/emulatorjs/data/loader.js";
+                document.body.appendChild(script);
+		var script = document.createElement("script");
+                script.src = "https://cdn.jsdelivr.net/gh/a456pur/seraph@ae2fcc6d6a9cd051654fcc0519080db1f79cf2a7/storage/js/cloak.js";
+                document.body.appendChild(script);
+            }
+	</script>

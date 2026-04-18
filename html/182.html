@@ -1,165 +1,132 @@
 <!DOCTYPE html>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Unity WebGL Player | Granny</title>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-<html lang="en-us">
-<head>
-<meta charset="utf-8"/>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Unity WebGL Player | Granny 3</title>
-<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/ranny31ranny/5471@main/TemplateData/favicon.ico"/>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ranny31ranny/5471@main/TemplateData/style.css"/>
-<!-- Yandex Games SDK -->
-<script src="https://cdn.jsdelivr.net/gh/ranny31ranny/5471@main/v2.79e5f6f6325b0faa1b66.js"></script>
-</head>
-<body>
-<div id="unity-container" style="position: absolute; width: 100%; height: 100%; left: 0%; top: 0%;">
-<canvas id="unity-canvas" style="position: absolute; width: 100%; height: 100%"></canvas>
-<div id="unity-loading-bar">
-<div id="unity-logo"></div>
-<div id="unity-progress-bar-empty">
-<div id="unity-progress-bar-full"></div>
-</div>
-</div>
-<div id="unity-warning"> </div>
-</div>
-<script>
-        YaGames
-        .init()
-        .then(ysdk => {
-            console.log('Yandex SDK initialized');
-            window.ysdk = ysdk;
-            initPlayer();
-        });
-        
-        var player;
+  <link rel="shortcut icon" href="TemplateData/favicon.ico">
+  <script src="TemplateData/UnityProgress.js"></script>
+  <script src="Build/UnityLoader.js"></script>
 
-        function initPlayer() {
-            return ysdk.getPlayer({ scopes: false }).then(_player => {
-                    player = _player;
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+      background: black;
+    }
 
-                    return player;
-                });
-        }
+    #unityContainer {
+      width: 100vw;
+      height: 100vh;
+    }
 
-    </script>
-<script>
-      var container = document.querySelector("#unity-container");
-      var canvas = document.querySelector("#unity-canvas");
-      var loadingBar = document.querySelector("#unity-loading-bar");
-      var progressBarFull = document.querySelector("#unity-progress-bar-full");
-      var warningBanner = document.querySelector("#unity-warning");
+  #loading-text {
+  font-weight: bold;
+  background: linear-gradient(
+    270deg,
+    #ff0000,
+    #ff0000,
+    #ff0000,
+    #ffffff,
+    #ffffff,
+    #ffffff,
+    hsl(0, 0%, 100%)
+  );
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbow 3s ease infinite;
+}
 
-      function unityShowBanner(msg, type) {
-        function updateBannerVisibility() {
-          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
-        }
-        var div = document.createElement('div');
-        div.innerHTML = msg;
-        warningBanner.appendChild(div);
-        if (type == 'error') div.style = 'background: red; padding: 10px;';
-        else {
-          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
-          setTimeout(function() {
-            warningBanner.removeChild(div);
-            updateBannerVisibility();
-          }, 5000);
-        }
-        updateBannerVisibility();
+@keyframes rainbow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+  </style>
+<div id="loading-text"
+    style="color: white; font-size: 48px; font-family: cursive; text-align: center; margin-top: 20px;"> LOADING...
+  </div>
+  <script>
+    var loadingText = document.querySelector("#loading-text");
+    let totalBytes = 0;
+    let loadedBytes = 0;
+
+    async function fetchWithProgress(url) {
+      const response = await fetch(url);
+      const reader = response.body.getReader();
+      let chunks = [];
+      let received = 0;
+      while (true) {
+        const {
+          done,
+          value
+        } = await reader.read();
+        if (done) break;
+        received += value.length;
+        loadedBytes += value.length;
+        chunks.push(value);
+        let mbDone = (loadedBytes / (1024 * 1024)).toFixed(2);
+        let mbTotal = '567.86';
+        loadingText.textContent = `LOADING... ${mbDone} MB / ${mbTotal} MB`;
       }
-
-      var buildUrl = "https://cdn.jsdelivr.net/gh/ranny31ranny/5471@main/Build";
-      var loaderUrl = buildUrl + "/bb0d9ecdb05db3e84da20bd14a4f84dc.loader.js";
-
-      function mergeFiles(fileParts) {
-        return new Promise((resolve, reject) => {
-            let buffers = [];
-            function fetchPart(index) {
-                if (index >= fileParts.length) {
-                    let mergedBlob = new Blob(buffers);
-                    let mergedFileUrl = URL.createObjectURL(mergedBlob);
-                    resolve(mergedFileUrl);
-                    return;
-                }
-                fetch(fileParts[index])
-                    .then(response => response.arrayBuffer())
-                    .then(data => {
-                        buffers.push(data);
-                        fetchPart(index + 1);
-                    })
-                    .catch(reject);
-            }
-            fetchPart(0);
-        });
+      let fullBuffer = new Uint8Array(received);
+      let offset = 0;
+      for (let chunk of chunks) {
+        fullBuffer.set(chunk, offset);
+        offset += chunk.length;
       }
+      return fullBuffer.buffer;
+    }
 
-      var wasmParts = [
-          buildUrl + "/bd8d511ba06d09159c93b032551b04fb.wasm.part0",
-          buildUrl + "/bd8d511ba06d09159c93b032551b04fb.wasm.part1",
-          buildUrl + "/bd8d511ba06d09159c93b032551b04fb.wasm.part2"
-      ];
+    async function mergeFiles(fileParts, cacheKey) {
+      const buffers = await Promise.all(
+        fileParts.map(part => fetchWithProgress(part))
+      );
+      const mergedBlob = new Blob(buffers);
+      return URL.createObjectURL(mergedBlob);
+    }
 
-      var dataParts = [
-          buildUrl + "/fef8fdd7cfc9e5a5001034b01fa3647b.data.part0",
-          buildUrl + "/fef8fdd7cfc9e5a5001034b01fa3647b.data.part1"
-      ];
-
-      Promise.all([
-          mergeFiles(wasmParts),
-          mergeFiles(dataParts)
-      ]).then(([wasmUrl, dataUrl]) => {
-          var config = {
-              dataUrl: dataUrl,
-              frameworkUrl: buildUrl + "/e12dac5a3f5e3f677b009118afef20b7.framework.js",
-              codeUrl: wasmUrl,
-              streamingAssetsUrl: "StreamingAssets",
-              companyName: "Games Place",
-              productName: "Granny 3",
-              productVersion: "0.1",
-              showBanner: unityShowBanner,
-          };
-
-          if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-              var meta = document.createElement('meta');
-              meta.name = 'viewport';
-              meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-              document.getElementsByTagName('head')[0].appendChild(meta);
-              container.className = "unity-mobile";
-              canvas.className = "unity-mobile";
-          } else {
-              canvas.style.width = "100%";
-              canvas.style.height = "100%";
+    function getParts(file, start, end) {
+      let parts = [];
+      for (let i = start; i <= end; i++) {
+        parts.push(file + ".part" + i);
+      }
+      return parts;
+    }
+    (async () => {
+      const [dataUrl] = await Promise.all([
+        mergeFiles(getParts("Build/GrannyPortButBetter.data.unityweb", 1, 29), "GrannyPortButBetter.data.unityweb")
+      ]);
+            const originalOpen = XMLHttpRequest.prototype.open;
+      XMLHttpRequest.prototype.open = function (method, url, ...rest) {
+          if (url.includes("GrannyPortButBetter.data.unityweb")) {
+              url = dataUrl;
           }
+          return originalOpen.call(this, method, url, ...rest);
+      };
+          var unityInstance = UnityLoader.instantiate(
+      "unityContainer",
+      "Build/GrannyPortButBetter.json",
+      { onProgress: UnityProgress }
+    );
+    loadingText.remove();
+    })();
+  </script>
+</head>
 
-          loadingBar.style.display = "block";
-          
-          // myGameInstance global olarak tanımlanıyor
-          window.myGameInstance = null;
+<body>
 
-          var script = document.createElement("script");
-          script.src = loaderUrl;
-          script.onload = () => {
-            createUnityInstance(canvas, config, (progress) => {
-              progressBarFull.style.width = 100 * progress + "%";
-                  }).then((unityInstance) => {
-                    window.myGameInstance = unityInstance; // Global hale getirildi
-                    loadingBar.style.display = "none";
-                  }).catch((message) => {
-                    console.error("Unity yükleme hatası:", message);
-                    alert(message);
-                  });
-                };
-
-          document.body.appendChild(script);
-      }).catch(error => {
-          console.error("Dosya birleştirme hatası:", error);
-      });
-
-</script>
-
+  <div id="unityContainer"></div>
 </body>
 </html>

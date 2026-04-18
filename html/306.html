@@ -1,9 +1,26 @@
- <!DOCTYPE html>
-
-
-<!-- Ultimate Game Stash file--> 
-<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
-
+<!DOCTYPE html><html lang="en-us"><head>
+<script src="/vs/gameloader-helper.js"></script>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Ragdoll Archers</title>
+<link rel="stylesheet" href="style.css">
+<body>
+<div id="unity-container" class="unity-desktop">
+<canvas id="unity-canvas"></canvas>
+</div>
+<div id="loading-cover">
+<div id="unity-loading-bar">
+<div id="unity-logo"><img src="logo.jpeg"></div>
+<div class="progress-spinner-container">
+<div class="spinner-left"><img src="spinner.png"></div>
+<div id="unity-progress-bar-empty">
+<div id="unity-progress-bar-full"></div>
+</div>
+<div class="spinner-right"><img src="spinner.png"></div>
+</div>
+</div>
+</div>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -11,123 +28,51 @@
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
+<script>
+    const buildUrl = "Build";
+    const loaderUrl = buildUrl + "/v111.loader.js";
+    const config = {
+      dataUrl: buildUrl + "/6697b6deba8b617c67b69c55dcd07cb1.data.unityweb",
+      frameworkUrl: buildUrl + "/0be3c3ee7115b26e1ae28e643afdf1f2.js.unityweb",
+      codeUrl: buildUrl + "/b3397c29f6878557c1c614cbf9e196ea.wasm.unityweb",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "Ericetto",
+      productName: "Ragdoll Archers",
+      productVersion: "0.1",
+    };
 
- <head> 
-    <script>
-      window.gameconfig = {
-        name: "Resident Evil 2 (USA) ",
-        url: "https://cdn.jsdelivr.net/gh/bubbls/ugss@main/re1/Resident%20Evil%202%20(USA)%20(Disc%201).chd",
-        core: "psx",
-        min: 1,
-        max: 19,
-      };
-    </script>
-    <script>
-      function mergeFiles(fileParts, cb) {
-        return new Promise((resolve, reject) => {
-          let buffers = [];
-          function fetchPart(index) {
-            if (index >= fileParts.length) {
-              let mergedBlob = new Blob(buffers);
-              let mergedFileUrl = URL.createObjectURL(mergedBlob);
-              resolve(mergedFileUrl);
-              return;
-            }
-            fetch(fileParts[index])
-              .then((response) => response.arrayBuffer())
-              .then((data) => {
-                buffers.push(data);
-                fetchPart(index + 1);
-              })
-              .catch(reject);
-            cb(index);
-          }
-          fetchPart(0);
-        });
-      }
-      function getParts(file, start, end) {
-        let parts = [];
-        for (let i = start; i <= end; i++) {
-          let padded = String(i).padStart((end+"").length, '0');
-          parts.push(file + ".part" + padded);
-        }
-        return parts;
-      }
-getParts("asd.js", 0, 100)
-    </script>
-    <style>
-      body,
-      html {
-        margin: 0;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-        background-color: #121212;
-        color: white;
-        font-family: Arial, sans-serif;
-      }
-      #game-container {
-        text-align: center;
-        width: 100%;
-        height: 100%;
-      }
-      #loading-progress {
-        font-size: 18px;
-        margin-top: 20px;
-        padding: 10px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-        display: inline-block;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="game-container">
-      <div id="game"></div>
-      <div id="loading-progress">Loading: 0/0</div>
-      <div id="first-time">First-time loading may take longer...</div>
-    </div>
-    <script>
-      var parts = getParts(
-        window.gameconfig.url,
-        window.gameconfig.min,
-        window.gameconfig.max
-      );
-      var totalParts = parts.length;
+    const container = document.querySelector("#unity-container");
+    const canvas = document.querySelector("#unity-canvas");
+    const loadingCover = document.querySelector("#loading-cover");
+    const progressBarEmpty = document.querySelector("#unity-progress-bar-empty");
+    const progressBarFull = document.querySelector("#unity-progress-bar-full");
 
-      function updateLoadingProgress(loaded) {
-        const progressElement = document.getElementById("loading-progress");
-        if (loaded === 0) {
-          progressElement.textContent = "Loading: 0/0";
-        } else {
-          progressElement.textContent = `Loading: ${loaded}/${totalParts}`;
-        }
-      }
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      container.className = "unity-mobile";
+    }
+    
+    loadingCover.style.display = "";
 
-      Promise.all([mergeFiles(parts, updateLoadingProgress)])
-        .then(([gameUrl]) => {
-          document.getElementById("loading-progress").remove();
-          document.getElementById("first-time").remove();
-          EJS_player = "#game";
-          EJS_core = window.gameconfig.core;
-          EJS_gameName = window.gameconfig.name;
-          EJS_color = "#0064ff";
-          EJS_startOnLoaded = true;
-          EJS_pathtodata = "https://cdn.jsdelivr.net/gh/bubbls/brogoofyahhmangogotonablacklistskullwiltingrose@main/";
-          EJS_gameUrl = gameUrl;
-          const script = document.createElement("script");
-          script.src =
-            "https://cdn.jsdelivr.net/gh/bubbls/brogoofyahhmangogotonablacklistskullwiltingrose@main/loader.js";
-          document.body.appendChild(script);
-        })
-        .catch((error) => {
-          console.error(error);
-          document.getElementById("loading-progress").textContent =
-            "Error loading game.";
-        });
-    </script>
-  </body>
-</html>  
+    const unityLoader = document.createElement("script");
+    unityLoader.src = loaderUrl;
+    unityLoader.onload = () => {
+      createUnityInstance(canvas, config, (progress) => {
+        progressBarEmpty.style.display = "";
+        progressBarFull.style.width = `${100 * progress}%`;
+      }).then((unityInstance) => {
+        window.unityInstance = unityInstance;
+        loadingCover.style.display = "none";
+      }).catch((message) => {
+        alert(message);
+      });
+    };
+    document.body.appendChild(unityLoader);
+
+    document.addEventListener("pointerdown", () => {
+      container.focus();
+      window.focus();
+      canvas.focus();
+    });
+
+  </script>
+</body></html>

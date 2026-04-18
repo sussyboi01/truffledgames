@@ -1,38 +1,75 @@
-
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    
-
-    <script src="/js/all.js"></script>
-
-
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="hot.jpg">
-    <title>SUPERHOT</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body style="margin: 0;">
-    <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" style="width: 100%; height: 100%;"></canvas>
-    <script type="text/javascript">
-      var Module = {
-        TOTAL_MEMORY: 268435456,
-        errorhandler: null, // arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
-        compatibilitycheck: null,
-        dataUrl: "webgl.datagz",
-        codeUrl: "webgl.jsgz",
-        memUrl: "webgl.memgz",
-      };
-    </script>
-    <script src="UnityLoader.js"></script>
-  </body>
-</html>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
-</script>
+</script><html lang="en-us">
+
+<head>
+  <base href="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@main/spelunky/">
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="viewport-fit=cover, width=device-width,
+            initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+  <title>SpelunkyClassicHD</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="style.css">
+  <script type="text/javascript" src="setup.js" defer></script>
+  <link rel="manifest" href="manifest.json">
+<style>
+#sidebarad1,
+#sidebarad2 {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 160px;
+  height: 600px;
+  padding: 0;
+  margin: 0;
+  z-index: 999999;
+}
+#sidebarad1 {
+  left: 0;
+}
+#sidebarad2 {
+  right: 0;
+}
+.sidebar-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+  z-index: 10;
+}
+.sidebar-frame {
+  width: 160px;
+  height: 600px;
+  border: none;
+  display: block;
+}
+</style>
+</head>
+
+<body>
+  <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1">
+  </canvas>
+  <div class="loading">
+    <div class="spinner" id="spinner"></div>
+  </div>
+  <script async type="text/javascript" src="runner.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("serviceWorker.js");
+    }
+  </script>
+
+</html>

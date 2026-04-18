@@ -1,4 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
 <html lang="en">
 
 <head>
@@ -19,44 +25,44 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
 
 
-    <meta name="apple-mobile-web-app-title" content="Fireboy & Watergirl 2 Light Temple">
-    <title>Fireboy & Watergirl 2 Light Temple</title>
+    <meta name="apple-mobile-web-app-title" content="Fireboy & Watergirl 1 Forest Temple">
+    <title>Fireboy & Watergirl 1 Forest Temple</title>
 
 
-    <link rel='stylesheet' href='assets/styles/main.css'>
     <link rel="manifest" href="manifest.json">
     <link rel="icon" sizes="60x60" href="icon-60x60.png">
-    <link rel="icon" sizes="256x256" href="icon-256x256.png">
-    <link rel="icon" sizes="512x512" href="icon-512x512.png">
     <link rel="apple-touch-icon" href="icon-60x60.png">
-    <script type="text/javascript">
-        var gtag;
-    </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-PXHK7Q7G3Z');
+</script>5LDZFF61JD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'G-5LDZFF61JD');
+</script>
+    
 </head>
 
-<body style="margin: 0px; overflow: hidden">
+<body style="margin: 0px">
     <script type="text/javascript">
         window.requireNode = window.require;
         window.require = undefined;
     </script>
     <script src="bower_components/requirejs/require.js"></script>
-
     <div id="root">
         <div id="container"></div>
         <div id="hammer"></div>
         <div id="debug-fps" style="color:#ff0000; position: absolute; top: 0;"></div>
     </div>
-
-
-
-
     <script type="text/javascript">
-        var enableAnalytics;
-        var gameName = "fireboy-and-watergirl-light-temple.min.js";
-
-
-        //This all here is for cache busting;
+        var gameName = "fireboy-and-watergirl-forest-temple.min.js";
         function addScript(src, buster, callback) {
             var s = document.createElement('script');
             s.setAttribute('src', src + '?v=' + buster);
@@ -65,20 +71,9 @@
             }
             document.body.appendChild(s);
         }
-
-
-        var fbrqLA = false,
-            fbrqBD = 0,
-            playBtn = true,
-            fbrqSA = true,
-            libs = [],
-            version = 'GD-35';
-
-
-
-
-
-        require(["fireboy-and-watergirl-light-temple.min.js?v=" + version]);
+        addScript('version.js', 1, function() {
+            require(["fireboy-and-watergirl-forest-temple.min.js?v=" + version]);
+        });
     </script>
 </body>
 

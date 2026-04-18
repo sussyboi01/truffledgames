@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-PXHK7Q7G3Z');
-</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 <style>
@@ -35,12 +28,19 @@
 <body>
 <div id="flash-container"></div>
 <script>
-const swfUrl = "/extra/gachaversePC.swf";
+const swfUrl = "/extra/GachaLifePC.swf";
 const container = document.getElementById("flash-container");
 const ruffle = window.RufflePlayer?.newest() || window.RufflePlayer;
 const player = ruffle.createPlayer();
 container.appendChild(player);
 player.load(swfUrl);
+</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-PXHK7Q7G3Z');
 </script>
 </body>
 </html>

@@ -1,81 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	
-	<title>Quasar PSP Loader</title>
-	<meta charset="UTF-8">
-	<style>
-		body {
-			overflow: hidden;
-			background: #000;
-			margin: 0;
-			color: #fff;
-			font-family: sans-serif;
-		}
-		#loadingText {
-			text-align: center;
-			font-size: 48px;
-			margin-top: 40vh;
-		}
-	</style>
-</head>
-<body>
-	<h1 id="loadingText">LOADING (0/13)</h1>
-	<div style="width:100vw;height:100vh;">
-		<div id="game" style="display:none;"></div>
-	</div>
-	<script>
-		function mergeFiles(fileParts) {
-			return new Promise((resolve, reject) => {
-				let buffers = [];
+	<meta charset="utf-8">
+	
+	<title>Level Devil Unblocked - ClassRoom6x</title>
+	<meta name="website" content="classroom6x.gitlab.io" />
+	<meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	
+	
+	<link rel="shortcut icon" type="image/png" href="./favicon.png">
 
-				function fetchPart(index) {
-					if (index >= fileParts.length) {
-						const blob = new Blob(buffers);
-						resolve(URL.createObjectURL(blob));
-						return;
-					}
-					fetch(fileParts[index])
-						.then(r => r.arrayBuffer())
-						.then(data => {
-							buffers.push(data);
-							document.getElementById("loadingText").textContent =
-								`LOADING (${index + 1}/13)`;
-							fetchPart(index + 1);
-						})
-						.catch(reject);
-				}
-				fetchPart(0);
-			});
+	
+	<script src="patch/poki-sdk.js"></script>
+	
+	<script src="./Level Devil.js"></script>
+
+	<script>
+		window.addEventListener ("touchmove", function (event) { event.preventDefault (); }, { capture: false, passive: false });
+		if (typeof window.devicePixelRatio != 'undefined' && window.devicePixelRatio > 2) {
+			var meta = document.getElementById ("viewport");
+			meta.setAttribute ('content', 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no');
 		}
-		function getParts(file, start, end) {
-			let parts = [];
-			for (let i = start; i <= end; i++) {
-			parts.push(file + ".part" + i);
-		}
-		return parts;
-		}
-		mergeFiles(getParts("game.zip", 1, 13)).then(gameUrl => {
-			document.getElementById("loadingText").remove();
-			const gameDiv = document.getElementById("game");
-			gameDiv.style.display = "block";
-			window.EJS_player = "#game";
-			window.EJS_core = "psp";
-			window.EJS_gameID = "quasar-psp-lbp"; 
-			window.EJS_threads = "auto"; 
-			window.EJS_gameUrl = gameUrl;
-			window.EJS_pathtodata = "/extra/data/";
-			const script = document.createElement("script");
-			script.src = "/extra/data/loader.js";
-			document.body.appendChild(script);
-		});
 	</script>
-</body>
-</html>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+	  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
+</script>
+	
+	<style>
+		html,body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+		#openfl-content { background: #000000; width: 100%; height: 100%; }
+		#progress { position: relative; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50%; }
+
+	</style>
+	
+</head>
+
+<body style="overflow:hidden;">
+	
+	<noscript>This webpage makes extensive use of JavaScript. Please enable JavaScript in your web browser to view this page.</noscript>
+	
+	<div id="openfl-content"></div>
+	
+	<script>
+		lime.embed ("Level Devil", "openfl-content", 854, 480, { parameters: {} });
+	</script>
+	
+<!-- <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v84a3a4012de94ce1a686ba8c167c359c1696973893317" integrity="sha512-euoFGowhlaLqXsPWQ48qSkBSCFs3DPRyiwVu3FjR96cMPx+Fr+gpWRhIafcHwqwCqWS42RZhIudOvEI+Ckf6MA==" data-cf-beacon='{"rayId":"835b62defe0a5164","version":"2023.10.0","token":"08a46637120a404a963395dd86986b4f"}' crossorigin="anonymous"></script>
+
+ -->
+</body>
+</html>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-WLTG1S4STB');
 </script>

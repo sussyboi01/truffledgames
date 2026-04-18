@@ -1,62 +1,47 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
-
+<!doctype html>
+<html lang="en">
 <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-PXHK7Q7G3Z');
-</script>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <meta name="theme-color" content="#000000"/>
+    <link rel="manifest" href="./manifest.json"/>
+    <meta name="mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <title>Vampire Survivors</title>
     
-    
-    <base href="https://cdn.jsdelivr.net/gh/genizy/vex/7/">
-    <meta charset="utf-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui, shrink-to-fit=no" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Vex 7</title>
-    <link rel="icon" type="image/png" href="assets/icon.png" />
-    <link rel="apple-touch-icon" type="image/png" href="assets/icon.png" />
-    <link rel="stylesheet" href="assets/css/app.css" type="text/css" />
-</head>
-
-<body>
-    <div id="content"></div>
-    <div id="loader">Loading...</div>
-    <div id="orientation"></div>
-    <script src="/js/main.js"></script>
-    <script type="text/javascript">
-        var _azerionIntegration = {
-            rtgEnabled: true,
-            lbEnabled: false,
-            fbType: "dummy",
-            alxType: "std",
-            af: false,
-            sa: false,
-            la: false,
-            bd: 0,
-            playBtn: true,
-            cp: false,
+    <style>
+        html, body { height: 100%; margin: 0; background-color: #000000; overflow: hidden; }
+        @font-face { font-family: fontANY; src: url('./assets/fonts/ANY.ttf'); }
+        @font-face { font-family: fontKO; src: url('./assets/fonts/KO.ttf'); }
+    </style>
+ <script>
+        window.onload = function() {
+            alert("Made by zyxify2000. Thanks to him we have Vampire survivors <3");
         };
-        var libs = [];
-        var gameName = "vex7.min.js";
-        var enableAnalytics, azAdWrapper, _azFeedback;
-
-        function addScript(src, buster, callback) {
-            var s = document.createElement("script");
-            s.setAttribute("src", src + "?v=" + buster);
-            if (typeof callback === "function") {
-                s.onload = callback;
-            }
-            document.body.appendChild(s);
-        }
-        addScript("version.js", Date.now(), function() {
-            addScript(gameName, version, function() {});
-        });
     </script>
-</body>
+    <script>
+        window.require = function(module) {
+            if (module === 'fs' || module === 'path' || module === 'electron' || module === 'original-fs') {
+                return {
+                    writeFileSync: function(path, data) { localStorage.setItem('VS_SAVE', data); },
+                    readFileSync: function(path) { return localStorage.getItem('VS_SAVE'); },
+                    existsSync: function(path) { return localStorage.getItem('VS_SAVE') !== null; },
+                    mkdirSync: function() {},
+                    join: function(a, b) { return b; }
+                };
+            }
+        };
+        window.process = { platform: 'web', env: {}, nextTick: function(f){setTimeout(f,0)} };
+        window.module = { exports: {} };
+    </script>
 
+    <script defer="defer" src="vendors.bundle.js"></script>
+    <script defer="defer" src="./main.bundle.js"></script>
+</head>
+<body>
+    <div style="font-family:fontANY; position:absolute; left:-1000px; visibility:hidden;">.</div>
+    <div style="font-family:fontKO; position:absolute; left:-1000px; visibility:hidden;">.</div>
+    <div id="phaser-game"></div>
+</body>
 </html>

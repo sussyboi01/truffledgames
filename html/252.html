@@ -1,282 +1,200 @@
 <!doctype html>
-<html lang="en">
-<head>
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<html lang="en-us">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PXHK7Q7G3Z');
 </script>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Oneshot Legacy</title>
-  <base href="https://cdn.jsdelivr.net/gh/67-Factory/oneshotthing@main/">
-  <style>
-    :root {
-      --color-gray: hsl(0, 0%, 55%);
-      --controls-size: 10vh;
-    }
-    @media (orientation: landscape) {
-      :root {
-        --controls-size: 20vh;
-      }
-    }
-    html {
-      touch-action: none;
-    }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-      margin: 0;
-      color: white;
-      background: black;
-    }
-    .unselectable {
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      user-select: none;
-    }
-    #status {
-      font-size: 1.5rem;
-      color: var(--color-gray);
-      text-align: center;
-    }
-    #controls {
-      position: relative;
-      text-align: right;
-      z-index: 10;
-    }
-    #controls button {
-      -webkit-appearance: button;
-      display: inline-flex;
-      background: transparent;
-      border: 0;
-      color: white;
-      font-family: inherit;
-      font-size: 1em;
-      line-height: inherit;
-      cursor: pointer;
-      padding: 0.5rem;
-    }
-    #controls svg {
-      pointer-events: none;
-    }
-    #canvas {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 100%;
-      height: 100%;
-      border: 0;
-      image-rendering: pixelated;
-      image-rendering: crisp-edges;
-      transform: translate(-50%, -50%);
-    }
-    img#canvas {
-      object-fit: contain;
-    }
-    #dpad,
-    #apad {
-      position: fixed;
-      bottom: 1rem;
-    }
-    #dpad {
-      left: 1rem;
-    }
-    #apad {
-      right: 1rem;
-    }
-    #dpad svg {
-      width: calc(2 * var(--controls-size));
-      height: calc(2 * var(--controls-size));
-      fill: var(--color-gray);
-    }
-    #dpad svg rect {
-      opacity: 0.4;
-    }
-    #apad > * {
-      width: var(--controls-size);
-      height: var(--controls-size);
-      background-color: var(--color-gray);
-      border-radius: 50%;
-    }
-    #apad > :last-child {
-      position: relative;
-      right: var(--controls-size);
-    }
-    #dpad path:not(.active),
-    #apad > *:not(.active) {
-      opacity: 0.4;
-    }
-  </style>
-</head>
-<body>
-  <div id="controls">
-    <button id="controls-fullscreen" class="unselectable">
-      <svg viewBox="0 0 15 15" fill="none" xmlns="https://static.wikia.nocookie.net/oneshot/images/1/1f/Niko_WME.jpg/revision/latest?cb=20220925190751" width="25" height="25"><path d="M13.5 13.5H10m3.5 0V10m0 3.5l-4-4m.5-8h3.5m0 0V5m0-3.5l-4 4M5 1.5H1.5m0 0V5m0-3.5l4 4m-4 4.5v3.5m0 0H5m-3.5 0l4-4" stroke="currentColor"></path></svg>
-    </button>
-  </div>
-  <div id="status"></div>
-  <div id="viewport">
-    <canvas id="canvas" tabindex="-1" class="unselectable"></canvas>
-    <div id="dpad" class="unselectable">
-      <svg xmlns="https://static.wikia.nocookie.net/oneshot/images/1/1f/Niko_WME.jpg/revision/latest?cb=20220925190751" viewBox="0 0 72 72">
-        <path id="dpad-up" data-key="ArrowUp" d="M48,5.8C48,2.5,45.4,0,42,0H29.9C26.6,0,24,2.4,24,5.8V24h24V5.8z" />
-        <path id="dpad-right" data-key="ArrowRight" d="M66.2,24H48v24h18.2c3.3,0,5.8-2.7,5.8-6V29.9C72,26.5,69.5,24,66.2,24z" />
-        <path id="dpad-down" data-key="ArrowDown" d="M24,66.3c0,3.3,2.6,5.7,5.9,5.7H42c3.3,0,6-2.4,6-5.7V48H24V66.3z" />
-        <path id="dpad-left" data-key="ArrowLeft" d="M5.7,24C2.4,24,0,26.5,0,29.9V42c0,3.3,2.3,6,5.7,6H24V24H5.7z" />
-        <rect id="dpad-center" x="24" y="24" width="24" height="24" />
-      </svg>
-    </div>
-    <div id="apad" class="unselectable">
-      <div id="apad-escape" data-key="Escape"></div>
-      <div id="apad-enter" data-key="Enter"></div>
-    </div>
-  </div>
-<script async type="text/javascript" src="https://cdn.jsdelivr.net/gh/67-Factory/oneshotthing@main/index.js"></script>
-<script>
-const hasTouchscreen = window.matchMedia('(hover: none), (pointer: coarse)').matches;
-const preventNativeKeys = ['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft', ' ', 'F12'];
-const keys = new Map();
-const keysDown = new Map();
-const canvas = document.getElementById('canvas');
-let easyrpgPlayer;
-let lastTouchedId;
-window.addEventListener('load', (event) => {
-    createEasyRpgPlayer({
-      game: undefined,
-      saveFs: undefined
-    }).then(function(Module) {
-      easyrpgPlayer = Module;
-      easyrpgPlayer.initApi();
-      canvas.focus();
-    });
-});
-canvas.addEventListener('mouseenter', () => canvas.focus());
-canvas.addEventListener('click', () => canvas.focus());
-document.querySelector('#controls-fullscreen').addEventListener('click', () => {
-  const viewport = document.getElementById('viewport');
-  if (viewport.requestFullscreen) {
-    viewport.requestFullscreen();
-  }
-});
-function simulateKeyboardEvent(eventType, key) {
-  const event = new Event(eventType, { bubbles: true });
-  event.code = key;
-  canvas.dispatchEvent(event);
-}
-function simulateKeyboardInput(key) {
-  simulateKeyboardEvent('keydown', key);
-  window.setTimeout(() => {
-    simulateKeyboardEvent('keyup', key);
-  }, 100);
-}
-function bindKey(node, key) {
-  keys.set(node.id, key);
-  node.addEventListener('touchstart', event => {
-    event.preventDefault();
-    simulateKeyboardEvent('keydown', key);
-    keysDown.set(event.target.id, node.id);
-    node.classList.add('active');
-  });
-  node.addEventListener('touchend', event => {
-    event.preventDefault();
-    const pressedKey = keysDown.get(event.target.id);
-    if (pressedKey && keys.has(pressedKey)) {
-      const key = keys.get(pressedKey);
-      simulateKeyboardEvent('keyup', key);
-    }
-    keysDown.delete(event.target.id);
-    node.classList.remove('active');
-    if (lastTouchedId) {
-      document.getElementById(lastTouchedId).classList.remove('active');
-    }
-  });
-  node.addEventListener('touchmove', event => {
-    const { target, clientX, clientY } = event.changedTouches[0];
-    const origTargetId = keysDown.get(target.id);
-    const nextTargetId = document.elementFromPoint(clientX, clientY).id;
-    if (origTargetId === nextTargetId) return;
-    if (origTargetId) {
-      const key = keys.get(origTargetId);
-      simulateKeyboardEvent('keyup', key);
-      keysDown.delete(target.id);
-      document.getElementById(origTargetId).classList.remove('active');
-    }
-    if (keys.has(nextTargetId)) {
-      const key = keys.get(nextTargetId);
-      simulateKeyboardEvent('keydown', key);
-      keysDown.set(target.id, nextTargetId);
-      lastTouchedId = nextTargetId;
-      document.getElementById(nextTargetId).classList.add('active');
-    }
-  })
-}
-let gamepads = {};
-const haveEvents = 'ongamepadconnected' in window;
-function addGamepad(gamepad) {
-  if (gamepad == undefined) return;
-  gamepads[gamepad.index] = gamepad;
-  updateTouchControlsVisibility();
-}
-function removeGamepad(gamepad) {
-  if (gamepad == undefined) return;
-  delete gamepads[gamepad.index];
-  updateTouchControlsVisibility();
-}
-function getGamepads() {
-  var pads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
-  return pads;
-}
-function scanGamePads() {
-  var pads = getGamepads();
-  for (var i = 0; i < pads.length; i++) {
-    if (pads[i]) {
-      if (pads[i].index in gamepads) {
-        gamepads[pads[i].index] = pads[i];
-      } else {
-        addGamepad(pads[i]);
-      }
-    }
-  }
-}
-if (!haveEvents) {
-  setInterval(scanGamePads, 500);
-}
-window.addEventListener('gamepadconnected', function(e) {
-  addGamepad(e.gamepad);
-});
-window.addEventListener('gamepaddisconnected', function(e) {
-  removeGamepad(e.gamepad);
-})
-function updateTouchControlsVisibility() {
-  if (hasTouchscreen && Object.keys(gamepads).length === 0) {
-    for (const elem of document.querySelectorAll('#dpad, #apad')) {
-      elem.style.display = '';
-    }
-  } else {
-    for (const elem of document.querySelectorAll('#dpad, #apad')) {
-      elem.style.display = 'none';
-    }
-  }
-}
-if (hasTouchscreen) {
-  for (const button of document.querySelectorAll('[data-key]')) {
-    bindKey(button, button.dataset.key);
-  }
-} else {
-  window.addEventListener('keydown', event => {
-    if (preventNativeKeys.includes(event.key)) {
-      event.preventDefault();
-    }
-  });
-  canvas.addEventListener('contextmenu', event => {
-    event.preventDefault();
-  });
-}
-updateTouchControlsVisibility();
-alert("all credits to arandomiperson on discord for this port, thank him.");
-</script>
+<head>
+    <base href="https://rawcdn.githack.com/gn-math/assets/main/308/">
+    <meta charset="utf-8">
+    <title>NZ: Portable</title>
+    <link rel="icon" href="nzportable.ico">
+    <style>
+        html,
+        body {
+            background-color: #000000;
+            color: #808080;
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
 
+        .emscripten {
+            padding-right: 0;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+
+        div.emscripten {
+            text-align: center;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
+        canvas.emscripten {
+            border: 0px none;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body ondrop="gotdrop(event);" ondragover="event.preventDefault()">
+    <div class="emscripten" id="status">Please allow/unblock our javascript to play.</div>
+    <div id="dropzone" ondrop="gotdrop(event);" ondragover="event.preventDefault()" hidden=1>Drop Zone</div>
+    <button type="button" onclick="begin()" id="begin" hidden=1>Click To Begin!</button>
+    <div class="emscripten">
+        <progress value="0" max="100" id="progress" hidden=1></progress>
+    </div>
+    <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" hidden=1></canvas>
+    <script type='text/javascript'>
+        // connect to canvas
+        var Module = {
+            files: {
+                "default.fmf": "default.fmf",
+                "nzp/game.pk3": "nzp/game.pk3",
+                "nzp/progs.pk3": "nzp/progs.pk3"
+            },
+            print: function (msg) { //stdout...
+                console.log(msg);
+            },
+            printErr: function (text) { //stderr...
+                console.log(text);
+            },
+            canvas: document.getElementById('canvas'), //for webgl to attach to
+            setStatus: function (text) { //gets spammed some prints during startup. blame emscripten.
+                if (Module.setStatus.interval) clearInterval(Module.setStatus.interval);
+                var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
+                var statusElement = document.getElementById('status');
+                var progressElement = document.getElementById('progress');
+                if (m) {
+                    text = m[1];
+                    progressElement.value = parseInt(m[2]) * 100;
+                    progressElement.max = parseInt(m[4]) * 100;
+                    progressElement.hidden = false;
+                } else {
+                    progressElement.value = null;
+                    progressElement.max = null;
+                    progressElement.hidden = true;
+                }
+                statusElement.innerHTML = text;
+                statusElement.hidden = text.length == 0;
+            },
+            //	preRun: [],
+            totalDependencies: 0,
+            monitorRunDependencies: function (left) { //progress is progress...
+                this.totalDependencies = Math.max(this.totalDependencies, left);
+                Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies - left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
+            },
+            //	onRuntimeInitialized: function(){},
+            postRun: [ //each of these are called after main was run. we should have our mainloop set up now
+                function () {
+                    if (Module["sched"] === undefined) { //our main function failed to set up the main loop. ie: main didn't get called. panic.
+                        alert("Unable to initialise. You may need to restart your browser. If you get this often and inconsistently, consider using a 64bit browser instead.");
+                        Module.setStatus("Initialisation Failure");
+                    }
+                }
+            ],
+        };
+
+        function begin() {
+            if (Module.began) return;
+            Module.began = true;
+            document.getElementById('dropzone').hidden = true;
+            document.getElementById('begin').hidden = true;
+            Module.setStatus('Downloading...');
+            // make a script. do it the hard way for the error.
+            var s = document.createElement('script');
+            // set it up
+            s.setAttribute('src', "ftewebgl.js");
+            s.setAttribute('type', "text/javascript");
+            s.setAttribute('charset', "utf-8");
+            s.addEventListener('error', function () {
+                alert("Oh noes! we got an error!");
+                Module.setStatus("Unable to download engine javascript");
+            }, false);
+            // add to DOM
+            document.head.appendChild(s);
+        }
+        //stuff to facilitate our drag+drop filesystem support
+        function fixupfilepath(fname, path) { //we just have a filename, try to guess where to put it.
+            if (path != "") return path + fname; //already has a path. use it. this allows people to drag+drop gamedirs.
+            var ext = fname.substr(fname.lastIndexOf('.') + 1);
+            if (ext == 'fmf' || ext == 'kpf') //these are the only files that really make sense in the root.
+                return fname;
+            if (ext == 'bsp' || ext == 'map' || ext == 'lit' || ext == 'lux') return "id1/maps/" + fname; //bsps get their own extra subdir
+            return "id1/" + fname; //probably a pak. maybe a cfg, no idea really.
+        }
+
+        function showfiles() { //print the pending file list in some pretty way
+            if (Module.began) return;
+            Module.setStatus('');
+            document.getElementById('dropzone').hidden = false;
+            document.getElementById('begin').hidden = false;
+            var nt = "Drag gamedirs or individual package files here to make them available!<br/>Active Files:<br/><pre>";
+            var keys = Object.keys(Module.files);
+            for (var i = 0; i < keys.length; i++) {
+                if (Module.files[keys[i]] instanceof ArrayBuffer) {
+                    var sz = Module.files[keys[i]].byteLength;
+                    if (sz > 512 * 1024) sz = (sz / (1024 * 1024)) + "mb";
+                    else if (sz > 512) sz = (sz / 1024) + "kb";
+                    else sz = (sz) + " bytes";
+                    nt += "    " + keys[i] + " (" + sz + ")<br/>";
+                } else nt += "    " + keys[i] + "<br/>";
+            }
+            nt += "</pre>(" + keys.length + " files)";
+            document.getElementById('dropzone').innerHTML = nt;
+        }
+
+        function scanfiles(item, path) { //for directory drops
+            if (item.isFile) {
+                item.file(function (f) {
+                    let n = fixupfilepath(f.name, path);
+                    Module.files[n] = f.arrayBuffer(); //actually a promise...
+                    Module.files[n].then(buf => {
+                        Module.files[n] = buf;
+                        showfiles();
+                    }); //try and resolve it now.
+                });
+            } else if (item.isDirectory) {
+                // Get folder contents
+                var dirReader = item.createReader();
+                dirReader.readEntries(function (entries) {
+                    for (var i = 0; i < entries.length; i++) scanfiles(entries[i], path + item.name + "/");
+                });
+            }
+        }
+
+        function gotdrop(ev) { //user drag+dropped something. 
+            ev.preventDefault();
+            for (var i = 0; i < ev.dataTransfer.items.length; i++)
+                if (ev.dataTransfer.items[i].webkitGetAsEntry) {
+                    var d = ev.dataTransfer.items[i].webkitGetAsEntry();
+                    if (d) scanfiles(d, "");
+                }
+            else if (ev.dataTransfer.items[i].kind === 'file') {
+                var f = ev.dataTransfer.items[i].getAsFile();
+                var n = fixupfilepath(f.name);
+                Module.files[n] = f.arrayBuffer(); //actually a promise...
+                Module.files[n].then(buf => {
+                    Module.files[n] = buf;
+                    showfiles();
+                }); //try and resolve it now.
+            }
+            showfiles();
+        }
+        if (window.location.hash != "" || Object.keys(Module.files).length) begin(); //if the url has a #foo.fmf then just begin instantly, 
+        else showfiles(); //otherwise show our lame file dropper and wait for the user to click 'go'.
+    </script>
+    <img src="https://hits.sh/hits.sh/nzp-team.github.io/latest/game.html/hits.svg" style="opacity:0;width:0px;">
 </body>
+
 </html>
